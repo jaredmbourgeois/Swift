@@ -1,6 +1,5 @@
 //
 //  Protocols.swift
-//  streak
 //
 //  Created by Jared Bourgeois on 8/10/19.
 //  Copyright © 2019 jaredmbourgeois. All rights reserved.

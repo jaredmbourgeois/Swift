@@ -379,6 +379,10 @@ extension UIColor {
         public static var orange: UIColor { UIColor.init(red: 0.95, green: 0.52, blue: 0.19, alpha: 1) }
     }
     
+    func contrasting(with degree: Format.Degree) -> UIColor {
+        return UIColor.contrasting(color: self, degree: degree)
+    }
+    
     static func contrasting(color: UIColor, degree: Format.Degree) -> UIColor {
         var hue: CGFloat = 0
         var saturation: CGFloat = 0
@@ -400,6 +404,10 @@ extension UIColor {
         }
     }
     
+    func desaturated(with degree: Format.Degree) -> UIColor {
+        UIColor.desaturated(color: self, degree: degree)
+    }
+    
     static func desaturated(color: UIColor, degree: Format.Degree) -> UIColor {
         var hue: CGFloat = 0
         var saturation: CGFloat = 0
@@ -413,6 +421,10 @@ extension UIColor {
         else {
             return color
         }
+    }
+    
+    func transparent(degree: Format.Degree) -> UIColor {
+        return UIColor.transparent(color: self, degree: degree)
     }
     
     static func transparent(color: UIColor, degree: Format.Degree) -> UIColor {
@@ -433,38 +445,8 @@ extension UIColor {
 
 
 extension UIFont {
-    public static func font(size: Format.Font.Size, bold: Bool) -> UIFont {
-        let fontSize: CGFloat
-        switch (size) {
-        case .zero:
-            fontSize = CGFloat.zero
-            break
-        case .extraSmall:
-            fontSize = Format.Font.Size.extraSmall.rawValue
-            break
-        case .small:
-            fontSize = Format.Font.Size.small.rawValue
-            break
-        case .mediumSmall:
-            fontSize = Format.Font.Size.mediumSmall.rawValue
-            break
-        case .medium:
-            fontSize = Format.Font.Size.medium.rawValue
-            break
-        case .mediumLarge:
-            fontSize = Format.Font.Size.mediumLarge.rawValue
-            break
-        case .large:
-            fontSize = Format.Font.Size.large.rawValue
-            break
-        case .extraLarge:
-            fontSize = Format.Font.Size.extraLarge.rawValue
-            break
-        case .title:
-            fontSize = Format.Font.Size.title.rawValue
-            break
-        }
-        
+    public static func font(size: Format.Size, bold: Bool) -> UIFont {
+        let fontSize: CGFloat = Font.Size.number(from: size).cgFloatValue
         let fnt = UIFont.init(name: "HelveticaNeue-Medium", size: CGFloat.init(fontSize))!
         
         switch bold {
