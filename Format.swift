@@ -3,7 +3,7 @@
 //  Jared Bourgeois
 //
 //  Created by Jared Bourgeois on 12/16/19.
-//  Copyright © 2019 Jared Bourgeois. All rights reserved.
+//  Copyright © 2020 Jared Bourgeois. All rights reserved.
 //
 
 import UIKit
@@ -20,7 +20,6 @@ public enum Format {
         case all = 1.0
     }
     
-    
     public enum Height: CGFloat, Sizable {
         case zero = 0
         case extraSmall = 16
@@ -32,55 +31,35 @@ public enum Format {
         case extraLarge = 72
         case title = 80
         
-        static func size(from number: NSNumber) -> Format.Size {
-            switch (number.doubleValue) {
-            case Height.zero.rawValue.toDouble():
-                return Format.Size.zero
-            case Height.extraSmall.rawValue.toDouble():
-                return Format.Size.extraSmall
-            case Height.small.rawValue.toDouble():
-                return Format.Size.small
-            case Height.mediumSmall.rawValue.toDouble():
-                return Format.Size.mediumSmall
-            case Height.medium.rawValue.toDouble():
-                return Format.Size.medium
-            case Height.mediumLarge.rawValue.toDouble():
-                return Format.Size.mediumLarge
-            case Height.large.rawValue.toDouble():
-                return Format.Size.large
-            case Height.extraLarge.rawValue.toDouble():
-                return Format.Size.extraLarge
-            case Height.title.rawValue.toDouble():
-                return Format.Size.title
-            default:
-                return Format.Size.zero
+        static public func size(from number: NSNumber) -> Format.Size {
+            switch number.cgFloatValue {
+            case Height.zero.rawValue: return Format.Size.zero
+            case Height.extraSmall.rawValue: return Format.Size.extraSmall
+            case Height.small.rawValue: return Format.Size.small
+            case Height.mediumSmall.rawValue: return Format.Size.mediumSmall
+            case Height.medium.rawValue: return Format.Size.medium
+            case Height.mediumLarge.rawValue: return Format.Size.mediumLarge
+            case Height.large.rawValue: return Format.Size.large
+            case Height.extraLarge.rawValue: return Format.Size.extraLarge
+            case Height.title.rawValue: return Format.Size.title
+            default: return Format.Size.zero
             }
         }
 
         public static func number(from size: Size) -> NSNumber {
-            switch (size) {
-            case Size.zero:
-                return CGFloat.zero.toNSNumber()
-            case Size.extraSmall:
-                return Height.extraSmall.rawValue.toNSNumber()
-            case Size.small:
-                return Height.small.rawValue.toNSNumber()
-            case Size.mediumSmall:
-                return Height.mediumSmall.rawValue.toNSNumber()
-            case Size.medium:
-                return Height.medium.rawValue.toNSNumber()
-            case Size.mediumLarge:
-                return Height.mediumLarge.rawValue.toNSNumber()
-            case Size.large:
-                return Height.large.rawValue.toNSNumber()
-            case Size.extraLarge:
-                return Height.extraLarge.rawValue.toNSNumber()
-            case Size.title:
-                return Height.title.rawValue.toNSNumber()
+            switch size {
+            case Size.zero: return NSNumber(CGFloat.zero)
+            case Size.extraSmall: return NSNumber(Height.extraSmall.rawValue)
+            case Size.small: return NSNumber(Height.small.rawValue)
+            case Size.mediumSmall: return NSNumber(Height.mediumSmall.rawValue)
+            case Size.medium: return NSNumber(Height.medium.rawValue)
+            case Size.mediumLarge: return NSNumber(Height.mediumLarge.rawValue)
+            case Size.large: return NSNumber(Height.large.rawValue)
+            case Size.extraLarge: return NSNumber(Height.extraLarge.rawValue)
+            case Size.title: return NSNumber(Height.title.rawValue)
             }
         }
     }
-
 
     public enum Inset: CGFloat, Sizable {
         case zero = 0
@@ -93,55 +72,35 @@ public enum Format {
         case extraLarge = 12
         case title = 16
         
-        static func size(from number: NSNumber) -> Format.Size {
-            switch (number.doubleValue) {
-            case Inset.zero.rawValue.toDouble():
-                return Format.Size.zero
-            case Inset.extraSmall.rawValue.toDouble():
-                return Format.Size.extraSmall
-            case Inset.small.rawValue.toDouble():
-                return Format.Size.small
-            case Inset.mediumSmall.rawValue.toDouble():
-                return Format.Size.mediumSmall
-            case Inset.medium.rawValue.toDouble():
-                return Format.Size.medium
-            case Inset.mediumLarge.rawValue.toDouble():
-                return Format.Size.mediumLarge
-            case Inset.large.rawValue.toDouble():
-                return Format.Size.large
-            case Inset.extraLarge.rawValue.toDouble():
-                return Format.Size.extraLarge
-            case Inset.title.rawValue.toDouble():
-                return Format.Size.title
-            default:
-                return Format.Size.zero
+        static public func size(from number: NSNumber) -> Format.Size {
+            switch number.cgFloatValue {
+            case Inset.zero.rawValue: return Format.Size.zero
+            case Inset.extraSmall.rawValue: return Format.Size.extraSmall
+            case Inset.small.rawValue: return Format.Size.small
+            case Inset.mediumSmall.rawValue: return Format.Size.mediumSmall
+            case Inset.medium.rawValue: return Format.Size.medium
+            case Inset.mediumLarge.rawValue: return Format.Size.mediumLarge
+            case Inset.large.rawValue: return Format.Size.large
+            case Inset.extraLarge.rawValue: return Format.Size.extraLarge
+            case Inset.title.rawValue: return Format.Size.title
+            default: return Format.Size.zero
             }
         }
 
         public static func number(from size: Size) -> NSNumber {
-            switch (size) {
-            case Size.zero:
-                return CGFloat.zero.toNSNumber()
-            case Size.extraSmall:
-                return Inset.extraSmall.rawValue.toNSNumber()
-            case Size.small:
-                return Inset.small.rawValue.toNSNumber()
-            case Size.mediumSmall:
-                return Inset.mediumSmall.rawValue.toNSNumber()
-            case Size.medium:
-                return Inset.medium.rawValue.toNSNumber()
-            case Size.mediumLarge:
-                return Inset.mediumLarge.rawValue.toNSNumber()
-            case Size.large:
-                return Inset.large.rawValue.toNSNumber()
-            case Size.extraLarge:
-                return Inset.extraLarge.rawValue.toNSNumber()
-            case Size.title:
-                return Inset.title.rawValue.toNSNumber()
+            switch size {
+            case Size.zero: return NSNumber(CGFloat.zero)
+            case Size.extraSmall: return NSNumber(Inset.extraSmall.rawValue)
+            case Size.small: return NSNumber(Inset.small.rawValue)
+            case Size.mediumSmall: return NSNumber(Inset.mediumSmall.rawValue)
+            case Size.medium: return NSNumber(Inset.medium.rawValue)
+            case Size.mediumLarge: return NSNumber(Inset.mediumLarge.rawValue)
+            case Size.large: return NSNumber(Inset.large.rawValue)
+            case Size.extraLarge: return NSNumber(Inset.extraLarge.rawValue)
+            case Size.title: return NSNumber(Inset.title.rawValue)
             }
         }
     }
-
 
     public enum LineWidth: CGFloat, Sizable {
         case zero = 0
@@ -154,55 +113,35 @@ public enum Format {
         case extraLarge = 12
         case title = 16
         
-        static func size(from number: NSNumber) -> Format.Size {
-            switch (number.doubleValue) {
-            case LineWidth.zero.rawValue.toDouble():
-                return Format.Size.zero
-            case LineWidth.extraSmall.rawValue.toDouble():
-                return Format.Size.extraSmall
-            case LineWidth.small.rawValue.toDouble():
-                return Format.Size.small
-            case LineWidth.mediumSmall.rawValue.toDouble():
-                return Format.Size.mediumSmall
-            case LineWidth.medium.rawValue.toDouble():
-                return Format.Size.medium
-            case LineWidth.mediumLarge.rawValue.toDouble():
-                return Format.Size.mediumLarge
-            case LineWidth.large.rawValue.toDouble():
-                return Format.Size.large
-            case LineWidth.extraLarge.rawValue.toDouble():
-                return Format.Size.extraLarge
-            case LineWidth.title.rawValue.toDouble():
-                return Format.Size.title
-            default:
-                return Format.Size.zero
+        static public func size(from number: NSNumber) -> Format.Size {
+            switch number.cgFloatValue {
+            case LineWidth.zero.rawValue: return Format.Size.zero
+            case LineWidth.extraSmall.rawValue: return Format.Size.extraSmall
+            case LineWidth.small.rawValue: return Format.Size.small
+            case LineWidth.mediumSmall.rawValue: return Format.Size.mediumSmall
+            case LineWidth.medium.rawValue: return Format.Size.medium
+            case LineWidth.mediumLarge.rawValue: return Format.Size.mediumLarge
+            case LineWidth.large.rawValue: return Format.Size.large
+            case LineWidth.extraLarge.rawValue: return Format.Size.extraLarge
+            case LineWidth.title.rawValue: return Format.Size.title
+            default: return Format.Size.zero
             }
         }
 
         public static func number(from size: Size) -> NSNumber {
-            switch (size) {
-            case Size.zero:
-                return CGFloat.zero.toNSNumber()
-            case Size.extraSmall:
-                return LineWidth.extraSmall.rawValue.toNSNumber()
-            case Size.small:
-                return LineWidth.small.rawValue.toNSNumber()
-            case Size.mediumSmall:
-                return LineWidth.mediumSmall.rawValue.toNSNumber()
-            case Size.medium:
-                return LineWidth.medium.rawValue.toNSNumber()
-            case Size.mediumLarge:
-                return LineWidth.mediumLarge.rawValue.toNSNumber()
-            case Size.large:
-                return LineWidth.large.rawValue.toNSNumber()
-            case Size.extraLarge:
-                return LineWidth.extraLarge.rawValue.toNSNumber()
-            case Size.title:
-                return LineWidth.title.rawValue.toNSNumber()
+            switch size {
+            case Size.zero: return NSNumber(CGFloat.zero)
+            case Size.extraSmall: return NSNumber(LineWidth.extraSmall.rawValue)
+            case Size.small: return NSNumber(LineWidth.small.rawValue)
+            case Size.mediumSmall: return NSNumber(LineWidth.mediumSmall.rawValue)
+            case Size.medium: return NSNumber(LineWidth.medium.rawValue)
+            case Size.mediumLarge: return NSNumber(LineWidth.mediumLarge.rawValue)
+            case Size.large: return NSNumber(LineWidth.large.rawValue)
+            case Size.extraLarge: return NSNumber(LineWidth.extraLarge.rawValue)
+            case Size.title: return NSNumber(LineWidth.title.rawValue)
             }
         }
     }
-
 
     public enum Position: Int {
         case top = 0
@@ -212,7 +151,6 @@ public enum Format {
         case right = 4
         case isolated = 5
     }
-
 
     public enum Radius: CGFloat, Sizable {
         case zero = 0
@@ -225,55 +163,35 @@ public enum Format {
         case extraLarge = 12
         case title = 16
         
-        static func size(from number: NSNumber) -> Format.Size {
-            switch (number.doubleValue) {
-            case Radius.zero.rawValue.toDouble():
-                return Format.Size.zero
-            case Radius.extraSmall.rawValue.toDouble():
-                return Format.Size.extraSmall
-            case Radius.small.rawValue.toDouble():
-                return Format.Size.small
-            case Radius.mediumSmall.rawValue.toDouble():
-                return Format.Size.mediumSmall
-            case Radius.medium.rawValue.toDouble():
-                return Format.Size.medium
-            case Radius.mediumLarge.rawValue.toDouble():
-                return Format.Size.mediumLarge
-            case Radius.large.rawValue.toDouble():
-                return Format.Size.large
-            case Radius.extraLarge.rawValue.toDouble():
-                return Format.Size.extraLarge
-            case Radius.title.rawValue.toDouble():
-                return Format.Size.title
-            default:
-                return Format.Size.zero
+        static public func size(from number: NSNumber) -> Format.Size {
+            switch number.cgFloatValue {
+            case Radius.zero.rawValue: return Format.Size.zero
+            case Radius.extraSmall.rawValue: return Format.Size.extraSmall
+            case Radius.small.rawValue: return Format.Size.small
+            case Radius.mediumSmall.rawValue: return Format.Size.mediumSmall
+            case Radius.medium.rawValue: return Format.Size.medium
+            case Radius.mediumLarge.rawValue: return Format.Size.mediumLarge
+            case Radius.large.rawValue: return Format.Size.large
+            case Radius.extraLarge.rawValue: return Format.Size.extraLarge
+            case Radius.title.rawValue: return Format.Size.title
+            default: return Format.Size.zero
             }
         }
 
         public static func number(from size: Size) -> NSNumber {
-            switch (size) {
-            case Size.zero:
-                return CGFloat.zero.toNSNumber()
-            case Size.extraSmall:
-                return Radius.extraSmall.rawValue.toNSNumber()
-            case Size.small:
-                return Radius.small.rawValue.toNSNumber()
-            case Size.mediumSmall:
-                return Radius.mediumSmall.rawValue.toNSNumber()
-            case Size.medium:
-                return Radius.medium.rawValue.toNSNumber()
-            case Size.mediumLarge:
-                return Radius.mediumLarge.rawValue.toNSNumber()
-            case Size.large:
-                return Radius.large.rawValue.toNSNumber()
-            case Size.extraLarge:
-                return Radius.extraLarge.rawValue.toNSNumber()
-            case Size.title:
-                return Radius.title.rawValue.toNSNumber()
+            switch size {
+            case Size.zero: return NSNumber(CGFloat.zero)
+            case Size.extraSmall: return NSNumber(Radius.extraSmall.rawValue)
+            case Size.small: return NSNumber(Radius.small.rawValue)
+            case Size.mediumSmall: return NSNumber(Radius.mediumSmall.rawValue)
+            case Size.medium: return NSNumber(Radius.medium.rawValue)
+            case Size.mediumLarge: return NSNumber(Radius.mediumLarge.rawValue)
+            case Size.large: return NSNumber(Radius.large.rawValue)
+            case Size.extraLarge: return NSNumber(Radius.extraLarge.rawValue)
+            case Size.title: return NSNumber(Radius.title.rawValue)
             }
         }
     }
-    
     
     public struct ShadowDescription {
         public let on: Bool
@@ -291,7 +209,6 @@ public enum Format {
         }
     }
     
-    
     public enum Size: Int {
         case zero
         case extraSmall
@@ -304,7 +221,6 @@ public enum Format {
         case title
     }
     
-    
     public enum Time {
         public enum Animation: TimeInterval, Sizable {
             case zero = 0
@@ -316,49 +232,32 @@ public enum Format {
             case long = 0.8
             case extraLong = 1.0
             
-            static func size(from number: NSNumber) -> Format.Size {
+            static public func size(from number: NSNumber) -> Format.Size {
                 switch number.doubleValue {
-                case Time.Animation.zero.rawValue:
-                    return Format.Size.zero
-                case Time.Animation.extraShort.rawValue:
-                    return Format.Size.extraSmall
-                case Time.Animation.short.rawValue:
-                    return Format.Size.small
-                case Time.Animation.mediumShort.rawValue:
-                    return Format.Size.mediumSmall
-                case Time.Animation.medium.rawValue:
-                    return Format.Size.medium
-                case Time.Animation.mediumLong.rawValue:
-                    return Format.Size.mediumLarge
-                case Time.Animation.long.rawValue:
-                    return Format.Size.large
-                case Time.Animation.extraLong.rawValue:
-                    return Format.Size.extraLarge
+                case Time.Animation.zero.rawValue: return Format.Size.zero
+                case Time.Animation.extraShort.rawValue: return Format.Size.extraSmall
+                case Time.Animation.short.rawValue: return Format.Size.small
+                case Time.Animation.mediumShort.rawValue: return Format.Size.mediumSmall
+                case Time.Animation.medium.rawValue: return Format.Size.medium
+                case Time.Animation.mediumLong.rawValue: return Format.Size.mediumLarge
+                case Time.Animation.long.rawValue: return Format.Size.large
+                case Time.Animation.extraLong.rawValue: return Format.Size.extraLarge
                 default:
                     return Format.Size.zero
                 }
             }
             
-            static func number(from size: Format.Size) -> NSNumber {
+            static public func number(from size: Format.Size) -> NSNumber {
                 switch size {
-                case Format.Size.zero:
-                    return Time.Animation.zero.rawValue.toNSNumber()
-                case Format.Size.extraSmall:
-                    return Time.Animation.extraShort.rawValue.toNSNumber()
-                case Format.Size.small:
-                    return Time.Animation.short.rawValue.toNSNumber()
-                case Format.Size.mediumSmall:
-                    return Time.Animation.mediumShort.rawValue.toNSNumber()
-                case Format.Size.medium:
-                    return Time.Animation.medium.rawValue.toNSNumber()
-                case Format.Size.mediumLarge:
-                    return Time.Animation.mediumLong.rawValue.toNSNumber()
-                case Format.Size.large:
-                    return Time.Animation.long.rawValue.toNSNumber()
-                case Format.Size.extraLarge:
-                    return Time.Animation.extraLong.rawValue.toNSNumber()
-                default:
-                    return Time.Animation.zero.rawValue.toNSNumber()
+                case Format.Size.zero: return NSNumber(Time.Animation.zero.rawValue)
+                case Format.Size.extraSmall: return NSNumber(Time.Animation.extraShort.rawValue)
+                case Format.Size.small: return NSNumber(Time.Animation.short.rawValue)
+                case Format.Size.mediumSmall: return NSNumber(Time.Animation.mediumShort.rawValue)
+                case Format.Size.medium: return NSNumber(Time.Animation.medium.rawValue)
+                case Format.Size.mediumLarge: return NSNumber(Time.Animation.mediumLong.rawValue)
+                case Format.Size.large: return NSNumber(Time.Animation.long.rawValue)
+                case Format.Size.extraLarge: return NSNumber(Time.Animation.extraLong.rawValue)
+                default: return NSNumber(Time.Animation.zero.rawValue)
                 }
             }
         }
@@ -376,20 +275,13 @@ public enum Format {
             
             static func interval(seconds: Double) -> Interval {
                 switch seconds {
-                case zero.rawValue:
-                    return Interval.zero
-                case minute.rawValue:
-                    return Interval.minute
-                case hour.rawValue:
-                    return Interval.hour
-                case day.rawValue:
-                    return Interval.day
-                case week.rawValue:
-                    return Interval.week
-                case month.rawValue:
-                    return Interval.month
-                case year.rawValue:
-                    return Interval.year
+                case zero.rawValue: return Interval.zero
+                case minute.rawValue: return Interval.minute
+                case hour.rawValue: return Interval.hour
+                case day.rawValue: return Interval.day
+                case week.rawValue: return Interval.week
+                case month.rawValue: return Interval.month
+                case year.rawValue: return Interval.year
                 default:
                     if (seconds <= Interval.zero.rawValue) { return Interval.zero }
                     else if (seconds <= Interval.minute.rawValue) { return Interval.minute }
@@ -416,34 +308,19 @@ public enum Format {
             static func string(interval: Interval, capitalized: Bool, singular: Bool) -> String {
                 var string: String = ""
                 switch interval {
-                case .zero:
-                    string = capitalized ? "Zero" : "zero"
-                    break
-                case .minute:
-                    string = capitalized ? "Minute" : "minute"
-                    break
-                case .hour:
-                    string = capitalized ? "Hour" : "hour"
-                    break
-                case .day:
-                    string = capitalized ? "Day" : "day"
-                    break
-                case .week:
-                    string = capitalized ? "Week" : "week"
-                    break
-                case .month:
-                    string = capitalized ? "Month" : "month"
-                    break
-                default:
-                    string = capitalized ? "Error" : "error"
-                    break
+                case .zero: string = capitalized ? "Zero" : "zero"
+                case .minute: string = capitalized ? "Minute" : "minute"
+                case .hour: string = capitalized ? "Hour" : "hour"
+                case .day: string = capitalized ? "Day" : "day"
+                case .week: string = capitalized ? "Week" : "week"
+                case .month: string = capitalized ? "Month" : "month"
+                default: string = capitalized ? "Error" : "error"
                 }
                 let suffix = string.lowercased() == "zero" ? "es" : "s"
                 return singular == true ? string : string + suffix
             }
         }
     }
-    
     
     public enum UI {
         public enum Height: CGFloat {
@@ -454,6 +331,7 @@ public enum Format {
             case graph = 108
             case square = 18
         }
+        
         public enum Width: CGFloat {
             case categoriesCollection = 192
         }
