@@ -1,8 +1,10 @@
 //
 //  Font.swift
 //
-//  Created by Jared Bourgeois on 12/18/19.
-//  Copyright © 2020 Jared Bourgeois. All rights reserved.
+//  Created by Jared Bourgeois on 2/29/20
+//  mail@jaredbourgeois.com
+//  
+//  Apache License 2.0, https://www.apache.org/licenses/LICENSE-2.0
 //
 
 import UIKit
@@ -18,7 +20,7 @@ public enum Font: String, CaseIterable {
         let string: String = string ?? String.empty
         var font: Font? = nil
         for thisFont in Font.allCases {
-            if thisFont.rawValue.lowercased() == string.lowercased() {
+            if string.lowercased().contains(thisFont.rawValue.lowercased()) {
                 font = thisFont
             }
         }
@@ -75,28 +77,21 @@ public enum Font: String, CaseIterable {
                 fontName = modifier == Font.Modifier.italic ?
                     Font.arial.rawValue + "-" + Font.Modifier.italic.rawValue + "MT" :
                     Font.arial.rawValue + "MT"
-                break
             case .semiBold, .bold:
                 fontName = Font.arial.rawValue + "-" + Font.Style.bold.rawValue + modifier.rawValue + "MT"
-                break
             }
         case .avenir:
             switch style {
             case .thin, .ultraLight, .light:
                 fontName = Font.avenir.rawValue + "-" + Font.Style.light.rawValue
-                break
             case .regular:
                 fontName = Font.avenir.rawValue + "-" + "Book"
-                break
             case .medium:
                 fontName = Font.avenir.rawValue + "-" + Font.Style.medium.rawValue
-                break
             case .semiBold:
                 fontName = Font.avenir.rawValue + "-" + "Heavy"
-                break
             case .bold:
                 fontName = Font.avenir.rawValue + "-" + "Black"
-                break
             }
             fontName = modifier == Font.Modifier.italic ? fontName + "Oblique" : fontName
         case .courierNew:
@@ -105,12 +100,10 @@ public enum Font: String, CaseIterable {
                 fontName = modifier == Font.Modifier.italic ?
                     Font.courierNew.rawValue + "-" + Font.Modifier.italic.rawValue :
                     Font.courierNew.rawValue
-                break
             case .semiBold, .bold:
                 fontName = modifier == Font.Modifier.italic ?
                     Font.courierNew.rawValue + "-" + Font.Style.bold.rawValue + Font.Modifier.italic.rawValue :
                     Font.courierNew.rawValue + "-" + Font.Style.bold.rawValue
-                break
             }
             fontName = fontName + "MT"
         case .helveticaNeue:
@@ -119,32 +112,26 @@ public enum Font: String, CaseIterable {
                 fontName = modifier == Font.Modifier.italic ?
                     fontName + "-" + Font.Style.thin.rawValue + Font.Modifier.italic.rawValue :
                     fontName + "-" + Font.Style.thin.rawValue
-                break
             case .ultraLight:
                 fontName = modifier == Font.Modifier.italic ?
                     fontName + "-" + Font.Style.ultraLight.rawValue + Font.Modifier.italic.rawValue :
                     fontName + "-" + Font.Style.ultraLight.rawValue
-                break
             case .light:
                 fontName = modifier == Font.Modifier.italic ?
                     fontName + "-" + Font.Style.light.rawValue + Font.Modifier.italic.rawValue :
                     fontName + "-" + Font.Style.light.rawValue
-                break
             case .regular:
                 if (modifier == Font.Modifier.italic) {
                     fontName = fontName + "-" + Font.Modifier.italic.rawValue
                 }
-                break
             case .medium:
                 fontName = modifier == Font.Modifier.italic ?
                     fontName + "-" + Font.Style.medium.rawValue + Font.Modifier.italic.rawValue :
                     fontName + "-" + Font.Style.medium.rawValue
-                break
             case .semiBold, .bold:
                 fontName = modifier == Font.Modifier.italic ?
                     fontName + "-" + Font.Style.bold.rawValue + Font.Modifier.italic.rawValue :
                     fontName + "-" + Font.Style.bold.rawValue
-                break
             }
         case .trebuchet:
             switch style {
@@ -152,12 +139,10 @@ public enum Font: String, CaseIterable {
                 fontName = modifier == .italic ?
                     Font.trebuchet.rawValue + "MS" + "-" + Font.Modifier.italic.rawValue :
                     Font.trebuchet.rawValue + "MS"
-                break
             case .semiBold, .bold:
                 fontName = modifier == .italic ?
                     Font.trebuchet.rawValue + "-" + Font.Style.bold.rawValue + Font.Modifier.italic.rawValue :
                     Font.trebuchet.rawValue + "MS" + "-" + Font.Style.bold.rawValue
-                break
             }
         }
         return fontName
@@ -174,7 +159,7 @@ extension Font {
         static var shared: Config { Config(font: .helveticaNeue, size: .medium, style: .regular, modifier: .none) }
     }
     
-    public enum Size: CGFloat, Sizable {
+    public enum Size: Int, Sizable {
         case zero = 0
         case extraSmall = 10
         case small = 12
@@ -186,7 +171,7 @@ extension Font {
         case title = 42
         
         static public func size(from number: NSNumber) -> Format.Size {
-            switch number.cgFloatValue {
+            switch number.intValue {
             case Size.zero.rawValue: return Format.Size.zero
             case Size.extraSmall.rawValue: return Format.Size.extraSmall
             case Size.small.rawValue: return Format.Size.small
