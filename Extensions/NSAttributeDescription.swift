@@ -7,7 +7,7 @@
 //  Apache License 2.0, https://www.apache.org/licenses/LICENSE-2.0
 //
 
-import UIKit
+import CoreData
 
 extension NSAttributeDescription {
     public static func attributeDescription(isOptional: Bool = true, isTransient: Bool = false, name: String, allowsExternalBinaryDataStorage: Bool = false, attributeType: NSAttributeType = .binaryDataAttributeType, defaultValue: Any? = nil, preservesValueInHistoryOnDeletion: Bool = false) -> NSAttributeDescription {

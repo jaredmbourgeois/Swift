@@ -201,7 +201,7 @@ public enum Format {
         public let shadowOffset: CGSize
         public let shadowOpacity: Float
 
-        init(on: Bool?, cornerRadius: CGFloat?, shadowColor: UIColor?, shadowOffset: CGSize?, shadowOpacity: CGFloat?) {
+        init(on: Bool? = nil, cornerRadius: CGFloat? = nil, shadowColor: UIColor? = nil, shadowOffset: CGSize? = nil, shadowOpacity: CGFloat? = nil) {
             self.on = on ?? true
             self.cornerRadius = cornerRadius ?? Format.Radius.medium.rawValue
             self.shadowColor = (shadowColor ?? UIColor.black).cgColor
