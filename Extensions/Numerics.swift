@@ -100,28 +100,25 @@ extension Int64 {
 }
 
 extension NSNumber {
-    convenience init(_ cgFloat: CGFloat) {
-        self.init(value: Double(cgFloat))
-    }
-    convenience init(_ int: Int) {
-        self.init(value: int)
-    }
-    convenience init(_ int8: Int8) {
-        self.init(value: int8)
-    }
-    convenience init(_ int16: Int16) {
-        self.init(value: int16)
-    }
-    convenience init(_ int32: Int32) {
-        self.init(value: int32)
-    }
-    convenience init(_ int64: Int64) {
-        self.init(value: int64)
-    }
-    convenience init(_ timeInterval: TimeInterval) {
-        self.init(value: timeInterval)
-    }
+    convenience init(_ cgFloat: CGFloat) { self.init(value: Double(cgFloat)) }
+    convenience init(_ int: Int) { self.init(value: int) }
+    convenience init(_ int8: Int8) { self.init(value: int8) }
+    convenience init(_ int16: Int16) { self.init(value: int16) }
+    convenience init(_ int32: Int32) { self.init(value: int32) }
+    convenience init(_ int64: Int64) { self.init(value: int64) }
+    convenience init(_ timeInterval: TimeInterval) { self.init(value: timeInterval) }
     public var cgFloatValue: CGFloat { CGFloat(truncating: self)}
+}
+
+extension TimeInterval {
+    public static var minute: TimeInterval { 60 }
+    public static var hour: TimeInterval { 3600 }
+    public static var day: TimeInterval { 86400 }
+    public static var week: TimeInterval { 604800 }
+    public static var month: TimeInterval { 2592000 }
+    public static var year: TimeInterval { 31536000 }
+    public static var twelveHours: TimeInterval { 43200 }
+    public static var timeBuffer: TimeInterval { 14400 } // 4 hours
 }
 
 extension UInt {

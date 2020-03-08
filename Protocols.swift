@@ -9,6 +9,10 @@
 
 import UIKit
 
+public protocol Identifiable {
+    var id: String { get set }
+}
+
 public protocol Colorable {
     func update(mainColor: UIColor?, textColor: UIColor?) -> Void
 }
