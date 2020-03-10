@@ -10,8 +10,10 @@
 import Foundation
 import CryptoKit
 
-enum UniqueID {
-    static var new: String {
-        SHA256.hash(data: Date.milliseconds().data).map{ String(format: "%x", $0) }.joined()
+typealias UniqueID = String
+
+extension UniqueID {
+    init() {
+        self.init(SHA256.hash(data: (Date.milliseconds() + Int64.random(in: -99 ..< 99)).data).map{ String(format: "%x", $0) }.joined())
     }
 }

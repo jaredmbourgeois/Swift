@@ -51,7 +51,7 @@ extension UIColor {
         return Components.HSBA(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
     }
     
-    public func contrasting(with degree: Format.Degree) -> UIColor { UIColor.contrasting(color: self, degree: degree) }
+    public func contrasting(degree: Format.Degree) -> UIColor { UIColor.contrasting(color: self, degree: degree) }
     public static func contrasting(color: UIColor, degree: Format.Degree) -> UIColor {
         var hue: CGFloat = 0
         var saturation: CGFloat = 0
@@ -73,7 +73,7 @@ extension UIColor {
         }
     }
     
-    public func desaturated(with degree: Format.Degree) -> UIColor { UIColor.desaturated(color: self, degree: degree) }
+    public func desaturated(degree: Format.Degree) -> UIColor { UIColor.desaturated(color: self, degree: degree) }
     public static func desaturated(color: UIColor, degree: Format.Degree) -> UIColor {
         var hue: CGFloat = 0
         var saturation: CGFloat = 0

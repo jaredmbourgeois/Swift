@@ -10,7 +10,11 @@
 import CoreData
 
 extension NSManagedObjectContext {
-        public func saveSuccess(printError: String? = nil) -> Bool {
+    public func saveFatalError(_ save: Bool, printError: String? = nil) {
+        if save && !self.saveSuccess(printError: printError) { fatalError() }
+    }
+    
+    public func saveSuccess(printError: String? = nil) -> Bool {
         do {
             try save()
             return true

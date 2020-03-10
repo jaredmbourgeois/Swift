@@ -10,7 +10,11 @@
 import UIKit
 
 public protocol Identifiable {
-    var id: String { get set }
+    var id: String { get }
+}
+
+public protocol Updatable {
+    var updateDate: Date { get }
 }
 
 public protocol Colorable {
