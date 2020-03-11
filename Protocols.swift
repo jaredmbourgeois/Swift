@@ -8,12 +8,13 @@
 //
 
 import UIKit
+import CoreData
 
 public protocol Identifiable {
     var id: String { get }
 }
 
-public protocol Updatable {
+protocol Updatable {
     var updateDate: Date { get }
 }
 
