@@ -16,7 +16,7 @@ extension DateFormatter {
         case veryShort
     }
     
-    func symbols(timePeriod: Date.TimePeriod, symbol: Symbol = .normal) -> [String]? {
+    func symbols(timePeriod: TimePeriod, symbol: Symbol = .normal) -> [String]? {
         return DateFormatter.symbols(
             dateFormatter: self,
             timePeriod: timePeriod,
@@ -24,7 +24,7 @@ extension DateFormatter {
         )
     }
     
-    static func symbols(dateFormatter: DateFormatter? = nil, timePeriod: Date.TimePeriod = .weekday, symbol: Symbol = .normal) -> [String]? {
+    static func symbols(dateFormatter: DateFormatter? = nil, timePeriod: TimePeriod = .day, symbol: Symbol = .normal) -> [String]? {
         let dateFormatter: DateFormatter = dateFormatter ?? DateFormatter()
         switch symbol {
         case .normal:
@@ -49,7 +49,7 @@ extension DateFormatter {
         dateFormatter: DateFormatter? = nil,
         calendar: Calendar? = nil,
         date: Date,
-        timePeriod: Date.TimePeriod = .weekday,
+        timePeriod: TimePeriod = .day,
         symbol: Symbol = .normal
     ) -> String {
         return DateFormatter.symbol(
@@ -65,10 +65,10 @@ extension DateFormatter {
         dateFormatter: DateFormatter? = nil,
         calendar: Calendar? = nil,
         date: Date,
-        timePeriod: Date.TimePeriod = .weekday,
+        timePeriod: TimePeriod = .day,
         symbol: Symbol = .normal
     ) -> String {
-        let components: DateComponents = Calendar.dateComponents(calendar: calendar, date: date, calendarComponents: [timePeriod.dateComponent])
+        let components: DateComponents = Calendar.dateComponents(calendar: calendar, date: date, calendarComponents: [timePeriod.calendarComponent])
         let symbols: [String]? = DateFormatter.symbols(
             dateFormatter: dateFormatter,
             timePeriod: timePeriod,

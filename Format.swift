@@ -11,6 +11,17 @@ import UIKit
 import CoreGraphics
 
 public enum Format {
+    public enum AnimationTime: TimeInterval {
+        case zero = 0
+        case extraShort = 0.1
+        case short = 0.2
+        case mediumShort = 0.3
+        case medium = 0.4
+        case mediumLong = 0.6
+        case long = 0.8
+        case extraLong = 1.0
+    }
+    
     public enum Degree: CGFloat {
         case none = 0.0
         case light = 0.1
@@ -201,7 +212,13 @@ public enum Format {
         public let shadowOffset: CGSize
         public let shadowOpacity: Float
 
-        init(on: Bool? = nil, cornerRadius: CGFloat? = nil, shadowColor: UIColor? = nil, shadowOffset: CGSize? = nil, shadowOpacity: CGFloat? = nil) {
+        init(
+            on: Bool? = nil,
+            cornerRadius: CGFloat? = nil,
+            shadowColor: UIColor? = nil,
+            shadowOffset: CGSize? = nil,
+            shadowOpacity: CGFloat? = nil
+        ) {
             self.on = on ?? true
             self.cornerRadius = cornerRadius ?? Format.Radius.medium.rawValue
             self.shadowColor = (shadowColor ?? UIColor.black).cgColor
@@ -220,107 +237,6 @@ public enum Format {
         case large
         case extraLarge
         case title
-    }
-    
-    public enum Time {
-        public enum Animation: TimeInterval, Sizable {
-            case zero = 0
-            case extraShort = 0.1
-            case short = 0.2
-            case mediumShort = 0.3
-            case medium = 0.4
-            case mediumLong = 0.6
-            case long = 0.8
-            case extraLong = 1.0
-            
-            static public func size(from number: NSNumber) -> Format.Size {
-                switch number.doubleValue {
-                case Time.Animation.zero.rawValue: return Format.Size.zero
-                case Time.Animation.extraShort.rawValue: return Format.Size.extraSmall
-                case Time.Animation.short.rawValue: return Format.Size.small
-                case Time.Animation.mediumShort.rawValue: return Format.Size.mediumSmall
-                case Time.Animation.medium.rawValue: return Format.Size.medium
-                case Time.Animation.mediumLong.rawValue: return Format.Size.mediumLarge
-                case Time.Animation.long.rawValue: return Format.Size.large
-                case Time.Animation.extraLong.rawValue: return Format.Size.extraLarge
-                default:
-                    return Format.Size.zero
-                }
-            }
-            
-            static public func number(from size: Format.Size) -> NSNumber {
-                switch size {
-                case Format.Size.zero: return NSNumber(Time.Animation.zero.rawValue)
-                case Format.Size.extraSmall: return NSNumber(Time.Animation.extraShort.rawValue)
-                case Format.Size.small: return NSNumber(Time.Animation.short.rawValue)
-                case Format.Size.mediumSmall: return NSNumber(Time.Animation.mediumShort.rawValue)
-                case Format.Size.medium: return NSNumber(Time.Animation.medium.rawValue)
-                case Format.Size.mediumLarge: return NSNumber(Time.Animation.mediumLong.rawValue)
-                case Format.Size.large: return NSNumber(Time.Animation.long.rawValue)
-                case Format.Size.extraLarge: return NSNumber(Time.Animation.extraLong.rawValue)
-                default: return NSNumber(Time.Animation.zero.rawValue)
-                }
-            }
-        }
-        
-        public enum Interval: TimeInterval {
-            case zero = 0
-            case minute = 60
-            case hour = 3600
-            case day = 86400
-            case week = 604800
-            case month = 2592000
-            case year = 31536000
-            case twelveHours = 43200
-            case timeBuffer = 14400 // 4 * 60 * 60
-            
-            static func interval(seconds: Double) -> Interval {
-                switch seconds {
-                case zero.rawValue: return Interval.zero
-                case minute.rawValue: return Interval.minute
-                case hour.rawValue: return Interval.hour
-                case day.rawValue: return Interval.day
-                case week.rawValue: return Interval.week
-                case month.rawValue: return Interval.month
-                case year.rawValue: return Interval.year
-                default:
-                    if (seconds <= Interval.zero.rawValue) { return Interval.zero }
-                    else if (seconds <= Interval.minute.rawValue) { return Interval.minute }
-                    else if (seconds <= Interval.hour.rawValue) { return Interval.hour }
-                    else if (seconds <= Interval.day.rawValue) { return Interval.day }
-                    else if (seconds <= Interval.week.rawValue) { return Interval.week }
-                    else if (seconds <= Interval.month.rawValue) { return Interval.month }
-                    else { return Interval.year }
-                }
-            }
-            
-            static func string(interval: Interval) -> String {
-                return string(interval: interval, capitalized: false, singular: false)
-            }
-            
-            static func string(interval: Interval, capitalized: Bool) -> String {
-                return string(interval: interval, capitalized: capitalized, singular: false)
-            }
-            
-            static func string(interval: Interval, singular: Bool) -> String {
-                return string(interval: interval, capitalized: false, singular: singular)
-            }
-            
-            static func string(interval: Interval, capitalized: Bool, singular: Bool) -> String {
-                var string: String = ""
-                switch interval {
-                case .zero: string = capitalized ? "Zero" : "zero"
-                case .minute: string = capitalized ? "Minute" : "minute"
-                case .hour: string = capitalized ? "Hour" : "hour"
-                case .day: string = capitalized ? "Day" : "day"
-                case .week: string = capitalized ? "Week" : "week"
-                case .month: string = capitalized ? "Month" : "month"
-                default: string = capitalized ? "Error" : "error"
-                }
-                let suffix = string.lowercased() == "zero" ? "es" : "s"
-                return singular == true ? string : string + suffix
-            }
-        }
     }
     
     public enum UI {

@@ -110,17 +110,6 @@ extension NSNumber {
     public var cgFloatValue: CGFloat { CGFloat(truncating: self)}
 }
 
-extension TimeInterval {
-    public static var minute: TimeInterval { 60 }
-    public static var hour: TimeInterval { 3600 }
-    public static var day: TimeInterval { 86400 }
-    public static var week: TimeInterval { 604800 }
-    public static var month: TimeInterval { 2592000 }
-    public static var year: TimeInterval { 31536000 }
-    public static var twelveHours: TimeInterval { 43200 }
-    public static var timeBuffer: TimeInterval { 14400 } // 4 hours
-}
-
 extension UInt {
     public static var zero: UInt { UInt(0) }
     public var string: String { "\(self)" }
