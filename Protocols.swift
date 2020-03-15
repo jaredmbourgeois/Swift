@@ -14,6 +14,10 @@ public protocol Identifiable {
     var id: String { get }
 }
 
+public protocol IdentifiableProperties {
+    func updateIDs(save: Bool) -> Void
+}
+
 protocol Updatable {
     var updateDate: Date { get }
 }
