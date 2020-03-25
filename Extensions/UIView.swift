@@ -43,12 +43,4 @@ extension UIView {
     public func removeSubviews() -> Void {
         self.subviews.forEach({ $0.removeFromSuperview() })
     }
-        
-    public static func view(frame: CGRect?, backgroundColor: UIColor?, cornerRadius: CGFloat?) -> UIView {
-        let view: UIView = frame != nil ? UIView(frame: frame!) : UIView()
-        view.translatesAutoresizingMaskIntoConstraints = frame != nil ? true : false
-        view.backgroundColor = backgroundColor ?? UIColor.clear
-        view.layer.cornerRadius = cornerRadius ?? 0
-        return view
-    }
 }

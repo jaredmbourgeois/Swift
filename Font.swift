@@ -16,56 +16,53 @@ public enum Font: String, CaseIterable {
     case helveticaNeue = "HelveticaNeue"
     case trebuchet = "Trebuchet"
     
-    public static func caseFrom(_ string: String? = nil) -> Font {
+    init(_ string: String? = nil) {
         let string: String = string ?? String.empty
-        var font: Font? = nil
-        for thisFont in Font.allCases {
-            if string.lowercased().contains(thisFont.rawValue.lowercased()) {
-                font = thisFont
-            }
-        }
-        return font ?? .helveticaNeue
+        var matchingFonts: [Font] = Font.allCases.filter({
+            string.lowercased().contains($0.rawValue.lowercased())
+        })
+        self = matchingFonts.first ?? .helveticaNeue
     }
     
-    public static func font(_ config: Config? = nil) -> UIFont {
-        let config: Config = config ?? Config.shared
-        switch config.font {
-        case .arial: return arial(size: config.size, style: config.style, modifier: config.modifier)
-        case .avenir: return avenir(size: config.size, style: config.style, modifier: config.modifier)
-        case .courierNew: return courierNew(size: config.size, style: config.style, modifier: config.modifier)
-        case .helveticaNeue: return helveticaNeue(size: config.size, style: config.style, modifier: config.modifier)
-        case .trebuchet: return trebuchet(size: config.size, style: config.style, modifier: config.modifier)
+    public static func font(_ fontConfig: FontConfig? = nil) -> UIFont {
+        let fontConfig: FontConfig = fontConfig ?? FontConfig.common
+        switch fontConfig.font {
+        case .arial: return arial(size: fontConfig.size, style: fontConfig.style, modifier: fontConfig.modifier)
+        case .avenir: return avenir(size: fontConfig.size, style: fontConfig.style, modifier: fontConfig.modifier)
+        case .courierNew: return courierNew(size: fontConfig.size, style: fontConfig.style, modifier: fontConfig.modifier)
+        case .helveticaNeue: return helveticaNeue(size: fontConfig.size, style: fontConfig.style, modifier: fontConfig.modifier)
+        case .trebuchet: return trebuchet(size: fontConfig.size, style: fontConfig.style, modifier: fontConfig.modifier)
         }
     }
     
     private static func arial(size: Format.Size, style: Font.Style, modifier: Font.Modifier) -> UIFont {
-        let fontSize: CGFloat = Font.Size.number(from: size).cgFloatValue
-        let name: String = fontName(font: .arial, style: style, modifier: modifier)
-        return UIFont(name: name, size: fontSize) ?? UIFont.systemFont(ofSize: fontSize)
+        let fontSize: CGFloat = Font.Size(size).rawValue
+        let fontName: String = self.fontName(font: .arial, style: style, modifier: modifier)
+        return UIFont(name: fontName, size: fontSize) ?? UIFont.systemFont(ofSize: fontSize)
     }
     
     private static func avenir(size: Format.Size, style: Font.Style, modifier: Font.Modifier) -> UIFont {
-        let fontSize: CGFloat = Font.Size.number(from: size).cgFloatValue
-        let name: String = fontName(font: .avenir, style: style, modifier: modifier)
-        return UIFont(name: name, size: fontSize) ?? UIFont.systemFont(ofSize: fontSize)
+        let fontSize: CGFloat = Font.Size(size).rawValue
+        let fontName: String = self.fontName(font: .avenir, style: style, modifier: modifier)
+        return UIFont(name: fontName, size: fontSize) ?? UIFont.systemFont(ofSize: fontSize)
     }
     
     private static func courierNew(size: Format.Size, style: Font.Style, modifier: Font.Modifier) -> UIFont {
-        let fontSize: CGFloat = Font.Size.number(from: size).cgFloatValue
-        let name: String = fontName(font: .courierNew, style: style, modifier: modifier)
-        return UIFont(name: name, size: fontSize) ?? UIFont.systemFont(ofSize: fontSize)
+        let fontSize: CGFloat = Font.Size(size).rawValue
+        let fontName: String = self.fontName(font: .courierNew, style: style, modifier: modifier)
+        return UIFont(name: fontName, size: fontSize) ?? UIFont.systemFont(ofSize: fontSize)
     }
     
     private static func helveticaNeue(size: Format.Size, style: Font.Style, modifier: Font.Modifier) -> UIFont {
-        let fontSize: CGFloat = Font.Size.number(from: size).cgFloatValue
-        let name: String = fontName(font: .helveticaNeue, style: style, modifier: modifier)
-        return UIFont(name: name, size: fontSize) ?? UIFont.systemFont(ofSize: fontSize)
+        let fontSize: CGFloat = Font.Size(size).rawValue
+        let fontName: String = self.fontName(font: .helveticaNeue, style: style, modifier: modifier)
+        return UIFont(name: fontName, size: fontSize) ?? UIFont.systemFont(ofSize: fontSize)
     }
     
     private static func trebuchet(size: Format.Size, style: Font.Style, modifier: Font.Modifier) -> UIFont {
-        let fontSize: CGFloat = Font.Size.number(from: size).cgFloatValue
-        let name: String = fontName(font: .trebuchet, style: style, modifier: modifier)
-        return UIFont(name: name, size: fontSize) ?? UIFont.systemFont(ofSize: fontSize)
+        let fontSize: CGFloat = Font.Size(size).rawValue
+        let fontName: String = self.fontName(font: .trebuchet, style: style, modifier: modifier)
+        return UIFont(name: fontName, size: fontSize) ?? UIFont.systemFont(ofSize: fontSize)
     }
     
     private static func fontName(font: Font, style: Font.Style, modifier: Font.Modifier) -> String {
@@ -110,28 +107,28 @@ public enum Font: String, CaseIterable {
             switch style {
             case .thin:
                 fontName = modifier == Font.Modifier.italic ?
-                    fontName + "-" + Font.Style.thin.rawValue + Font.Modifier.italic.rawValue :
-                    fontName + "-" + Font.Style.thin.rawValue
+                    Font.helveticaNeue.rawValue + "-" + Font.Style.thin.rawValue + Font.Modifier.italic.rawValue :
+                    Font.helveticaNeue.rawValue + "-" + Font.Style.thin.rawValue
             case .ultraLight:
                 fontName = modifier == Font.Modifier.italic ?
-                    fontName + "-" + Font.Style.ultraLight.rawValue + Font.Modifier.italic.rawValue :
-                    fontName + "-" + Font.Style.ultraLight.rawValue
+                    Font.helveticaNeue.rawValue + "-" + Font.Style.ultraLight.rawValue + Font.Modifier.italic.rawValue :
+                    Font.helveticaNeue.rawValue + "-" + Font.Style.ultraLight.rawValue
             case .light:
                 fontName = modifier == Font.Modifier.italic ?
-                    fontName + "-" + Font.Style.light.rawValue + Font.Modifier.italic.rawValue :
-                    fontName + "-" + Font.Style.light.rawValue
+                    Font.helveticaNeue.rawValue + "-" + Font.Style.light.rawValue + Font.Modifier.italic.rawValue :
+                    Font.helveticaNeue.rawValue + "-" + Font.Style.light.rawValue
             case .regular:
-                if (modifier == Font.Modifier.italic) {
-                    fontName = fontName + "-" + Font.Modifier.italic.rawValue
-                }
+                fontName = modifier == Font.Modifier.italic ?
+                    Font.helveticaNeue.rawValue + "-" + Font.Modifier.italic.rawValue :
+                    Font.helveticaNeue.rawValue
             case .medium:
                 fontName = modifier == Font.Modifier.italic ?
-                    fontName + "-" + Font.Style.medium.rawValue + Font.Modifier.italic.rawValue :
-                    fontName + "-" + Font.Style.medium.rawValue
+                    Font.helveticaNeue.rawValue + "-" + Font.Style.medium.rawValue + Font.Modifier.italic.rawValue :
+                    Font.helveticaNeue.rawValue + "-" + Font.Style.medium.rawValue
             case .semiBold, .bold:
                 fontName = modifier == Font.Modifier.italic ?
-                    fontName + "-" + Font.Style.bold.rawValue + Font.Modifier.italic.rawValue :
-                    fontName + "-" + Font.Style.bold.rawValue
+                    Font.helveticaNeue.rawValue + "-" + Font.Style.bold.rawValue + Font.Modifier.italic.rawValue :
+                    Font.helveticaNeue.rawValue + "-" + Font.Style.bold.rawValue
             }
         case .trebuchet:
             switch style {
@@ -145,21 +142,22 @@ public enum Font: String, CaseIterable {
                     Font.trebuchet.rawValue + "MS" + "-" + Font.Style.bold.rawValue
             }
         }
+        print(fontName)
         return fontName
     }
 }
 
 extension Font {
-    public struct Config: Equatable {
+    public struct FontConfig: Equatable {
         let font: Font
         let size: Format.Size
         let style: Style
         let modifier: Modifier
         
-        static var shared: Config { Config(font: .helveticaNeue, size: .medium, style: .regular, modifier: .none) }
+        static let common = FontConfig(font: .helveticaNeue, size: .medium, style: .regular, modifier: .none)
     }
     
-    public enum Size: Int, Sizable {
+    public enum Size: CGFloat, Sizable {
         case zero = 0
         case extraSmall = 10
         case small = 12
@@ -170,32 +168,17 @@ extension Font {
         case extraLarge = 36
         case title = 42
         
-        static public func size(from number: NSNumber) -> Format.Size {
-            switch number.intValue {
-            case Size.zero.rawValue: return Format.Size.zero
-            case Size.extraSmall.rawValue: return Format.Size.extraSmall
-            case Size.small.rawValue: return Format.Size.small
-            case Size.mediumSmall.rawValue: return Format.Size.mediumSmall
-            case Size.medium.rawValue: return Format.Size.medium
-            case Size.mediumLarge.rawValue: return Format.Size.mediumLarge
-            case Size.large.rawValue: return Format.Size.large
-            case Size.extraLarge.rawValue: return Format.Size.extraLarge
-            case Size.title.rawValue: return Format.Size.title
-            default: return Format.Size.zero
-            }
-        }
-        
-        static public func number(from size: Format.Size) -> NSNumber {
+        public init(_ size: Format.Size) {
             switch size {
-            case Format.Size.zero: return NSNumber(CGFloat.zero)
-            case Format.Size.extraSmall: return NSNumber(Font.Size.extraSmall.rawValue)
-            case Format.Size.small: return NSNumber(Font.Size.small.rawValue)
-            case Format.Size.mediumSmall: return NSNumber(Font.Size.mediumSmall.rawValue)
-            case Format.Size.medium: return NSNumber(Font.Size.medium.rawValue)
-            case Format.Size.mediumLarge: return NSNumber(Font.Size.mediumLarge.rawValue)
-            case Format.Size.large: return NSNumber(Font.Size.large.rawValue)
-            case Format.Size.extraLarge: return NSNumber(Font.Size.extraLarge.rawValue)
-            case Format.Size.title: return NSNumber(Font.Size.title.rawValue)
+            case Format.Size.zero: self = Font.Size.zero
+            case Format.Size.extraSmall: self = Font.Size.extraSmall
+            case Format.Size.small: self = Font.Size.small
+            case Format.Size.mediumSmall: self = Font.Size.mediumSmall
+            case Format.Size.medium: self = Font.Size.medium
+            case Format.Size.mediumLarge: self = Font.Size.mediumLarge
+            case Format.Size.large: self = Font.Size.large
+            case Format.Size.extraLarge: self = Font.Size.extraLarge
+            case Format.Size.title: self = Font.Size.title
             }
         }
     }

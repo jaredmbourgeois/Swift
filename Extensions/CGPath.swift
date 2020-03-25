@@ -10,7 +10,7 @@
 import UIKit
 
 extension CGPath {
-    public static func rounded(rect: CGRect, cornerRadius: CGFloat = Format.Radius.medium.rawValue, lineWidth: CGFloat = CGFloat.zero, position: Format.Position = .isolated) -> CGPath {
+    public static func rounded(rect: CGRect, cornerRadius: CGFloat = Format.CornerRadius.medium.rawValue, lineWidth: CGFloat = CGFloat.zero, position: Format.Position = .isolated) -> CGPath {
         let mutablePath: CGMutablePath = CGMutablePath()
         let margin: CGFloat = 0.5*lineWidth
         let topLeft: CGPoint = CGPoint(x: rect.minX + margin, y: rect.minY + margin)

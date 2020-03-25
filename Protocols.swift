@@ -7,8 +7,32 @@
 //  Apache License 2.0, https://www.apache.org/licenses/LICENSE-2.0
 //
 
-import UIKit
 import CoreData
+import UIKit
+
+//public protocol ViewableConfig {
+//    var frame: CGRect { get }
+//    var backgroundColor: UIColor { get }
+//    var cornerRadius: CGFloat { get }
+//}
+//
+//public protocol ConfigurableView {
+//    init<T: ViewableConfig>(_ config: T)
+//    func update<T: ViewableConfig>(_ config: T) -> Void
+//}
+//
+//public protocol ViewableTextConfig: ViewableConfig {
+//    var font: UIFont { get }
+//    var numberOfLines: Int { get }
+//    var textAlignment: NSTextAlignment { get }
+//    var textColor: UIColor { get }
+//    var text: String { get }
+//}
+//
+//public protocol ConfigurableTextView {
+//    init<T: ViewableTextConfig>(_ config: T)
+//    func update<T: ViewableTextConfig>(_ config: T) -> Void
+//}
 
 public protocol Identifiable {
     var id: String { get }
@@ -33,6 +57,6 @@ public protocol Dismissable {
 }
 
 public protocol Sizable {
-    static func number(from size: Format.Size) -> NSNumber
-    static func size(from number: NSNumber) -> Format.Size
+    init(_ size: Format.Size)
+    var size: Format.Size { get }
 }

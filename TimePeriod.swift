@@ -131,8 +131,8 @@ enum TimePeriod: TimeInterval {
     }
     
     struct Minute {
-        let value: Int8
-        init(_ value: Int) { self.value = Int8(value) }
+        let value: Int
+        init(_ value: Int) { self.value = value }
     }
     
     struct Hour {

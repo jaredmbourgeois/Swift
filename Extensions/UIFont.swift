@@ -10,9 +10,9 @@
 import UIKit
 
 extension UIFont {
-    public static func font(size: Format.Size, bold: Bool) -> UIFont {
-        let fontSize: CGFloat = Font.Size.number(from: size).cgFloatValue
-        let fnt = UIFont(name: "HelveticaNeue-Medium", size: CGFloat(fontSize))!
+    public static func font(name: String, size: Format.Size, bold: Bool) -> UIFont {
+        let fontSize: CGFloat = Font.Size(size).rawValue
+        let fnt = UIFont(name: name, size: CGFloat(fontSize))!
         
         switch bold {
         case true:

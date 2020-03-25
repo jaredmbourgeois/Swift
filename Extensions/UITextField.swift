@@ -20,27 +20,65 @@ extension UITextField {
             imageView.contentMode = .scaleAspectFit
             imageView.translatesAutoresizingMaskIntoConstraints = false
             wrapperView.addSubview(imageView)
-            imageView.centerXAnchor.constraint(equalTo: wrapperView.centerXAnchor).isActive = true
-            imageView.centerYAnchor.constraint(equalTo: wrapperView.centerYAnchor).isActive = true
-            imageView.widthAnchor.constraint(equalTo: wrapperView.heightAnchor, multiplier: 0.5).isActive = true
-            imageView.heightAnchor.constraint(equalTo: wrapperView.heightAnchor, multiplier: 0.5).isActive = true
+            NSLayoutConstraint.activate([
+                imageView.centerXAnchor.constraint(equalTo: wrapperView.centerXAnchor),
+                imageView.centerYAnchor.constraint(equalTo: wrapperView.centerYAnchor),
+                imageView.widthAnchor.constraint(equalTo: wrapperView.heightAnchor, multiplier: 0.5),
+                imageView.heightAnchor.constraint(equalTo: wrapperView.heightAnchor, multiplier: 0.5)
+            ])
             self.leftView = wrapperView
             self.leftViewMode = .always
         }
     }
-
-    public static func textField() -> UITextField { UITextField.textField(font: nil, textColor: nil, textAlignment: nil, numberOfLines: nil) }
     
-    public static func textField(font: UIFont?, textColor: UIColor?, textAlignment: NSTextAlignment?, numberOfLines: Int?) -> UITextField {
-        let txtField: UITextField = UITextField()
-        txtField.translatesAutoresizingMaskIntoConstraints = false
-        txtField.backgroundColor = .clear
-        txtField.isUserInteractionEnabled = false
-        txtField.font = font ?? UIFont.systemFont(ofSize: UIFont.systemFontSize)
-        txtField.textColor = textColor ?? .red
-        txtField.textAlignment = textAlignment ?? .left
-        txtField.tintColor = textColor ?? .red
-        txtField.adjustsFontSizeToFitWidth = true
-        return txtField
+    public struct Config {
+        let backgroundColor: UIColor
+        let cornerRadius: CGFloat
+        let font: UIFont
+        let frame: CGRect
+        let height: CGFloat
+        let isUserInteractionEnabled: Bool
+        let placeholder: String
+        let textAlignment: NSTextAlignment
+        let textColor: UIColor
+        let text: String
+
+        init(
+            backgroundColor: UIColor = .clear,
+            cornerRadius: CGFloat = 0,
+            font: UIFont,
+            frame: CGRect = .zero,
+            height: CGFloat = .zero,
+            isUserInteractionEnabled: Bool = false,
+            placeholder: String = String.empty,
+            textAlignment: NSTextAlignment = .left,
+            textColor: UIColor,
+            text: String = String.empty
+        ) {
+            self.backgroundColor = backgroundColor
+            self.cornerRadius = cornerRadius
+            self.font = font
+            self.frame = frame
+            self.height = height
+            self.isUserInteractionEnabled = isUserInteractionEnabled
+            self.placeholder = placeholder
+            self.textAlignment = textAlignment
+            self.textColor = textColor
+            self.text = text
+        }
+    }
+    
+    convenience init(_ config: UITextField.Config) {
+        self.init(frame: config.frame)
+        self.adjustsFontSizeToFitWidth = true
+        self.translatesAutoresizingMaskIntoConstraints = config.frame != CGRect.zero
+        self.backgroundColor = config.backgroundColor
+        self.isUserInteractionEnabled = config.isUserInteractionEnabled
+        self.font = config.font
+        self.attributedPlaceholder = NSAttributedString(string: config.placeholder, attributes: [NSAttributedString.Key.foregroundColor: config.textColor])
+        self.textAlignment = config.textAlignment
+        self.textColor = config.textColor
+        self.text = config.text
+        self.tintColor = config.textColor
     }
 }
