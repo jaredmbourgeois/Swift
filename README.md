@@ -3,7 +3,7 @@
 ### https://jaredbourgeois.com
 ### mail@jaredbourgeois.com
 
-Apache License 2.0, https://www.apache.org/licenses/LICENSE-2.0
+### Apache License 2.0 https://www.apache.org/licenses/LICENSE-2.0
 
 ## Extensions
 ### An open source collection of my extensions. I usually default to extending a native class for basic functionality and keep them here.
