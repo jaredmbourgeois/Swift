@@ -12,7 +12,7 @@ An open source collection of my extensions. I usually default to extending a nat
 ## Font.swift
 A simple, light-weight `UIFont` wrapper that creates a nicer (IMHO), unified API for iOS system fonts.
 - since every font (family) has different customization options, each font must be manually implemented and there will almost always be some redundancy in the type system
-- I've only implemented a few system fonts, but if anyone wants to use this and adapts it for more, it'd be greatly appreciated if you put in a PR :)
+- I've only implemented a few system fonts, but if anyone wants to use this and adapts it for more, it'd be greatly appreciated if you put in a pull request :)
 
 ## Format.swift
 UI formatting structures that uses unified size "classes" (eg `.small`, `.medium`, `.large`) of `Height` (eg button, label, row), `Inset`, `CornerRadius`, etc
