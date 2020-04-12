@@ -42,15 +42,27 @@ extension UILabel {
             self.textColor = textColor
             self.text = text
         }
+        
+        init(config: UILabel.Config, text: String) {
+            self.backgroundColor = config.backgroundColor
+            self.cornerRadius = config.cornerRadius
+            self.font = config.font
+            self.frame = config.frame
+            self.height = config.height
+            self.numberOfLines = config.numberOfLines
+            self.textAlignment = config.textAlignment
+            self.textColor = config.textColor
+            self.text = text
+        }
     }
     
     convenience init(_ config: UILabel.Config) {
         self.init(frame: config.frame)
         self.isUserInteractionEnabled = false
-        self.update(config)
+        self.configure(config)
     }
 
-    public func update(_ config: UILabel.Config) {
+    public func configure(_ config: UILabel.Config) {
         self.frame = config.frame
         self.translatesAutoresizingMaskIntoConstraints = self.frame != CGRect.zero
         self.adjustsFontSizeToFitWidth = config.numberOfLines > 0

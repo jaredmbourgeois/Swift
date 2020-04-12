@@ -142,7 +142,6 @@ public enum Font: String, CaseIterable {
                     Font.trebuchet.rawValue + "MS" + "-" + Font.Style.bold.rawValue
             }
         }
-        print(fontName)
         return fontName
     }
 }
@@ -179,6 +178,20 @@ extension Font {
             case Format.Size.large: self = Font.Size.large
             case Format.Size.extraLarge: self = Font.Size.extraLarge
             case Format.Size.title: self = Font.Size.title
+            }
+        }
+        
+        public var size: Format.Size {
+            switch self {
+            case .zero: return Format.Size.zero
+            case .extraSmall: return Format.Size.extraSmall
+            case .small: return Format.Size.small
+            case .mediumSmall: return Format.Size.mediumSmall
+            case .medium: return Format.Size.medium
+            case .mediumLarge: return Format.Size.mediumLarge
+            case .large: return Format.Size.large
+            case .extraLarge: return Format.Size.extraLarge
+            case .title: return Format.Size.title
             }
         }
     }

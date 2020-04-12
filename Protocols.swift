@@ -38,6 +38,16 @@ public protocol Identifiable {
     var id: String { get }
 }
 
+extension String {
+    public static func ids(from identifiables: [Identifiable]?, separator: String = ",") -> String {
+        if let identifiables = identifiables {
+            return separated(identifiables.map({ $0.id }), separator: separator)
+        } else {
+            return String.empty
+        }
+    }
+}
+
 public protocol IdentifiableProperties {
     func updateIDs(save: Bool) -> Void
 }

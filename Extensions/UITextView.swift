@@ -47,6 +47,23 @@ extension UITextView {
             self.textColor = textColor
             self.text = text
         }
+        
+        init(
+            config: UITextView.Config,
+            text: String = String.empty
+        ) {
+            self.backgroundColor = config.backgroundColor
+            self.cornerRadius = config.cornerRadius
+            self.font = config.font
+            self.frame = config.frame
+            self.height = config.height
+            self.isEditable = config.isEditable
+            self.isScrollEnabled = config.isScrollEnabled
+            self.isUserInteractionEnabled = config.isUserInteractionEnabled
+            self.textAlignment = config.textAlignment
+            self.textColor = config.textColor
+            self.text = text
+        }
     }
     
     convenience init(_ config: UITextView.Config) {

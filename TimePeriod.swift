@@ -168,6 +168,7 @@ enum TimePeriod: TimeInterval {
         var stringInitial: String { String(string.first!) }
         static let symbols: [String] = [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ]
         static let symbolsShort: [String] = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ]
+        static let symbolsInitial: [String] = [ "S", "M", "T", "W", "T", "F", "S" ]
     }
 
     enum Month: Int8 {

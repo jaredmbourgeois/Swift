@@ -26,8 +26,8 @@ extension UITextField {
                 imageView.widthAnchor.constraint(equalTo: wrapperView.heightAnchor, multiplier: 0.5),
                 imageView.heightAnchor.constraint(equalTo: wrapperView.heightAnchor, multiplier: 0.5)
             ])
-            self.leftView = wrapperView
-            self.leftViewMode = .always
+            leftView = wrapperView
+            leftViewMode = .always
         }
     }
     
@@ -66,19 +66,38 @@ extension UITextField {
             self.textColor = textColor
             self.text = text
         }
+        
+        init(
+            config: UITextField.Config,
+            placeholder: String = String.empty,
+            textColor: UIColor? = nil,
+            text: String = String.empty
+        ) {
+            self.backgroundColor = config.backgroundColor
+            self.cornerRadius = config.cornerRadius
+            self.font = config.font
+            self.frame = config.frame
+            self.height = config.height
+            self.isUserInteractionEnabled = config.isUserInteractionEnabled
+            self.placeholder = placeholder
+            self.textAlignment = config.textAlignment
+            self.textColor = textColor ?? config.textColor
+            self.text = text
+        }
     }
     
     convenience init(_ config: UITextField.Config) {
         self.init(frame: config.frame)
-        self.adjustsFontSizeToFitWidth = true
-        self.translatesAutoresizingMaskIntoConstraints = config.frame != CGRect.zero
-        self.backgroundColor = config.backgroundColor
-        self.isUserInteractionEnabled = config.isUserInteractionEnabled
-        self.font = config.font
-        self.attributedPlaceholder = NSAttributedString(string: config.placeholder, attributes: [NSAttributedString.Key.foregroundColor: config.textColor])
-        self.textAlignment = config.textAlignment
-        self.textColor = config.textColor
-        self.text = config.text
-        self.tintColor = config.textColor
+        adjustsFontSizeToFitWidth = true
+        translatesAutoresizingMaskIntoConstraints = config.frame != CGRect.zero
+        backgroundColor = config.backgroundColor
+        layer.cornerRadius = config.cornerRadius
+        isUserInteractionEnabled = config.isUserInteractionEnabled
+        font = config.font
+        attributedPlaceholder = NSAttributedString(string: config.placeholder, attributes: [NSAttributedString.Key.foregroundColor: config.textColor])
+        textAlignment = config.textAlignment
+        textColor = config.textColor
+        text = config.text
+        tintColor = config.textColor
     }
 }

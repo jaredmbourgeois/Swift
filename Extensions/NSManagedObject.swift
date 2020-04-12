@@ -16,7 +16,7 @@ extension NSManagedObject {
         value: Any? = nil,
         predicateConditions: [NSPredicate.Condition]? = nil
     ) -> T? {
-        return T.fetchObjects(context, key: key, value: value, predicateConditions: predicateConditions).first
+        self.fetchObjects(context, key: key, value: value, predicateConditions: predicateConditions).first
     }
  
     public static func fetchObjects<T: NSManagedObject>(
@@ -28,14 +28,14 @@ extension NSManagedObject {
         ascending: Bool = true,
         sortKeyAscendings: [(String, Bool)]? = nil
     ) -> [T] {
-        let request: NSFetchRequest = T.fetchRequest()
-        
+        let request = NSFetchRequest<T>(entityName: Self.self.description())
+
         var totalPredicateConditions: [NSPredicate.Condition] = []
         if let key = key, let value = value {
             totalPredicateConditions.append(NSPredicate.Condition(key: key, relation: .equal, value: value))
         }
         if let predicateConditions = predicateConditions {
-            totalPredicateConditions.append(contentsOf: predicateConditions)
+            totalPredicateConditions.append(predicateConditions)
         }
         if totalPredicateConditions.count > 0 {
             request.predicate = NSPredicate.from(conditions: totalPredicateConditions)
@@ -55,7 +55,8 @@ extension NSManagedObject {
             }
             request.sortDescriptors = sortDescriptors
         }
-        let result: [T]? = try? context.fetch(request) as? [T]
+
+        let result: [T]? = try? context.fetch(request)
         return result ?? []
     }
     

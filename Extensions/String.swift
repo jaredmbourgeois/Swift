@@ -11,13 +11,17 @@ import Foundation
 
 extension String {
     public static let empty: String = ""
+    public static let newLine = "\n"
+    public static let space = " "
+    public static let tab = "\t"
     public static let zero: String = "0"
-    public static func ids(from identifiables: [Identifiable]?, separator: String = ",") -> String {
-        var ids = String.empty
-        if let identifiables = identifiables {
-            for identifiable in identifiables { ids += "\(identifiable.id)\(separator)" }
-            if ids.count >= separator.count { ids.removeLast(separator.count) }
+    
+    public static func separated(_ values: [String]?, separator: String = ",") -> String {
+        var separatedValues = String.empty
+        if let values = values {
+            for value in values { separatedValues += "\(value)\(separator)"}
+            if separatedValues.count >= separator.count { separatedValues.removeLast(separator.count) }
         }
-        return ids
+        return separatedValues
     }
 }
