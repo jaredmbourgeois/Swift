@@ -25,6 +25,11 @@ extension CGFloat {
     public static func stringWith(value: CGFloat, decimals: Int, formatter: NumberFormatter = NumberFormatter()) -> String {
         Double.stringWith(value: Double(value), decimals: decimals, formatter: formatter)
     }
+    
+    public struct MaxMin {
+        let max: CGFloat
+        let min: CGFloat
+    }
 }
 
 extension Double {
@@ -52,6 +57,11 @@ extension Double {
         formatter.maximumFractionDigits = decimals
         return formatter.string(from: value as NSNumber) ?? value.description
     }
+    
+    public struct MaxMin {
+        let max: Double
+        let min: Double
+    }
 }
 
 extension Int {
@@ -61,6 +71,11 @@ extension Int {
         var value = self
         return Data(bytes: &value, count: MemoryLayout<Int>.size)
     }
+    
+    public struct MaxMin {
+        let max: Int
+        let min: Int
+    }
 }
 
 extension Int8 {
@@ -69,7 +84,12 @@ extension Int8 {
     public var data: Data {
         var value = self
         return Data(bytes: &value, count: MemoryLayout<Int8>.size)
-    }    
+    }
+    
+    public struct MaxMin {
+        let max: Int8
+        let min: Int8
+    }
 }
 
 extension Int16 {
@@ -78,6 +98,11 @@ extension Int16 {
     public var data: Data {
         var value = self
         return Data(bytes: &value, count: MemoryLayout<Int16>.size)
+    }
+    
+    public struct MaxMin {
+        let max: Int16
+        let min: Int16
     }
 }
 
@@ -88,6 +113,11 @@ extension Int32 {
         var value = self
         return Data(bytes: &value, count: MemoryLayout<Int32>.size)
     }
+    
+    public struct MaxMin {
+        let max: Int32
+        let min: Int32
+    }
 }
 
 extension Int64 {
@@ -96,6 +126,11 @@ extension Int64 {
     public var data: Data {
         var value = self
         return Data(bytes: &value, count: MemoryLayout<Int64>.size)
+    }
+    
+    public struct MaxMin {
+        let max: Int64
+        let min: Int64
     }
 }
 
@@ -117,6 +152,11 @@ extension UInt {
         var value = self
         return Data(bytes: &value, count: MemoryLayout<UInt>.size)
     }
+    
+    public struct MaxMin {
+        let max: UInt
+        let min: UInt
+    }
 }
 
 extension UInt8 {
@@ -125,6 +165,11 @@ extension UInt8 {
     public var data: Data {
         var value = self
         return Data(bytes: &value, count: MemoryLayout<UInt8>.size)
+    }
+    
+    public struct MaxMin {
+        let max: UInt8
+        let min: UInt8
     }
 }
 
@@ -135,6 +180,10 @@ extension UInt16 {
         var value = self
         return Data(bytes: &value, count: MemoryLayout<UInt16>.size)
     }
+    public struct MaxMin {
+        let max: UInt16
+        let min: UInt16
+    }
 }
 
 extension UInt32 {
@@ -144,6 +193,11 @@ extension UInt32 {
         var value = self
         return Data(bytes: &value, count: MemoryLayout<UInt32>.size)
     }
+    
+    public struct MaxMin {
+        let max: UInt32
+        let min: UInt32
+    }
 }
 
 extension UInt64 {
@@ -152,5 +206,10 @@ extension UInt64 {
     public var data: Data {
         var value = self
         return Data(bytes: &value, count: MemoryLayout<UInt64>.size)
+    }
+    
+    public struct MaxMin {
+        let max: UInt64
+        let min: UInt64
     }
 }

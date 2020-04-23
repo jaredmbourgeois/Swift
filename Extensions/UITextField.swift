@@ -39,6 +39,7 @@ extension UITextField {
         let height: CGFloat
         let isUserInteractionEnabled: Bool
         let placeholder: String
+        let placeholderColor: UIColor
         let textAlignment: NSTextAlignment
         let textColor: UIColor
         let text: String
@@ -51,6 +52,7 @@ extension UITextField {
             height: CGFloat = .zero,
             isUserInteractionEnabled: Bool = false,
             placeholder: String = String.empty,
+            placeholderColor: UIColor? = nil,
             textAlignment: NSTextAlignment = .left,
             textColor: UIColor,
             text: String = String.empty
@@ -62,6 +64,7 @@ extension UITextField {
             self.height = height
             self.isUserInteractionEnabled = isUserInteractionEnabled
             self.placeholder = placeholder
+            self.placeholderColor = placeholderColor ?? textColor
             self.textAlignment = textAlignment
             self.textColor = textColor
             self.text = text
@@ -70,6 +73,7 @@ extension UITextField {
         init(
             config: UITextField.Config,
             placeholder: String = String.empty,
+            placeholderColor: UIColor? = nil,
             textColor: UIColor? = nil,
             text: String = String.empty
         ) {
@@ -80,6 +84,7 @@ extension UITextField {
             self.height = config.height
             self.isUserInteractionEnabled = config.isUserInteractionEnabled
             self.placeholder = placeholder
+            self.placeholderColor = placeholderColor ?? config.textColor
             self.textAlignment = config.textAlignment
             self.textColor = textColor ?? config.textColor
             self.text = text
@@ -94,7 +99,7 @@ extension UITextField {
         layer.cornerRadius = config.cornerRadius
         isUserInteractionEnabled = config.isUserInteractionEnabled
         font = config.font
-        attributedPlaceholder = NSAttributedString(string: config.placeholder, attributes: [NSAttributedString.Key.foregroundColor: config.textColor])
+        attributedPlaceholder = NSAttributedString(string: config.placeholder, attributes: [NSAttributedString.Key.foregroundColor: config.placeholderColor])
         textAlignment = config.textAlignment
         textColor = config.textColor
         text = config.text

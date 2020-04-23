@@ -13,6 +13,11 @@ extension Date {
     public static var zero: Date { Date(timeIntervalSince1970: 0) }
     public static var basicFormat: String { "yyyyMMdd-HHmmss" }
     
+    public struct MaxMin {
+        let max: Date
+        let min: Date
+    }
+    
     init(_ date: NSDate) {
         self = Date(timeIntervalSince1970: date.timeIntervalSince1970)
     }
@@ -31,6 +36,10 @@ extension Date {
     
     public static func milliseconds(date: Date? = nil) -> Int64 {
         Int64((((date ?? Date()).timeIntervalSince1970 * 1000).rounded()))
+    }
+    
+    public func midnight(calendar: Calendar = Calendar.current) -> Date {
+        calendar.startOfDay(for: self)
     }
 
     public func noon(calendar: Calendar = Calendar.current) -> Date {

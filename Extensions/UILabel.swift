@@ -43,16 +43,27 @@ extension UILabel {
             self.text = text
         }
         
-        init(config: UILabel.Config, text: String) {
-            self.backgroundColor = config.backgroundColor
-            self.cornerRadius = config.cornerRadius
-            self.font = config.font
-            self.frame = config.frame
-            self.height = config.height
-            self.numberOfLines = config.numberOfLines
-            self.textAlignment = config.textAlignment
-            self.textColor = config.textColor
-            self.text = text
+        init(
+            config: UILabel.Config,
+            backgroundColor: UIColor? = nil,
+            cornerRadius: CGFloat? = nil,
+            font: UIFont? = nil,
+            frame: CGRect? = nil,
+            height: CGFloat? = nil,
+            numberOfLines: Int? = nil,
+            textAlignment: NSTextAlignment? = nil,
+            textColor: UIColor? = nil,
+            text: String? = nil
+        ) {
+            self.backgroundColor = backgroundColor ?? config.backgroundColor
+            self.cornerRadius = cornerRadius ?? config.cornerRadius
+            self.font = font ?? config.font
+            self.frame = frame ?? config.frame
+            self.height = height ?? config.height
+            self.numberOfLines = numberOfLines ?? config.numberOfLines
+            self.textAlignment = textAlignment ?? config.textAlignment
+            self.textColor = textColor ?? config.textColor
+            self.text = text ?? config.text
         }
     }
     
@@ -74,5 +85,16 @@ extension UILabel {
         self.textAlignment = config.textAlignment
         self.textColor = config.textColor
         self.text = config.text
+    }
+    
+    public func sizeToFitWidth(preserveCenter: Bool = false) {
+        let oldFrame = frame
+        sizeToFit()
+        frame = CGRect(
+            x: preserveCenter ? oldFrame.center.x - 0.5 * frame.size.width : oldFrame.origin.x,
+            y: oldFrame.origin.y,
+            width: frame.size.width,
+            height: oldFrame.size.height
+        )
     }
 }
