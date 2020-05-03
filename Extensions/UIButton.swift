@@ -45,6 +45,29 @@ extension UIButton {
         
         init(
             config: UIButton.Config,
+            backgroundColor: UIColor? = nil,
+            cornerRadius: CGFloat? = nil,
+            frame: CGRect? = nil,
+            height: CGFloat? = nil,
+            showsTouchWhenHighlighted: Bool? = nil,
+            labelConfig: UILabel.Config? = nil,
+            target: Any? = nil,
+            selector: Selector? = nil,
+            controlEvent: UIControl.Event? = nil
+        ) {
+            self.backgroundColor = backgroundColor ?? config.backgroundColor
+            self.cornerRadius = cornerRadius ?? config.cornerRadius
+            self.frame = frame ?? config.frame
+            self.height = height ?? config.height
+            self.showsTouchWhenHighlighted = showsTouchWhenHighlighted ?? config.showsTouchWhenHighlighted
+            self.labelConfig = labelConfig ?? config.labelConfig
+            self.target = target ?? config.target
+            self.selector = selector ?? config.selector
+            self.controlEvent = controlEvent ?? config.controlEvent
+        }
+        
+        init(
+            config: UIButton.Config,
             target: Any? = nil,
             selector: Selector? = nil,
             controlEvent: UIControl.Event = .touchUpInside

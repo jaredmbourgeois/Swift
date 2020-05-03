@@ -34,6 +34,7 @@ extension UITextField {
     public struct Config {
         let backgroundColor: UIColor
         let cornerRadius: CGFloat
+        let delegate: UITextFieldDelegate?
         let font: UIFont
         let frame: CGRect
         let height: CGFloat
@@ -47,6 +48,7 @@ extension UITextField {
         init(
             backgroundColor: UIColor = .clear,
             cornerRadius: CGFloat = 0,
+            delegate: UITextFieldDelegate? = nil,
             font: UIFont,
             frame: CGRect = .zero,
             height: CGFloat = .zero,
@@ -59,6 +61,7 @@ extension UITextField {
         ) {
             self.backgroundColor = backgroundColor
             self.cornerRadius = cornerRadius
+            self.delegate = delegate
             self.font = font
             self.frame = frame
             self.height = height
@@ -97,6 +100,7 @@ extension UITextField {
         translatesAutoresizingMaskIntoConstraints = config.frame != CGRect.zero
         backgroundColor = config.backgroundColor
         layer.cornerRadius = config.cornerRadius
+        delegate = config.delegate
         isUserInteractionEnabled = config.isUserInteractionEnabled
         font = config.font
         attributedPlaceholder = NSAttributedString(string: config.placeholder, attributes: [NSAttributedString.Key.foregroundColor: config.placeholderColor])
