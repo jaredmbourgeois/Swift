@@ -82,6 +82,7 @@ extension UITextField {
         ) {
             self.backgroundColor = config.backgroundColor
             self.cornerRadius = config.cornerRadius
+            self.delegate = config.delegate
             self.font = config.font
             self.frame = config.frame
             self.height = config.height

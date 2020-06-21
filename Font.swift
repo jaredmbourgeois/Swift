@@ -18,7 +18,7 @@ public enum Font: String, CaseIterable {
     
     init(_ string: String? = nil) {
         let string: String = string ?? String.empty
-        var matchingFonts: [Font] = Font.allCases.filter({
+        let matchingFonts: [Font] = Font.allCases.filter({
             string.lowercased().contains($0.rawValue.lowercased())
         })
         self = matchingFonts.first ?? .helveticaNeue

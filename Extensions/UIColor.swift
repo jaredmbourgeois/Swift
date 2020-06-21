@@ -16,7 +16,18 @@ extension UIColor {
             let saturation: CGFloat
             let brightness: CGFloat
             let alpha: CGFloat
+            
+            init(hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, alpha: CGFloat = 0) {
+                self.hue = hue
+                self.saturation = saturation
+                self.brightness = brightness
+                self.alpha = alpha
+            }
         }
+    }
+    
+    convenience init(_ componentsHSBA: UIColor.Components.HSBA) {
+        self.init(hue: componentsHSBA.hue, saturation: componentsHSBA.saturation, brightness: componentsHSBA.brightness, alpha: componentsHSBA.alpha)
     }
     
     public enum StackOverflow {
