@@ -91,7 +91,7 @@ extension UILabel {
         let oldFrame = frame
         sizeToFit()
         frame = CGRect(
-            x: preserveCenter ? oldFrame.center.x - 0.5 * frame.size.width : oldFrame.origin.x,
+            x: preserveCenter ? oldFrame.centerX - 0.5 * frame.size.width : oldFrame.origin.x,
             y: oldFrame.origin.y,
             width: frame.size.width,
             height: oldFrame.size.height

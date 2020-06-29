@@ -57,7 +57,7 @@ protocol Updatable {
 }
 
 public protocol Colorable {
-    func update(mainColor: UIColor?, textColor: UIColor?) -> Void
+    func updateColor(_ color: UIColor?) -> Void
 }
 
 public protocol Dismissable {

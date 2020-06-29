@@ -10,5 +10,14 @@
 import UIKit
 
 extension CGRect {
-    public var center: CGPoint { CGPoint(x: self.origin.x + 0.5 * self.size.width, y: self.origin.y + 0.5 * self.size.height) }
+    public var center: CGPoint { CGPoint(x: centerX, y: centerY) }
+    public var centerX: CGFloat { origin.x + 0.5 * size.width }
+    public var centerY: CGFloat { origin.y + 0.5 * size.height }
+    public var centerXMaxY: CGPoint { CGPoint(x: centerX, y: maxY) }
+    public var centerXOriginY: CGPoint { CGPoint(x: centerX, y: origin.y) }
+    public var centerYMaxX: CGPoint { CGPoint(x: maxX, y: centerY) }
+    public var centerYOriginX: CGPoint { CGPoint(x: origin.x, y: centerY) }
+    public var max: CGPoint { CGPoint(x: maxX, y: maxY) }
+    public var maxXOriginY: CGPoint { CGPoint(x: maxX, y: origin.y) }
+    public var maxYOriginX: CGPoint { CGPoint(x: origin.x, y: maxY) }
 }
