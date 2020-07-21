@@ -10,8 +10,9 @@
 import Foundation
 
 extension Date {
-    public static var zero: Date { Date(timeIntervalSince1970: 0) }
-    public static var basicFormat: String { "yyyyMMdd-HHmmss" }
+    public static let zero: Date = Date(timeIntervalSince1970: 0)
+    public static let max: Date = Date(timeIntervalSince1970: Double.greatestFiniteMagnitude)
+    public static let basicFormat: String = "yyyyMMdd-HHmmss"
     
     public struct MaxMin {
         let max: Date
@@ -21,6 +22,28 @@ extension Date {
     init(_ date: NSDate) {
         self = Date(timeIntervalSince1970: date.timeIntervalSince1970)
     }
+    
+    public static func dateRangeThisMonth(date: Date, calendar: Calendar = Calendar.current) -> Range<Int> {
+        calendar.range(of: .day, in: .month, for: date) ?? Range(1...28)
+    }
+    
+    public static func firstDateThisMonth(date: Date, calendar: Calendar = Calendar.current) -> Date {
+        let dateComponents = calendar.dateComponents([.month, .day], from: date)
+        let dayInMonth = dateComponents.day ?? 1
+        guard let firstDate = calendar.date(byAdding: .day, value: dayInMonth - 1, to: date)
+        else { return date }
+        return firstDate.midnight(calendar: calendar)
+    }
+    
+    public static func firstDateNextMonth(date: Date, monthsFromFirstDate: Int = 1, calendar: Calendar = Calendar.current) -> Date {
+        let firstDate = firstDateThisMonth(date: date, calendar: calendar)
+        if firstDate != date {
+            guard let nextDate = calendar.date(byAdding: .month, value: monthsFromFirstDate, to: firstDate)
+            else { return date }
+            return nextDate.midnight(calendar: calendar)
+        } else { return date }
+    }
+    
     
     public static func localDate(date: Date, format: String?, dateFormatter: DateFormatter = DateFormatter()) -> String {
         dateFormatter.dateFormat = format ?? Date.basicFormat

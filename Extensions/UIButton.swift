@@ -86,25 +86,27 @@ extension UIButton {
     
     convenience init(_ config: UIButton.Config) {
         self.init(frame: config.frame)
-        self.isUserInteractionEnabled = true
-        self.contentMode = .scaleToFill
-        self.configure(config)
+        isUserInteractionEnabled = true
+        contentMode = .scaleToFill
+        configure(config)
     }
     
     public func configure(_ config:  UIButton.Config) {
-        if self.frame != config.frame { self.frame = config.frame }
-        if self.backgroundColor != config.backgroundColor { self.backgroundColor = config.backgroundColor }
-        if self.clipsToBounds != (config.cornerRadius > 0) { self.clipsToBounds = config.cornerRadius > 0 }
-        if self.layer.cornerRadius != config.cornerRadius { self.layer.cornerRadius = config.cornerRadius }
-        if self.showsTouchWhenHighlighted != config.showsTouchWhenHighlighted { self.showsTouchWhenHighlighted = config.showsTouchWhenHighlighted }
-        if self.translatesAutoresizingMaskIntoConstraints != (config.frame != CGRect.zero) { self.translatesAutoresizingMaskIntoConstraints = (config.frame != CGRect.zero) }
-        self.configureTitleLabel(config.labelConfig)
+        frame = config.frame
+        backgroundColor = config.backgroundColor
+        clipsToBounds = config.cornerRadius > 0
+        layer.cornerRadius = config.cornerRadius
+        showsTouchWhenHighlighted = config.showsTouchWhenHighlighted
+        translatesAutoresizingMaskIntoConstraints = (config.frame != CGRect.zero)
+
+        configureTitleLabel(config.labelConfig)
         if let target = config.target, let selector = config.selector {
-            self.addTarget(target, action: selector, for: config.controlEvent)
+            addTarget(target, action: selector, for: config.controlEvent)
         }
     }
     
     func configureTitleLabel(_ labelConfig: UILabel.Config) {
+        titleLabel?.configure(labelConfig)
         setTitle(labelConfig.text, for: .normal)
         setTitleColor(labelConfig.textColor, for: .normal)
         titleLabel?.adjustsFontSizeToFitWidth = labelConfig.numberOfLines > 0

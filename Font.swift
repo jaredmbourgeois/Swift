@@ -147,7 +147,7 @@ public enum Font: String, CaseIterable {
 }
 
 extension Font {
-    public struct FontConfig: Equatable {
+    public struct FontConfig: Hashable {
         let font: Font
         let size: Format.Size
         let style: Style

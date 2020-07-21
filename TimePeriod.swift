@@ -73,24 +73,32 @@ enum TimePeriod: TimeInterval {
         }
     }
     
-    func string(singular: Bool = false, capitalized: Bool = false) -> String {
-        var string: String = ""
-        switch self {
-        case .zero: string = capitalized ? "Zero" : "zero"
-        case .nanosecond: string = "ns"
-        case .microsecond: string = "us"
-        case .millisecond: string = "ms"
-        case .second: string = capitalized ? "Second" : "second"
-        case .minute: string = capitalized ? "Minute" : "minute"
-        case .dayQuarter: string = capitalized ? "1/4 Day" : "1/4 day"
-        case .dayHalf: string = capitalized ? "1/2 Day" : "1/2 day"
-        case .hour: string = capitalized ? "Hour" : "hour"
-        case .day: string = capitalized ? "Day" : "day"
-        case .week: string = capitalized ? "Week" : "week"
-        case .month: string = capitalized ? "Month" : "month"
-        case .year: string = capitalized ? "Year" : "year"
+    func string(singular: Bool = false, capitalized: Bool = false, uppercase: Bool = false) -> String {
+        var string: String = { switch self {
+        case .zero: return "zero"
+        case .nanosecond: return "ns"
+        case .microsecond: return "us"
+        case .millisecond: return "ms"
+        case .second: return "second"
+        case .minute: return "minute"
+        case .dayQuarter: return "1/4 day"
+        case .dayHalf: return "1/2 day"
+        case .hour: return "hour"
+        case .day: return "day"
+        case .week: return "week"
+        case .month: return "month"
+        case .year: return "year"
+        } }()
+        let isNotAbbreviation = self != .nanosecond && self != .microsecond && self != .millisecond
+        if isNotAbbreviation {
+            if !singular {
+                if self == .zero { string = string + "es" }
+                else { string = string + "s" }
+            }
+            if capitalized { string = string.localizedCapitalized }
+            if uppercase { string = string.localizedUppercase }
         }
-        return singular == true ? string : string + (self == .zero ? "es" : "s")
+        return string
     }
     
     struct Day {
@@ -109,24 +117,36 @@ enum TimePeriod: TimeInterval {
                 calendarComponents: [ .year, .month, .weekday, .day, .hour, .minute, .second, .nanosecond ]
             )
             self.date = date
-            self.second = Second(dateComponents.second!, nanoseconds: dateComponents.nanosecond!)
-            self.minute = Minute(dateComponents.minute!)
-            self.hour = Hour(dateComponents.hour!)
-            self.dayOfMonth = DayOfMonth(dateComponents.day!)
-            self.weekday = Weekday(rawValue: Int8(dateComponents.weekday!))!
-            self.month = Month(rawValue: Int8(dateComponents.month!))!
-            self.year = Year(dateComponents.year!)
+            second = Second(dateComponents.second!, nanoseconds: dateComponents.nanosecond!)
+            minute = Minute(dateComponents.minute!)
+            hour = Hour(dateComponents.hour!)
+            dayOfMonth = DayOfMonth(dateComponents.day!)
+            weekday = Weekday(dayOfWeek: dateComponents.weekday!, firstWeekday: calendar.firstWeekday)
+            month = Month(rawValue: Int8(dateComponents.month!))!
+            year = Year(dateComponents.year!)
         }
     }
     
     struct Second {
         let value: Int
-        let nano: TimeInterval
-        var micro: TimeInterval { nano / 1000 }
-        var milli: TimeInterval { micro / 1000 }
+        let valueNanoseconds: Int
+        let deltaNanoseconds: Int
+        let deltaMicroseconds: Int
+        let deltaMilliseconds: Int
+
         init(_ value: Int, nanoseconds: Int) {
-            self.value = Int(value)
-            self.nano = TimeInterval(nanoseconds)
+            self.value = value
+            self.valueNanoseconds = nanoseconds
+            
+            let millisecondsNanosecondsRemainder = nanoseconds % 1_000_000
+            let nanosecondsInMilliseconds = nanoseconds - millisecondsNanosecondsRemainder
+            let nanosecondsAfterDeltaMilliseconds = nanoseconds - nanosecondsInMilliseconds
+            let microsecondsNanosecondsRemainder = nanosecondsAfterDeltaMilliseconds % 1_000
+            let nanosecondsInMicroseconds = nanosecondsAfterDeltaMilliseconds - microsecondsNanosecondsRemainder
+            
+            deltaMilliseconds = Int((Double(nanosecondsInMilliseconds) / Double(1_000_000)).rounded())
+            deltaMicroseconds = Int((Double(nanosecondsInMicroseconds) / Double(1_000)).rounded())
+            deltaNanoseconds = nanoseconds - nanosecondsInMicroseconds - nanosecondsInMilliseconds
         }
     }
     
@@ -137,10 +157,19 @@ enum TimePeriod: TimeInterval {
     
     struct Hour {
         let value24: Int
-        var value12: Int { value24 > 12 ? value24 - 12 : value24 }
-        var isAM: Bool { value24 >= 12 }
-        var isAMSymbol: String { isAM ? "AM" : "PM" }
-        init(_ value24: Int) { self.value24 = value24 }
+        let value12: Int
+        let isAM: Bool
+        init(_ value24: Int) {
+            self.value24 = value24
+            self.value12 = value24 > 12 ? value24 - 12 : value24
+            self.isAM = value24 < 12
+        }
+        func isAMSymbol(lowercase: Bool = false) -> String {
+            lowercase ?
+                isAM ? "am" : "pm" :
+                isAM ? "AM" : "PM"
+        }
+
     }
     
     struct DayOfMonth {
@@ -148,29 +177,81 @@ enum TimePeriod: TimeInterval {
         init(_ value: Int) { self.value = Int8(value) }
     }
     
-    enum Weekday: Int8 {
-        case sunday = 1
-        case monday = 2
-        case tuesday = 3
-        case wednesday = 4
-        case thursday = 5
-        case friday = 6
-        case saturday = 7
+    struct Week {
+        let noonOfStartDay: TimePeriod.Day
+        let noonOfEndDay: TimePeriod.Day
+    }
+    
+    enum Weekday {
+        case sunday(firstWeekday: Int8)
+        case monday(firstWeekday: Int8)
+        case tuesday(firstWeekday: Int8)
+        case wednesday(firstWeekday: Int8)
+        case thursday(firstWeekday: Int8)
+        case friday(firstWeekday: Int8)
+        case saturday(firstWeekday: Int8)
         
-        var index: Int { Int(self.rawValue - 1) }
-        var int: Int { Int(self.rawValue) }
-        var int8: Int8 { self.rawValue }
-        var int16: Int16 { Int16(self.rawValue) }
-        var int32: Int32 { Int32(self.rawValue) }
-        var int64: Int64 { Int64(self.rawValue) }
-        var string: String { Weekday.symbols[self.index] }
-        var stringShort: String { Weekday.symbolsShort[self.index] }
-        var stringInitial: String { String(string.first!) }
         static let symbols: [String] = [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ]
         static let symbolsShort: [String] = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ]
         static let symbolsInitial: [String] = [ "S", "M", "T", "W", "T", "F", "S" ]
+        
+        init(dayOfWeek: Int, firstWeekday: Int) {
+            let value = dayOfWeek < 0 ? 0 : dayOfWeek > 7 ? 7 : dayOfWeek
+            self = { switch value {
+            case 1: return .sunday(firstWeekday: Int8(firstWeekday))
+            case 2: return .monday(firstWeekday: Int8(firstWeekday))
+            case 3: return .tuesday(firstWeekday: Int8(firstWeekday))
+            case 4: return .wednesday(firstWeekday: Int8(firstWeekday))
+            case 5: return .thursday(firstWeekday: Int8(firstWeekday))
+            case 6: return .friday(firstWeekday: Int8(firstWeekday))
+            case 7: return .saturday(firstWeekday: Int8(firstWeekday))
+            default: return .sunday(firstWeekday: Int8(firstWeekday))
+            } }()
+        }
+        func weekdayValue() -> Int {
+            switch self {
+            case .sunday(let firstWeekday): return Int(1 + (firstWeekday - 1))
+            case .monday(let firstWeekday): return Int(2 + (firstWeekday - 1))
+            case .tuesday(let firstWeekday): return Int(3 + (firstWeekday - 1))
+            case .wednesday(let firstWeekday): return Int(4 + (firstWeekday - 1))
+            case .thursday(let firstWeekday): return Int(5 + (firstWeekday - 1))
+            case .friday(let firstWeekday): return Int(6 + (firstWeekday - 1))
+            case .saturday(let firstWeekday): return Int(7 + (firstWeekday - 1))
+            }
+        }
+        func weekdayIndex() -> Int {
+            weekdayValue() - 1
+        }
+        func weekdayIndexDefault() -> Int {
+            switch self {
+            case .sunday: return 1
+            case .monday: return 2
+            case .tuesday: return 3
+            case .wednesday: return 4
+            case .thursday: return 5
+            case .friday: return 6
+            case .saturday: return 7
+            }
+        }
+        func string(
+            short: Bool = false,
+            initial: Bool = false,
+            uppercase: Bool = false,
+            lowercase: Bool = false
+        ) -> String {
+            var string: String
+            
+            if initial { string = Weekday.symbolsInitial[weekdayIndexDefault()] }
+            else if short { string = Weekday.symbolsShort[weekdayIndexDefault()] }
+            else { string = Weekday.symbols[weekdayIndexDefault()] }
+            
+            if uppercase { string = string.localizedUppercase }
+            if lowercase { string = string.localizedLowercase }
+            
+            return string
+        }
     }
-
+    
     enum Month: Int8 {
         case january = 1
         case february = 2
@@ -191,11 +272,26 @@ enum TimePeriod: TimeInterval {
         var int16: Int16 { Int16(self.rawValue) }
         var int32: Int32 { Int32(self.rawValue) }
         var int64: Int64 { Int64(self.rawValue) }
-        var string: String { Month.symbols[self.index] }
-        var stringShort: String { Month.symbolsShort[self.index] }
-        var stringInitial: String { String(string.first!) }
+        func string(
+            short: Bool = false,
+            initial: Bool = false,
+            uppercase: Bool = false,
+            lowercase: Bool = false
+        ) -> String {
+            var string: String
+            
+            if initial { string = Month.symbolsInitial[index] }
+            else if short { string = Month.symbolsShort[index] }
+            else { string = Month.symbols[index] }
+            
+            if uppercase { string = string.localizedUppercase }
+            if lowercase { string = string.localizedLowercase }
+            
+            return string
+        }
         static let symbols: [String] = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
         static let symbolsShort: [String] = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ]
+        static let symbolsInitial: [String] = [ "J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D" ]
     }
 
     struct Year {

@@ -10,7 +10,12 @@
 import UIKit
 
 extension CGPath {
-    public static func rounded(rect: CGRect, cornerRadius: CGFloat = Format.CornerRadius.medium.rawValue, lineWidth: CGFloat = CGFloat.zero, position: Format.Position = .isolated) -> CGPath {
+    public static func rounded(
+        rect: CGRect,
+        cornerRadius: CGFloat = Format.CornerRadius.medium.rawValue,
+        lineWidth: CGFloat = CGFloat.zero,
+        position: Format.Position = .isolated
+    ) -> CGPath {
         let mutablePath: CGMutablePath = CGMutablePath()
         let margin: CGFloat = 0.5*lineWidth
         let topLeft: CGPoint = CGPoint(x: rect.minX + margin, y: rect.minY + margin)
@@ -78,7 +83,7 @@ extension CGPath {
         return mutablePath.copy()!
     }
     
-    public static func checkmark(rect: CGRect) -> CGPath {
+    public static func check(rect: CGRect) -> CGPath {
         let x: (left: CGFloat, middle: CGFloat, right: CGFloat) = (left: (4.5/32.0), middle: (12.5/32.0), right: (26.0/32.0))
         let y: (top: CGFloat, middle: CGFloat, bottom: CGFloat) = (top: (7.0/32.0), middle: (15.5/32.0), bottom: (23.0/32.0))
 
@@ -87,5 +92,5 @@ extension CGPath {
         mutablePath.addLine(to: CGPoint(x: rect.origin.x + x.middle * rect.size.width, y: rect.origin.y + y.bottom * rect.size.height))
         mutablePath.addLine(to: CGPoint(x: rect.origin.x + x.right * rect.size.width, y: rect.origin.y + y.top * rect.size.height))
         return mutablePath.copy()!
-    }
+    }    
 }

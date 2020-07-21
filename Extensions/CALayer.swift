@@ -32,4 +32,49 @@ extension CALayer {
         layer.shadowOffset = offset ?? CGSize(width: 0.5, height: 0.5)
         layer.shadowOpacity = opacity ?? Float(1.0/3.0)
     }
+    
+//    public func rotate(
+//        angle: CGFloat,
+//        rotationPoint: CGPoint? = nil,
+//        animationTime: TimeInterval = 0.0
+//    ) {
+//        let rotationPoint = rotationPoint ?? contentsRect.center
+//        let center = contentsRect.center
+//        var transform = CATransform3DIdentity
+//        transform = CATransform3DTranslate(
+//            transform,
+//            rotationPoint.x-center.x,
+//            rotationPoint.y-center.y,
+//            0.0
+//        )
+//        transform = CATransform3DRotate(
+//            transform,
+//            angle,
+//            0.0,
+//            0.0,
+//            -1.0
+//        )
+//        transform = CATransform3DTranslate(
+//            transform,
+//            center.x - rotationPoint.x,
+//            center.y - rotationPoint.y,
+//            0.0
+//        )
+//        
+//        print("***** CALayer.rotate(")
+//        print("***** \tangle: \(String(format: "%.2f", angle))")
+//        print("***** \trotationPoint: \(String(format: "CGPoint(x: \(String(format: "%.0f", rotationPoint.x)), y: \(String(format: "%.0f", rotationPoint.y)))", animationTime)))")
+//        print("***** \tanimationTime: \(String(format: "%.2f", animationTime))")
+//        print("***** ) {")
+//        print("***** \tcurrentTransform = \(self.transform.self)")
+//        print("***** \tnewTransform = \(transform.self)")
+//        print("***** }")
+//
+//
+//        if animationTime > 0 {
+//            UIView.animate(withDuration: animationTime) { self.transform = transform }
+//        } else {
+//            self.transform = transform
+//        }
+//    }
 }

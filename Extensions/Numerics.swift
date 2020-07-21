@@ -33,6 +33,14 @@ extension CGFloat {
 }
 
 extension Double {
+    init(_ string: String?, defaultValue: Double = 0) {
+        if let doubleString = Double(string ?? String.empty) {
+            self = doubleString
+        } else {
+            self = defaultValue
+        }
+    }
+    
     public static var zero: Double { Double(0) }
     public var string: String { "\(self)" }
     public var data: Data {

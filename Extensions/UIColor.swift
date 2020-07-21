@@ -11,7 +11,7 @@ import UIKit
 
 extension UIColor {
     public enum Components {
-        public struct HSBA: Equatable {
+        public struct HSBA: Hashable {
             let hue: CGFloat
             let saturation: CGFloat
             let brightness: CGFloat

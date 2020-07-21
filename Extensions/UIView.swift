@@ -10,24 +10,24 @@
 import UIKit
 
 extension UIView {
-    public func constrainToSuperview() -> Void {
-        constrainToSuperview(insetX: 0, insetY: 0)
+    
+    public func constraintsForSuperView(insetX: CGFloat = 0, insetY: CGFloat = 0) -> [NSLayoutConstraint] {
+        guard let superview = superview else { return [] }
+        return [
+            topAnchor.constraint(equalTo: superview.topAnchor, constant: insetY),
+            bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: -insetY),
+            leftAnchor.constraint(equalTo: superview.leftAnchor, constant: insetX),
+            leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: insetX),
+            rightAnchor.constraint(equalTo: superview.rightAnchor, constant: -insetX),
+            trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: -insetX),
+            widthAnchor.constraint(equalTo: superview.widthAnchor, constant: -2 * insetX),
+            heightAnchor.constraint(equalTo: superview.heightAnchor, constant: -2 * insetY)
+        ]
     }
     
-    public func constrainToSuperview(insetX: CGFloat?, insetY: CGFloat?) -> Void {
-        if let superView: UIView = superview {
-            translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                topAnchor.constraint(equalTo: superView.topAnchor, constant: insetY ?? 0),
-                bottomAnchor.constraint(equalTo: superView.bottomAnchor, constant: -(insetY ?? 0)),
-                leftAnchor.constraint(equalTo: superView.leftAnchor, constant: insetX ?? 0),
-                leadingAnchor.constraint(equalTo: superView.leadingAnchor, constant: insetX ?? 0),
-                rightAnchor.constraint(equalTo: superView.rightAnchor, constant: -(insetX ?? 0)),
-                trailingAnchor.constraint(equalTo: superView.trailingAnchor, constant: -(insetX ?? 0)),
-                widthAnchor.constraint(equalTo: superView.widthAnchor, constant: -2 * (insetX ?? 0)),
-                heightAnchor.constraint(equalTo: superView.heightAnchor, constant: -2 * (insetY ?? 0))
-            ])
-        }
+    public func constrainToSuperview(insetX: CGFloat = 0, insetY: CGFloat = 0) -> Void {
+        translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(constraintsForSuperView(insetX: insetX, insetY: insetY))
     }
     
     public func destroySubviews() -> Void {
