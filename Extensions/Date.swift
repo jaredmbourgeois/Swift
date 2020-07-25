@@ -23,8 +23,8 @@ extension Date {
         self = Date(timeIntervalSince1970: date.timeIntervalSince1970)
     }
     
-    public static func dateRangeThisMonth(date: Date, calendar: Calendar = Calendar.current) -> Range<Int> {
-        calendar.range(of: .day, in: .month, for: date) ?? Range(1...28)
+    public static func daysInMonth(date: Date, calendar: Calendar = Calendar.current) -> Int {
+        calendar.range(of: .day, in: .month, for: date)!.upperBound - 1
     }
     
     public static func firstDateThisMonth(date: Date, calendar: Calendar = Calendar.current) -> Date {
@@ -35,13 +35,21 @@ extension Date {
         return firstDate.midnight(calendar: calendar)
     }
     
+    public static func lastDateThisMonth(date: Date, calendar: Calendar = Calendar.current) -> Date {
+        let dateComponents = calendar.dateComponents([.month, .day], from: date)
+        guard
+            let dateRange = calendar.range(of: .day, in: .month, for: date),
+            let dayInMonth = dateComponents.day,
+            let dateMax = calendar.date(byAdding: .day, value: -((dateRange.upperBound - 1) - dayInMonth), to: date)
+        else { return date }
+        return dateMax
+    }
+    
     public static func firstDateNextMonth(date: Date, monthsFromFirstDate: Int = 1, calendar: Calendar = Calendar.current) -> Date {
-        let firstDate = firstDateThisMonth(date: date, calendar: calendar)
-        if firstDate != date {
-            guard let nextDate = calendar.date(byAdding: .month, value: monthsFromFirstDate, to: firstDate)
-            else { return date }
-            return nextDate.midnight(calendar: calendar)
-        } else { return date }
+        let lastDate = lastDateThisMonth(date: date, calendar: calendar)
+        if lastDate != date {
+            return lastDate.addingTimeInterval(TimePeriod.day.rawValue)
+        } else { return lastDate }
     }
     
     
