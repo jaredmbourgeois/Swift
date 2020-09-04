@@ -11,25 +11,21 @@ import UIKit
 
 extension NSLayoutConstraint {
     
-//    static func activate(_ activationRequest: NSLayoutConstraint.ActivationRequest) {
-//        NSLayoutConstraint.ActivationRequest.fulfill(activationRequest)
-//    }
-//
-//    static func activate(_ activationRequests: [NSLayoutConstraint.ActivationRequest]) {
-//        NSLayoutConstraint.ActivationRequest.fulfill(activationRequests)
-//    }
-
-    
     struct ActivationRequest {
         let constraintsToActivate: [NSLayoutConstraint]
         let constraintsToDeactivate: [NSLayoutConstraint]
         
         init(
-            constraintsToActivate: [NSLayoutConstraint] = [],
-            constraintsToDeactivate: [NSLayoutConstraint] = []
+            activate: [NSLayoutConstraint] = [],
+            deactivate: [NSLayoutConstraint] = []
         ) {
-            self.constraintsToActivate = constraintsToActivate
-            self.constraintsToDeactivate = constraintsToDeactivate
+            self.constraintsToActivate = activate
+            self.constraintsToDeactivate = deactivate
+        }
+        
+        init(activate: NSLayoutConstraint, deactivate: NSLayoutConstraint) {
+            self.constraintsToActivate = [ activate ]
+            self.constraintsToDeactivate = [ deactivate ]
         }
         
         init(activate constraint: NSLayoutConstraint) {
@@ -88,8 +84,8 @@ extension NSLayoutConstraint {
                 }
             }
             return NSLayoutConstraint.ActivationRequest(
-                constraintsToActivate: combinedConstraintsToActivate,
-                constraintsToDeactivate: combinedConstraintsToDeactivate
+                activate: combinedConstraintsToActivate,
+                deactivate: combinedConstraintsToDeactivate
             )
         }
         
@@ -106,5 +102,6 @@ extension NSLayoutConstraint {
             NSLayoutConstraint.deactivate(constraintsToDeactivate)
             NSLayoutConstraint.activate(constraintsToActivate)
         }
+        
     }
 }

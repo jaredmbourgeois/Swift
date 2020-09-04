@@ -34,12 +34,12 @@ import UIKit
 //    func update<T: ViewableTextConfig>(_ config: T) -> Void
 //}
 
-public protocol Identifiable {
+protocol Identifiable {
     var id: String { get }
 }
 
 extension String {
-    public static func ids(from identifiables: [Identifiable]?, separator: String = ",") -> String {
+    static func ids(from identifiables: [Identifiable]?, separator: String = ",") -> String {
         if let identifiables = identifiables {
             return separated(identifiables.map({ $0.id }), separator: separator)
         } else {
@@ -48,7 +48,7 @@ extension String {
     }
 }
 
-public protocol IdentifiableProperties {
+protocol IdentifiableProperties {
     func updateIDs(save: Bool) -> Void
 }
 
@@ -56,17 +56,17 @@ protocol Updatable {
     var updateDate: Date { get }
 }
 
-public protocol Colorable {
+protocol Colorable {
     func updateColor(_ color: UIColor?) -> Void
 }
 
-public protocol Dismissable {
+protocol Dismissable {
     var dismissesOnTouch: Bool? { get set }
     var dismissingSplitViewController: UISplitViewController? { get set }
     func dismiss() -> Void
 }
 
-public protocol Sizable {
+protocol Sizable {
     init(_ size: Format.Size)
     var size: Format.Size { get }
 }

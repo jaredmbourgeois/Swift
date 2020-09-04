@@ -12,33 +12,43 @@ import CoreData
 extension NSManagedObject {
     public static func fetchObject<T: NSManagedObject>(
         _ context: NSManagedObjectContext,
+        predicate: NSPredicate? = nil,
         key: String? = nil,
-        value: Any? = nil,
-        predicateConditions: [NSPredicate.Condition]? = nil
+        comparison: NSPredicate.Comparison = .equal,
+        value: CVarArg? = nil
     ) -> T? {
-        self.fetchObjects(context, key: key, value: value, predicateConditions: predicateConditions).first
+        self.fetchObjects(
+            context,
+            predicate: predicate,
+            key: key,
+            comparison: comparison,
+            value: value
+        ).first
     }
  
     public static func fetchObjects<T: NSManagedObject>(
         _ context: NSManagedObjectContext,
+        predicate: NSPredicate? = nil,
         key: String? = nil,
-        value: Any? = nil,
-        predicateConditions: [NSPredicate.Condition]? = nil,
+        comparison: NSPredicate.Comparison = .equal,
+        value: CVarArg? = nil,
         sortKey: String? = nil,
         ascending: Bool = true,
         sortKeyAscendings: [(String, Bool)]? = nil
     ) -> [T] {
         let request = NSFetchRequest<T>(entityName: Self.self.description())
 
-        var totalPredicateConditions: [NSPredicate.Condition] = []
+        var predicates: [NSPredicate] = []
+        if let predicate = predicate {
+            predicates.append(predicate)
+        }
         if let key = key, let value = value {
-            totalPredicateConditions.append(NSPredicate.Condition(key: key, relation: .equal, value: value))
+            predicates.append(NSPredicate(key: key, comparison: comparison, value: value))
         }
-        if let predicateConditions = predicateConditions {
-            totalPredicateConditions.append(predicateConditions)
-        }
-        if totalPredicateConditions.count > 0 {
-            request.predicate = NSPredicate.from(conditions: totalPredicateConditions)
+        switch predicates.count {
+        case 1: request.predicate = predicates[0]
+        case 2: request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        default: request.predicate = nil
         }
         
         var totalSortKeyAscendings: [(String, Bool)] = []
@@ -56,10 +66,10 @@ extension NSManagedObject {
             request.sortDescriptors = sortDescriptors
         }
 
-        let result: [T]? = try? context.fetch(request)
-        return result ?? []
+        do { return try context.fetch(request) }
+        catch { return [] }
     }
-    
+
     public func saveSucces() -> Bool {
         saveSuccess(printError: nil)
     }

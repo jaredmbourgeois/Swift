@@ -10,7 +10,7 @@
 import Foundation
 
 extension Calendar {
-    public static var current: Calendar {
+    public static var currentGregorian: Calendar {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = .current
         calendar.locale = .current
@@ -18,7 +18,7 @@ extension Calendar {
     }
     
     public static func dateComponents(calendar: Calendar? = nil, date: Date, calendarComponents: Set<Calendar.Component>) -> DateComponents {
-        let calendar: Calendar = calendar ?? Calendar.current
+        let calendar: Calendar = calendar ?? Calendar.currentGregorian
         let dateComponents: DateComponents = calendar.dateComponents(calendarComponents, from: date)
         return dateComponents
     }

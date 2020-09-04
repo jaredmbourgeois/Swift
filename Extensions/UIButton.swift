@@ -97,7 +97,7 @@ extension UIButton {
         clipsToBounds = config.cornerRadius > 0
         layer.cornerRadius = config.cornerRadius
         showsTouchWhenHighlighted = config.showsTouchWhenHighlighted
-        translatesAutoresizingMaskIntoConstraints = (config.frame != CGRect.zero)
+        translatesAutoresizingMaskIntoConstraints = config.frame != CGRect.zero
 
         configureTitleLabel(config.labelConfig)
         if let target = config.target, let selector = config.selector {

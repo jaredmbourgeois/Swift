@@ -43,4 +43,5 @@ extension UIView {
     public func removeSubviews() -> Void {
         self.subviews.forEach({ $0.removeFromSuperview() })
     }
+    
 }

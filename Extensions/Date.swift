@@ -23,11 +23,11 @@ extension Date {
         self = Date(timeIntervalSince1970: date.timeIntervalSince1970)
     }
     
-    public static func daysInMonth(date: Date, calendar: Calendar = Calendar.current) -> Int {
+    public static func daysInMonth(date: Date, calendar: Calendar = Calendar.currentGregorian) -> Int {
         calendar.range(of: .day, in: .month, for: date)!.upperBound - 1
     }
     
-    public static func firstDateThisMonth(date: Date, calendar: Calendar = Calendar.current) -> Date {
+    public static func firstDateThisMonth(date: Date, calendar: Calendar = Calendar.currentGregorian) -> Date {
         let dateComponents = calendar.dateComponents([.month, .day], from: date)
         let dayInMonth = dateComponents.day ?? 1
         guard let firstDate = calendar.date(byAdding: .day, value: dayInMonth - 1, to: date)
@@ -35,7 +35,7 @@ extension Date {
         return firstDate.midnight(calendar: calendar)
     }
     
-    public static func lastDateThisMonth(date: Date, calendar: Calendar = Calendar.current) -> Date {
+    public static func lastDateThisMonth(date: Date, calendar: Calendar = Calendar.currentGregorian) -> Date {
         let dateComponents = calendar.dateComponents([.month, .day], from: date)
         guard
             let dateRange = calendar.range(of: .day, in: .month, for: date),
@@ -45,7 +45,7 @@ extension Date {
         return dateMax
     }
     
-    public static func firstDateNextMonth(date: Date, monthsFromFirstDate: Int = 1, calendar: Calendar = Calendar.current) -> Date {
+    public static func firstDateNextMonth(date: Date, monthsFromFirstDate: Int = 1, calendar: Calendar = Calendar.currentGregorian) -> Date {
         let lastDate = lastDateThisMonth(date: date, calendar: calendar)
         if lastDate != date {
             return lastDate.addingTimeInterval(TimePeriod.day.rawValue)
@@ -69,22 +69,22 @@ extension Date {
         Int64((((date ?? Date()).timeIntervalSince1970 * 1000).rounded()))
     }
     
-    public func midnight(calendar: Calendar = Calendar.current) -> Date {
+    public func midnight(calendar: Calendar = Calendar.currentGregorian) -> Date {
         calendar.startOfDay(for: self)
     }
 
-    public func noon(calendar: Calendar = Calendar.current) -> Date {
+    public func noon(calendar: Calendar = Calendar.currentGregorian) -> Date {
         Date.noon(self, calendar: calendar)
     }
     
-    public static func noon(_ date: Date = Date(), calendar: Calendar = Calendar.current) -> Date {
+    public static func noon(_ date: Date = Date(), calendar: Calendar = Calendar.currentGregorian) -> Date {
         Date(
             timeInterval: 12*60*60,
             since: calendar.startOfDay(for: date)
         )
     }
     
-    public static func noonInWeek(dateInWeek: Date, weekday: Int, calendar: Calendar = Calendar.current) -> Date {
+    public static func noonInWeek(dateInWeek: Date, weekday: Int, calendar: Calendar = Calendar.currentGregorian) -> Date {
         let twentyFourHours: TimeInterval = 24*60*60
         let components: DateComponents = calendar.dateComponents([Calendar.Component.weekday, Calendar.Component.weekOfYear], from: dateInWeek)
         let noonOfDate: Date = Date.noon(dateInWeek, calendar: calendar)
@@ -101,7 +101,7 @@ extension Date {
     }
     
     public static func weekday(date: Date) -> Int {
-        let components: DateComponents = Calendar.current.dateComponents([Calendar.Component.weekday], from: date)
+        let components: DateComponents = Calendar.currentGregorian.dateComponents([Calendar.Component.weekday], from: date)
         guard components.weekday != nil else {
             return 1
         }
