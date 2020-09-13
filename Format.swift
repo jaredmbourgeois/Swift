@@ -12,37 +12,63 @@ import CoreGraphics
 
 public enum Format {
     public enum AnimationTime: TimeInterval {
+        /** 0  */
         case zero = 0
+        /** 0.1  */
         case extraShort = 0.1
+        /** 0 .2 */
         case short = 0.2
+        /** 0 .3 */
         case mediumShort = 0.3
+        /** 0.4 */
         case medium = 0.4
+        /** 0.6  */
         case mediumLong = 0.6
+        /** 0 .8 */
         case long = 0.8
+        /** 1  */
         case extraLong = 1.0
     }
     
     public enum Degree: CGFloat {
+        /** 0  */
         case none = 0.0
+        /** 0. 05 */
         case extraLight = 0.05
+        /** 0. 1 */
         case light = 0.1
+        /** 0.3 */
         case mediumLight = 0.3
+        /** 0. 5 */
         case medium = 0.5
+        /** 0. 7 */
         case mediumHigh = 0.7
+        /** 0.9  */
         case high = 0.9
+        /** 0.95 */
         case extraHigh = 0.95
+        /** 1 */
         case all = 1.0
     }
     
     public enum Height: CGFloat, Sizable {
+        /** 0  */
         case zero = 0
+        /** 16  */
         case extraSmall = 16
+        /** 24  */
         case small = 24
+        /** 32  */
         case mediumSmall = 32
+        /** 42  */
         case medium = 42
+        /** 56  */
         case mediumLarge = 56
+        /** 64  */
         case large = 64
+        /** 72  */
         case extraLarge = 72
+        /** 80  */
         case title = 80
         
         public var size: Format.Size {
@@ -75,14 +101,23 @@ public enum Format {
     }
 
     public enum Inset: CGFloat, Sizable {
+        /** 0  */
         case zero = 0
+        /** 1  */
         case extraSmall = 1
+        /** 2  */
         case small = 2
+        /** 4  */
         case mediumSmall = 4
+        /** 6  */
         case medium = 6
+        /** 8  */
         case mediumLarge = 8
+        /** 10  */
         case large = 10
+        /** 12  */
         case extraLarge = 12
+        /** 16  */
         case title = 16
         
         public var size: Format.Size {
@@ -115,14 +150,23 @@ public enum Format {
     }
 
     public enum LineWidth: CGFloat, Sizable {
+        /** 0 */
         case zero = 0
+        /** 0.5 */
         case extraSmall = 0.5
+        /** 1 */
         case small = 1
+        /** 2 */
         case mediumSmall = 2
+        /** 4 */
         case medium = 4
+        /** 6 */
         case mediumLarge = 6
+        /** 8 */
         case large = 8
+        /** 12 */
         case extraLarge = 12
+        /** 16 */
         case title = 16
         
         public var size: Format.Size {
@@ -164,14 +208,23 @@ public enum Format {
     }
 
     public enum CornerRadius: CGFloat, Sizable {
+        /** 0  */
         case zero = 0
+        /** 1  */
         case extraSmall = 1
+        /** 2  */
         case small = 2
+        /** 4  */
         case mediumSmall = 4
+        /** 6  */
         case medium = 6
+        /** 8  */
         case mediumLarge = 8
+        /** 10  */
         case large = 10
+        /** 12  */
         case extraLarge = 12
+        /** 16  */
         case title = 16
         
         public var size: Format.Size {
@@ -239,11 +292,17 @@ public enum Format {
     
     public enum UI {
         public enum Height: CGFloat {
+            /** 96  */
             case bar = 96
+            /** 80  */
             case button = 80
+            /** 172  */
             case categoriesCollection = 172
+            /** 164  */
             case colorSelect = 164
+            /** 108  */
             case graph = 108
+            /** 18  */
             case square = 18
         }
         
