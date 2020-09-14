@@ -23,6 +23,22 @@ extension NSLayoutConstraint {
             self.constraintsToDeactivate = deactivate
         }
         
+        init(
+            activate: NSLayoutConstraint,
+            deactivate: [NSLayoutConstraint] = []
+        ) {
+            self.constraintsToActivate = [ activate ]
+            self.constraintsToDeactivate = deactivate
+        }
+        
+        init(
+            activate: [NSLayoutConstraint] = [],
+            deactivate: NSLayoutConstraint
+        ) {
+            self.constraintsToActivate = activate
+            self.constraintsToDeactivate = [ deactivate ]
+        }
+        
         init(activate: NSLayoutConstraint, deactivate: NSLayoutConstraint) {
             self.constraintsToActivate = [ activate ]
             self.constraintsToDeactivate = [ deactivate ]

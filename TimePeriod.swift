@@ -200,24 +200,22 @@ enum TimePeriod: TimeInterval {
         }
         
         init(containing date: Date, calendar: Calendar = Calendar.currentGregorian) {
-            let noon = Date.noon(date, calendar: calendar)
             let dateComponents = Calendar.dateComponents(
                 calendar: calendar,
-                date: noon,
-                calendarComponents: [ .weekday, .weekOfMonth, .weekOfYear ]
+                date: date,
+                calendarComponents: [ .weekOfMonth, .yearForWeekOfYear, .weekOfYear ]
             )
             weekOfMonth = dateComponents.weekOfMonth!
             weekOfYear = dateComponents.weekOfYear!
             
-            let weekdayDeltaFirst = dateComponents.weekday! - calendar.firstWeekday
-            let weekdayDeltaSeventh = 7 - dateComponents.weekday!
-            noonOfFirstDay = calendar.date(byAdding: .weekday, value: weekdayDeltaFirst, to: noon)!
-            noonOfSeventhDay = calendar.date(byAdding: .weekday, value: weekdayDeltaSeventh, to: noon)!
+            noonOfFirstDay = calendar.date(from: dateComponents)!
+            noonOfSeventhDay = calendar.date(byAdding: .day, value: 6, to: noonOfFirstDay)!
             
-            var days: [TimePeriod.Day] = Array<TimePeriod.Day>(repeating: TimePeriod.Day(noon), count: 7)
+            var days: [TimePeriod.Day] = Array<TimePeriod.Day>(repeating: TimePeriod.Day(date), count: 7)
             var date: Date
-            for dayIndex in 0 ..< 7 {
-                date = noonOfFirstDay.addingTimeInterval(TimeInterval(dayIndex) * TimePeriod.day.rawValue)
+            for dayIndex in 0 ..< days.count {
+//                date = noonOfFirstDay.addingTimeInterval(TimeInterval(dayIndex) * TimePeriod.day.rawValue)
+                date = calendar.date(byAdding: .day, value: dayIndex, to: noonOfFirstDay)!
                 days[dayIndex] = TimePeriod.Day(date)
             }
             self.days = days
@@ -331,33 +329,28 @@ enum TimePeriod: TimeInterval {
             }
         }
         
-        func equalDateMaxMin(_ otherMonth: Month) -> Bool {
-            self.startDate == otherMonth.startDate && self.endDate == otherMonth.endDate
+        static func equalDateMaxMin(_ firstMonth: Month, _ secondMonth: Month) -> Bool {
+            firstMonth.firstDate == secondMonth.firstDate && firstMonth.lastDate == secondMonth.lastDate
         }
         
-        static func equalDateMaxMin(_ firstMonth: Month, _ secondMonth: Month) -> Bool {
-            firstMonth.startDate == secondMonth.startDate && firstMonth.endDate == secondMonth.endDate
+        func equalDateMaxMin(_ otherMonth: Month) -> Bool {
+            self.firstDate == otherMonth.firstDate && self.lastDate == otherMonth.lastDate
+        }
+        
+        func contains(_ date: Date) -> Bool {
+            date >= firstDate && date <= lastDate
         }
         
         init(containing date: Date, calendar: Calendar) {
-            let noon = Date.noon(date, calendar: calendar)
+            let dateMaxMin = Date.MaxMin(
+                max: Date.lastDateInMonth(containing: date, calendar: calendar),
+                min: Date.firstDateInMonth(containing: date, calendar: calendar)
+            )
             let dateComponents = Calendar.dateComponents(
                 calendar: calendar,
-                date: noon,
-                calendarComponents: [ .month, .day ]
+                date: date,
+                calendarComponents: [ .month ]
             )
-            let dateMin = calendar.date(
-                byAdding: .day,
-                value: -(dateComponents.day! - 1),
-                to: noon
-            )!.addingTimeInterval(-TimePeriod.dayHalf.rawValue)
-            let dateRange = calendar.range(of: .day, in: .month, for: noon)
-            let dateMax = calendar.date(
-                byAdding: .day,
-                value: -((dateRange!.upperBound - 1) - dateComponents.day!),
-                to: noon
-            )!.addingTimeInterval(TimePeriod.elevenHours59m59s)
-            let dateMaxMin = Date.MaxMin(max: dateMax, min: dateMin)
             self = { switch dateComponents.month! {
             case 1: return .january(dateMaxMin: dateMaxMin)
             case 2: return .february(dateMaxMin: dateMaxMin)
@@ -375,7 +368,7 @@ enum TimePeriod: TimeInterval {
             }}()
         }
         
-        var startDate: Date {
+        var firstDate: Date {
             switch self {
             case .january(let dateMaxMin): return dateMaxMin.min
             case .february(let dateMaxMin): return dateMaxMin.min
@@ -392,7 +385,7 @@ enum TimePeriod: TimeInterval {
             }
         }
         
-        var endDate: Date {
+        var lastDate: Date {
             switch self {
             case .january(let dateMaxMin): return dateMaxMin.max
             case .february(let dateMaxMin): return dateMaxMin.max

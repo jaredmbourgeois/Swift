@@ -27,31 +27,80 @@ extension Date {
         calendar.range(of: .day, in: .month, for: date)!.upperBound - 1
     }
     
-    public static func firstDateThisMonth(date: Date, calendar: Calendar = Calendar.currentGregorian) -> Date {
-        let dateComponents = calendar.dateComponents([.month, .day], from: date)
-        let dayInMonth = dateComponents.day ?? 1
-        guard let firstDate = calendar.date(byAdding: .day, value: dayInMonth - 1, to: date)
-        else { return date }
-        return firstDate.midnight(calendar: calendar)
+    public static func firstDateInMonth(containing date: Date, calendar: Calendar = Calendar.currentGregorian) -> Date {
+        let noon = Date.noon(date, calendar: calendar)
+        let dateComponents = Calendar.dateComponents(
+            calendar: calendar,
+            date: noon,
+            calendarComponents: [ .day ]
+        )
+        return calendar.date(
+            byAdding: .day,
+            value: -(dateComponents.day! - 1),
+            to: noon
+        )!.addingTimeInterval(-TimePeriod.dayHalf.rawValue)
     }
     
-    public static func lastDateThisMonth(date: Date, calendar: Calendar = Calendar.currentGregorian) -> Date {
-        let dateComponents = calendar.dateComponents([.month, .day], from: date)
-        guard
-            let dateRange = calendar.range(of: .day, in: .month, for: date),
-            let dayInMonth = dateComponents.day,
-            let dateMax = calendar.date(byAdding: .day, value: -((dateRange.upperBound - 1) - dayInMonth), to: date)
-        else { return date }
-        return dateMax
+    public static func firstDateThisMonth(calendar: Calendar = Calendar.currentGregorian) -> Date {
+        firstDateInMonth(containing: Date(), calendar: calendar)
     }
     
-    public static func firstDateNextMonth(date: Date, monthsFromFirstDate: Int = 1, calendar: Calendar = Calendar.currentGregorian) -> Date {
-        let lastDate = lastDateThisMonth(date: date, calendar: calendar)
-        if lastDate != date {
-            return lastDate.addingTimeInterval(TimePeriod.day.rawValue)
-        } else { return lastDate }
+    public static func firstDatePreviousMonth(
+        referencing date: Date,
+        months: Int = 1,
+        calendar: Calendar = Calendar.currentGregorian
+    ) -> Date {
+        return calendar.date(
+            byAdding: .month,
+            value: -months,
+            to: firstDateInMonth(containing: date, calendar: calendar)
+        )!
     }
     
+    public static func firstDateNextMonth(
+        referencing date: Date,
+        months: Int = 1,
+        calendar: Calendar = Calendar.currentGregorian
+    ) -> Date {
+        return calendar.date(
+            byAdding: .month,
+            value: months,
+            to: firstDateInMonth(containing: date, calendar: calendar)
+        )!
+    }
+    
+    public static func lastDateInMonth(containing date: Date, calendar: Calendar = Calendar.currentGregorian) -> Date {
+        let firstDate = firstDateInMonth(containing: date, calendar: calendar)
+        return calendar.date(
+            byAdding: .day,
+            value: daysInMonth(date: date, calendar: calendar) - 1,
+            to: firstDate
+        )!.addingTimeInterval(TimePeriod.elevenHours59m59s)
+    }
+    
+    public static func lastDateThisMonth(calendar: Calendar = Calendar.currentGregorian) -> Date {
+        lastDateInMonth(containing: Date(), calendar: calendar)
+    }
+    
+    public static func lastDatePreviousMonth(
+        referencing date: Date,
+        months: Int = 1,
+        calendar: Calendar = Calendar.currentGregorian
+    ) -> Date {
+        let firstDayInMonth = firstDateInMonth(containing: date, calendar: calendar)
+        let firstDayPreviousMonth = firstDatePreviousMonth(referencing: firstDayInMonth, months: months, calendar: calendar)
+        return lastDateInMonth(containing: firstDayPreviousMonth)
+    }
+    
+    public static func lastDateNextMonth(
+        referencing date: Date,
+        months: Int = 1,
+        calendar: Calendar = Calendar.currentGregorian
+    ) -> Date {
+        let firstDayInMonth = firstDateInMonth(containing: date, calendar: calendar)
+        let firstDayNextMonth = firstDateNextMonth(referencing: firstDayInMonth, months: months, calendar: calendar)
+        return lastDateInMonth(containing: firstDayNextMonth)
+    }
     
     public static func localDate(date: Date, format: String?, dateFormatter: DateFormatter = DateFormatter()) -> String {
         dateFormatter.dateFormat = format ?? Date.basicFormat

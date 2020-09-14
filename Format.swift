@@ -31,22 +31,22 @@ public enum Format {
     }
     
     public enum Degree: CGFloat {
-        /** 0  */
+        /** 0.0  */
         case none = 0.0
-        /** 0. 05 */
-        case extraLight = 0.05
-        /** 0. 1 */
-        case light = 0.1
+        /** 0. 075 */
+        case extraLight = 0.075
+        /** 0. 15 */
+        case light = 0.15
         /** 0.3 */
         case mediumLight = 0.3
         /** 0. 5 */
         case medium = 0.5
         /** 0. 7 */
         case mediumHigh = 0.7
-        /** 0.9  */
-        case high = 0.9
-        /** 0.95 */
-        case extraHigh = 0.95
+        /** 0.85  */
+        case high = 0.85
+        /** 0.925 */
+        case extraHigh = 0.925
         /** 1 */
         case all = 1.0
     }
