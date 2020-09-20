@@ -10,24 +10,16 @@
 import UIKit
 
 extension UIScrollView {
-    convenience init(
-        delegate: UIScrollViewDelegate? = nil,
-        frame: CGRect = .zero,
-        isScrollEnabled: Bool = true,
-        cornerRadius: CGFloat = 0,
-        backgroundColor: UIColor = .clear,
-        showsVerticalScrollIndicator: Bool = true,
-        indicatorStyleMatchColor: UIColor = .black,
-        indicatorStyleMatchesColor: Bool = true
-    ) {
-        self.init(frame: frame)
-        if let delegate = delegate { self.delegate = delegate }
-        self.translatesAutoresizingMaskIntoConstraints = frame != .zero
-        self.isScrollEnabled = isScrollEnabled
-        self.layer.cornerRadius = cornerRadius
-        self.backgroundColor = backgroundColor
-        self.showsVerticalScrollIndicator = showsVerticalScrollIndicator
-        self.indicatorStyle = UIScrollView.indicatorStyle(matching: indicatorStyleMatchesColor, color: indicatorStyleMatchColor)
+    
+    convenience init(_ setupModel: UIScrollViewSetupModel) {
+        self.init(frame: setupModel.frame)
+        if let delegate = setupModel.delegate { self.delegate = delegate }
+        self.translatesAutoresizingMaskIntoConstraints = setupModel.frame != .zero
+        self.isScrollEnabled = setupModel.isScrollEnabled
+        self.layer.cornerRadius = setupModel.cornerRadius
+        self.backgroundColor = setupModel.backgroundColor
+        self.showsVerticalScrollIndicator = setupModel.showsVerticalScrollIndicator
+        self.indicatorStyle = UIScrollView.indicatorStyle(matching: setupModel.indicatorStyleMatchesColor, color: setupModel.indicatorStyleMatchColor)
     }
     
     public static func indicatorStyle(matching: Bool, color: UIColor) -> UIScrollView.IndicatorStyle {

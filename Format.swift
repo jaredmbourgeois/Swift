@@ -54,20 +54,20 @@ public enum Format {
     public enum Height: CGFloat, Sizable {
         /** 0  */
         case zero = 0
-        /** 16  */
-        case extraSmall = 16
-        /** 24  */
-        case small = 24
-        /** 32  */
-        case mediumSmall = 32
-        /** 42  */
-        case medium = 42
-        /** 56  */
-        case mediumLarge = 56
-        /** 64  */
-        case large = 64
-        /** 72  */
-        case extraLarge = 72
+        /** 12 */
+        case extraSmall = 12
+        /** 20  */
+        case small = 20
+        /** 30  */
+        case mediumSmall = 30
+        /** 40  */
+        case medium = 40
+        /** 50  */
+        case mediumLarge = 50
+        /** 60  */
+        case large = 60
+        /** 70  */
+        case extraLarge = 70
         /** 80  */
         case title = 80
         
@@ -103,20 +103,20 @@ public enum Format {
     public enum Inset: CGFloat, Sizable {
         /** 0  */
         case zero = 0
-        /** 1  */
-        case extraSmall = 1
         /** 2  */
-        case small = 2
+        case extraSmall = 2
         /** 4  */
-        case mediumSmall = 4
+        case small = 4
         /** 6  */
-        case medium = 6
-        /** 8  */
-        case mediumLarge = 8
+        case mediumSmall = 6
+        /** 8 */
+        case medium = 8
         /** 10  */
-        case large = 10
+        case mediumLarge = 10
         /** 12  */
-        case extraLarge = 12
+        case large = 12
+        /** 14  */
+        case extraLarge = 14
         /** 16  */
         case title = 16
         
@@ -152,12 +152,12 @@ public enum Format {
     public enum LineWidth: CGFloat, Sizable {
         /** 0 */
         case zero = 0
-        /** 0.5 */
-        case extraSmall = 0.5
         /** 1 */
-        case small = 1
+        case extraSmall = 1
         /** 2 */
-        case mediumSmall = 2
+        case small = 2
+        /** 3 */
+        case mediumSmall = 3
         /** 4 */
         case medium = 4
         /** 6 */
@@ -199,11 +199,17 @@ public enum Format {
     }
 
     public enum Position: Int {
+        /** rounded top, square bottom corners */
         case top = 0
+        /** square top, square bottom corners */
         case middle = 1
+        /** square top, rounded bottom corners */
         case bottom = 2
+        /** rounded left, square right corners */
         case left = 3
+        /** square left, rounded right corners */
         case right = 4
+        /** rounded corners corners */
         case isolated = 5
     }
 

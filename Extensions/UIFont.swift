@@ -10,6 +10,8 @@
 import UIKit
 
 extension UIFont {
+    public static let system = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+    
     public static func font(name: String, size: Format.Size, bold: Bool) -> UIFont {
         let fontSize: CGFloat = Font.Size(size).rawValue
         let fnt = UIFont(name: name, size: CGFloat(fontSize))!

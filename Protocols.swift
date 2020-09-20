@@ -10,30 +10,6 @@
 import CoreData
 import UIKit
 
-//public protocol ViewableConfig {
-//    var frame: CGRect { get }
-//    var backgroundColor: UIColor { get }
-//    var cornerRadius: CGFloat { get }
-//}
-//
-//public protocol ConfigurableView {
-//    init<T: ViewableConfig>(_ config: T)
-//    func update<T: ViewableConfig>(_ config: T) -> Void
-//}
-//
-//public protocol ViewableTextConfig: ViewableConfig {
-//    var font: UIFont { get }
-//    var numberOfLines: Int { get }
-//    var textAlignment: NSTextAlignment { get }
-//    var textColor: UIColor { get }
-//    var text: String { get }
-//}
-//
-//public protocol ConfigurableTextView {
-//    init<T: ViewableTextConfig>(_ config: T)
-//    func update<T: ViewableTextConfig>(_ config: T) -> Void
-//}
-
 protocol Identifiable {
     var id: String { get }
 }

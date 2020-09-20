@@ -10,84 +10,28 @@
 import UIKit
 
 extension UILabel {
-    public struct Config {
-        let backgroundColor: UIColor
-        let cornerRadius: CGFloat
-        let font: UIFont
-        let frame: CGRect
-        let height: CGFloat
-        let numberOfLines: Int
-        let textAlignment: NSTextAlignment
-        let textColor: UIColor
-        let text: String
-        
-        init(
-            backgroundColor: UIColor = .clear,
-            cornerRadius: CGFloat = 0,
-            font: UIFont = .systemFont(ofSize: UIFont.systemFontSize),
-            frame: CGRect = CGRect.zero,
-            height: CGFloat = 0,
-            numberOfLines: Int = 1,
-            textAlignment: NSTextAlignment = .left,
-            textColor: UIColor = .black,
-            text: String = String.empty
-        ) {
-            self.backgroundColor = backgroundColor
-            self.cornerRadius = cornerRadius
-            self.font = font
-            self.frame = frame
-            self.height = height
-            self.numberOfLines = numberOfLines
-            self.textAlignment = textAlignment
-            self.textColor = textColor
-            self.text = text
-        }
-        
-        init(
-            config: UILabel.Config,
-            backgroundColor: UIColor? = nil,
-            cornerRadius: CGFloat? = nil,
-            font: UIFont? = nil,
-            frame: CGRect? = nil,
-            height: CGFloat? = nil,
-            numberOfLines: Int? = nil,
-            textAlignment: NSTextAlignment? = nil,
-            textColor: UIColor? = nil,
-            text: String? = nil
-        ) {
-            self.backgroundColor = backgroundColor ?? config.backgroundColor
-            self.cornerRadius = cornerRadius ?? config.cornerRadius
-            self.font = font ?? config.font
-            self.frame = frame ?? config.frame
-            self.height = height ?? config.height
-            self.numberOfLines = numberOfLines ?? config.numberOfLines
-            self.textAlignment = textAlignment ?? config.textAlignment
-            self.textColor = textColor ?? config.textColor
-            self.text = text ?? config.text
-        }
-    }
     
-    convenience init(_ config: UILabel.Config) {
-        self.init(frame: config.frame)
+    convenience init(_ setupModel: UILabelSetupModel) {
+        self.init(frame: setupModel.frame)
         self.isUserInteractionEnabled = false
-        self.configure(config)
+        self.setup(setupModel)
     }
 
-    public func configure(_ config: UILabel.Config) {
-        self.frame = config.frame
+    func setup(_ setupModel: UILabelSetupModel) {
+        self.frame = setupModel.frame
         self.translatesAutoresizingMaskIntoConstraints = self.frame != CGRect.zero
-        self.adjustsFontSizeToFitWidth = config.numberOfLines > 0
-        self.layer.cornerRadius = config.cornerRadius
+        self.adjustsFontSizeToFitWidth = setupModel.numberOfLines > 0
+        self.layer.cornerRadius = setupModel.cornerRadius
 
-        self.backgroundColor = config.backgroundColor
-        self.font = config.font
-        self.numberOfLines = config.numberOfLines
-        self.textAlignment = config.textAlignment
-        self.textColor = config.textColor
-        self.text = config.text
+        self.backgroundColor = setupModel.backgroundColor
+        self.font = setupModel.font
+        self.numberOfLines = setupModel.numberOfLines
+        self.textAlignment = setupModel.textAlignment
+        self.textColor = setupModel.textColor
+        self.text = setupModel.text
     }
     
-    public func sizeToFitWidth(preserveCenter: Bool = false) {
+    func sizeToFitWidth(preserveCenter: Bool = false) {
         let oldFrame = frame
         sizeToFit()
         frame = CGRect(

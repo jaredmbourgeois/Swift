@@ -31,7 +31,7 @@ extension UITextField {
         }
     }
     
-    public struct Config {
+    public struct UITextFieldSetupModel {
         let backgroundColor: UIColor
         let cornerRadius: CGFloat
         let delegate: UITextFieldDelegate?
@@ -74,40 +74,40 @@ extension UITextField {
         }
         
         init(
-            config: UITextField.Config,
+            setupModel: UITextField.UITextFieldSetupModel,
             placeholder: String = String.empty,
             placeholderColor: UIColor? = nil,
             textColor: UIColor? = nil,
             text: String = String.empty
         ) {
-            self.backgroundColor = config.backgroundColor
-            self.cornerRadius = config.cornerRadius
-            self.delegate = config.delegate
-            self.font = config.font
-            self.frame = config.frame
-            self.height = config.height
-            self.isUserInteractionEnabled = config.isUserInteractionEnabled
+            self.backgroundColor = setupModel.backgroundColor
+            self.cornerRadius = setupModel.cornerRadius
+            self.delegate = setupModel.delegate
+            self.font = setupModel.font
+            self.frame = setupModel.frame
+            self.height = setupModel.height
+            self.isUserInteractionEnabled = setupModel.isUserInteractionEnabled
             self.placeholder = placeholder
-            self.placeholderColor = placeholderColor ?? config.textColor
-            self.textAlignment = config.textAlignment
-            self.textColor = textColor ?? config.textColor
+            self.placeholderColor = placeholderColor ?? setupModel.textColor
+            self.textAlignment = setupModel.textAlignment
+            self.textColor = textColor ?? setupModel.textColor
             self.text = text
         }
     }
     
-    convenience init(_ config: UITextField.Config) {
-        self.init(frame: config.frame)
+    convenience init(_ setupModel: UITextField.UITextFieldSetupModel) {
+        self.init(frame: setupModel.frame)
         adjustsFontSizeToFitWidth = true
-        translatesAutoresizingMaskIntoConstraints = config.frame != CGRect.zero
-        backgroundColor = config.backgroundColor
-        layer.cornerRadius = config.cornerRadius
-        delegate = config.delegate
-        isUserInteractionEnabled = config.isUserInteractionEnabled
-        font = config.font
-        attributedPlaceholder = NSAttributedString(string: config.placeholder, attributes: [NSAttributedString.Key.foregroundColor: config.placeholderColor])
-        textAlignment = config.textAlignment
-        textColor = config.textColor
-        text = config.text
-        tintColor = config.textColor
+        translatesAutoresizingMaskIntoConstraints = setupModel.frame != CGRect.zero
+        backgroundColor = setupModel.backgroundColor
+        layer.cornerRadius = setupModel.cornerRadius
+        delegate = setupModel.delegate
+        isUserInteractionEnabled = setupModel.isUserInteractionEnabled
+        font = setupModel.font
+        attributedPlaceholder = NSAttributedString(string: setupModel.placeholder, attributes: [NSAttributedString.Key.foregroundColor: setupModel.placeholderColor])
+        textAlignment = setupModel.textAlignment
+        textColor = setupModel.textColor
+        text = setupModel.text
+        tintColor = setupModel.textColor
     }
 }

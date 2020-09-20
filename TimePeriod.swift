@@ -248,6 +248,16 @@ enum TimePeriod: TimeInterval {
             default: return .sunday(firstWeekday: Int8(firstWeekday))
             } }()
         }
+        
+        init(_ date: Date, calendar: Calendar = Calendar.currentGregorian) {
+            let dateComponents = Calendar.dateComponents(
+                calendar: calendar,
+                date: date,
+                calendarComponents: [ .weekday ]
+            )
+            self = Weekday(dayOfWeek: dateComponents.weekday!, firstWeekday: calendar.firstWeekday)
+        }
+        
         func weekdayValue() -> Int {
             switch self {
             case .sunday(let firstWeekday): return Int(1 + (firstWeekday - 1))
