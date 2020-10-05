@@ -63,12 +63,12 @@ extension UIColor {
     }
     
     public func contrasting(degree: Format.Degree) -> UIColor { UIColor.contrasting(color: self, degree: degree) }
-    public static func contrasting(color: UIColor, degree: Format.Degree) -> UIColor {
-        var hue: CGFloat = 0
-        var saturation: CGFloat = 0
-        var brightness: CGFloat = 0
-        var alpha: CGFloat = 0
-        let success: Bool = color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+    public static func contrasting(color: UIColor? = nil, componentsHSBA: UIColor.Components.HSBA? = nil, degree: Format.Degree) -> UIColor {
+        var hue: CGFloat = componentsHSBA?.hue ?? 0
+        var saturation: CGFloat = componentsHSBA?.saturation ?? 0
+        var brightness: CGFloat = componentsHSBA?.brightness ?? 0
+        var alpha: CGFloat = componentsHSBA?.alpha ?? 0
+        let success: Bool = color?.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha) ?? true
         if (success == true) {
             let fraction: CGFloat = degree.rawValue
             if (brightness >= 0.5) {
@@ -77,11 +77,8 @@ extension UIColor {
             else if (brightness < 0.5){
                 brightness += 0.5 * fraction * brightness
             }
-            return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
         }
-        else {
-            return color
-        }
+        return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
     }
     
     public func desaturated(degree: Format.Degree) -> UIColor { UIColor.desaturated(color: self, degree: degree) }

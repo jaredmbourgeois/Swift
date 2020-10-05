@@ -39,9 +39,20 @@ extension NSLayoutConstraint {
             self.constraintsToDeactivate = [ deactivate ]
         }
         
-        init(activate: NSLayoutConstraint, deactivate: NSLayoutConstraint) {
+        init(
+            activate: NSLayoutConstraint,
+            deactivate: NSLayoutConstraint
+        ) {
             self.constraintsToActivate = [ activate ]
             self.constraintsToDeactivate = [ deactivate ]
+        }
+        
+        init(
+            activate: NSLayoutConstraint?,
+            deactivate: NSLayoutConstraint?
+        ) {
+            self.constraintsToActivate = activate != nil ? [ activate! ] : []
+            self.constraintsToDeactivate = deactivate != nil ? [ deactivate! ] : []
         }
         
         init(activate constraint: NSLayoutConstraint) {
@@ -70,6 +81,19 @@ extension NSLayoutConstraint {
             }
             self.constraintsToDeactivate = requests.reduce(into: []) { appended, request in
                 appended.append(request.constraintsToDeactivate)
+            }
+        }
+        
+        init(_ requests: [NSLayoutConstraint.ActivationRequest?]) {
+            self.constraintsToActivate = requests.reduce(into: []) { appended, request in
+                if let request = request {
+                    appended.append(request.constraintsToActivate)
+                }
+            }
+            self.constraintsToDeactivate = requests.reduce(into: []) { appended, request in
+                if let request = request {
+                    appended.append(request.constraintsToDeactivate)
+                }
             }
         }
         

@@ -11,7 +11,38 @@ import UIKit
 
 extension UIView {
     
-    public func constraintsForSuperView(insetX: CGFloat = 0, insetY: CGFloat = 0) -> [NSLayoutConstraint] {
+    func animateConstraintRequest(
+        _ view: UIView?,
+        animationTime: TimeInterval,
+        constraintRequest: NSLayoutConstraint.ActivationRequest?,
+        concurrentAnimations: (() -> Void)? = nil,
+        completionHandler: (() -> Void)? = nil
+    ) {
+        UIView.animate(
+            withDuration: animationTime,
+            delay: 0,
+            options: .layoutSubviews,
+            animations: { [weak self] in
+                
+                constraintRequest?.fulfill()
+                
+                concurrentAnimations?()
+                
+                view?.layoutIfNeeded()
+                view?.setNeedsDisplay()
+
+                self?.layoutIfNeeded()
+                self?.setNeedsDisplay()
+            },
+            completion: { completed in
+                if completed {
+                    completionHandler?()
+                }
+            }
+        )
+    }
+    
+    func constraintsForSuperView(insetX: CGFloat = 0, insetY: CGFloat = 0) -> [NSLayoutConstraint] {
         guard let superview = superview else { return [] }
         return [
             topAnchor.constraint(equalTo: superview.topAnchor, constant: insetY),
@@ -25,12 +56,12 @@ extension UIView {
         ]
     }
     
-    public func constrainToSuperview(insetX: CGFloat = 0, insetY: CGFloat = 0) -> Void {
+    func constrainToSuperview(insetX: CGFloat = 0, insetY: CGFloat = 0) -> Void {
         translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(constraintsForSuperView(insetX: insetX, insetY: insetY))
     }
     
-    public func destroySubviews() -> Void {
+    func destroySubviews() -> Void {
         let oldSubviews = self.subviews
         var subview: UIView?
         for index: Int in 0 ..< oldSubviews.count {
@@ -40,8 +71,38 @@ extension UIView {
         }
     }
     
-    public func removeSubviews() -> Void {
+    func isActive() -> Bool {
+        !isHidden || alpha > 0 || isUserInteractionEnabled
+    }
+    
+    func setActive(inactive: Bool = false) {
+        alpha = inactive ? 0 : 1
+        isUserInteractionEnabled = !inactive
+    }
+    
+    func removeSubviews() -> Void {
         self.subviews.forEach({ $0.removeFromSuperview() })
     }
     
+    func showSubview(
+        _ view: UIView,
+        animationTime: TimeInterval,
+        constraintRequest: NSLayoutConstraint.ActivationRequest?,
+        hide: Bool = false,
+        concurrentAnimations: (() -> Void)? = nil,
+        completionHandler: (() -> Void)? = nil
+    ) {
+        animateConstraintRequest(
+            view,
+            animationTime: animationTime,
+            constraintRequest: constraintRequest,
+            concurrentAnimations: {
+                view.isUserInteractionEnabled = !hide
+                view.alpha = hide ? 0 : 1
+                
+                concurrentAnimations?()
+            },
+            completionHandler: completionHandler
+        )
+    }
 }

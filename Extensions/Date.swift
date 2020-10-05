@@ -23,6 +23,10 @@ extension Date {
         self = Date(timeIntervalSince1970: date.timeIntervalSince1970)
     }
     
+    public static func isInTimeInterval(firstDate: Date, secondDate: Date, timeInterval: TimeInterval) -> Bool {
+        fabs(firstDate.timeIntervalSince(secondDate)) <= timeInterval
+    }
+    
     public static func daysInMonth(date: Date, calendar: Calendar = Calendar.currentGregorian) -> Int {
         calendar.range(of: .day, in: .month, for: date)!.upperBound - 1
     }

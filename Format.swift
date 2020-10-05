@@ -56,18 +56,18 @@ public enum Format {
         case zero = 0
         /** 12 */
         case extraSmall = 12
-        /** 20  */
-        case small = 20
-        /** 30  */
-        case mediumSmall = 30
-        /** 40  */
-        case medium = 40
-        /** 50  */
-        case mediumLarge = 50
-        /** 60  */
-        case large = 60
-        /** 70  */
-        case extraLarge = 70
+        /** 24  */
+        case small = 24
+        /** 32  */
+        case mediumSmall = 32
+        /** 44  */
+        case medium = 44
+        /** 54  */
+        case mediumLarge = 54
+        /** 64  */
+        case large = 64
+        /** 72  */
+        case extraLarge = 72
         /** 80  */
         case title = 80
         

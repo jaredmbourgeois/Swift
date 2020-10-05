@@ -86,10 +86,10 @@ struct UILabelSetupModel {
     
     init(
         backgroundColor: UIColor = .clear,
-        cornerRadius: CGFloat = 0,
+        cornerRadius: CGFloat = .zero,
         font: UIFont = .system,
-        frame: CGRect = CGRect.zero,
-        height: CGFloat = 0,
+        frame: CGRect = .zero,
+        height: CGFloat = .zero,
         numberOfLines: Int = 1,
         textAlignment: NSTextAlignment = .left,
         textColor: UIColor = .black,
@@ -148,7 +148,7 @@ struct UIScrollViewSetupModel {
         delegate: UIScrollViewDelegate? = nil,
         frame: CGRect = .zero,
         isScrollEnabled: Bool = true,
-        cornerRadius: CGFloat = 0,
+        cornerRadius: CGFloat = .zero,
         backgroundColor: UIColor = .clear,
         showsVerticalScrollIndicator: Bool = true,
         indicatorStyleMatchColor: UIColor = .black,
@@ -206,7 +206,7 @@ struct UITextFieldSetupModel {
     
     init(
         backgroundColor: UIColor = .clear,
-        cornerRadius: CGFloat = 0,
+        cornerRadius: CGFloat = .zero,
         delegate: UITextFieldDelegate? = nil,
         font: UIFont = .system,
         frame: CGRect = .zero,
@@ -281,7 +281,7 @@ struct UITextViewSetupModel {
     
     init(
         backgroundColor: UIColor = .clear,
-        cornerRadius: CGFloat = 0,
+        cornerRadius: CGFloat = .zero,
         font: UIFont = .system,
         frame: CGRect = .zero,
         height: CGFloat = .zero,

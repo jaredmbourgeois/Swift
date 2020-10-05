@@ -106,7 +106,7 @@ enum TimePeriod: TimeInterval {
     }
     
     struct Day {
-        static func this(calendar: Calendar = Calendar.currentGregorian) -> TimePeriod.Day {
+        static func today(calendar: Calendar = Calendar.currentGregorian) -> TimePeriod.Day {
             TimePeriod.Day(Date(), calendar: calendar)
         }
         
@@ -119,7 +119,7 @@ enum TimePeriod: TimeInterval {
         let month: Month
         let year: Year
         
-        init(_ date: Date, calendar: Calendar = Calendar.currentGregorian) {
+        init(_ date: Date = Date(), calendar: Calendar = Calendar.currentGregorian) {
             let dateComponents = Calendar.dateComponents(
                 calendar: calendar,
                 date: date,

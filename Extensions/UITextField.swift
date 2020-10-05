@@ -110,4 +110,23 @@ extension UITextField {
         text = setupModel.text
         tintColor = setupModel.textColor
     }
+    
+    public func updateText(
+        text: String? = nil,
+        textColor: UIColor? = nil,
+        placeholder: String? = nil,
+        placeholderColor: UIColor? = nil
+    ) {
+        let newText = text ?? self.text ?? .empty
+        let newTextColor = textColor ?? self.textColor ?? .black
+        let newPlaceholder = placeholder ?? attributedPlaceholder?.string ?? .empty
+        let newPlaceholderColor = placeholderColor ?? newTextColor
+        self.text = newText
+        self.textColor = newTextColor
+        self.tintColor = newTextColor
+        self.attributedPlaceholder = NSAttributedString(
+            string: newPlaceholder,
+            attributes: [NSAttributedString.Key.foregroundColor: newPlaceholderColor]
+        )
+    }
 }
