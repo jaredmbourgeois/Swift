@@ -11,7 +11,7 @@ import Foundation
 import CoreGraphics
 
 extension CGFloat {
-    public static var zero: CGFloat { CGFloat(0) }
+    public static let zero: CGFloat = 0
     public var string: String { "\(self)" }
 
     public func interpolate(_ value: CGFloat) -> CGFloat {
@@ -34,14 +34,15 @@ extension CGFloat {
 
 extension Double {
     init(_ string: String?, defaultValue: Double = 0) {
-        if let doubleString = Double(string ?? String.empty) {
+        if let string = string,
+           let doubleString = Double(string) {
             self = doubleString
         } else {
             self = defaultValue
         }
     }
     
-    public static var zero: Double { Double(0) }
+    public static let zero: Double = 0
     public var string: String { "\(self)" }
     public var data: Data {
         var value = self
@@ -73,7 +74,7 @@ extension Double {
 }
 
 extension Int {
-    public static var zero: Int { Int(0) }
+    public static let zero: Int = 0
     public var string: String { "\(self)" }
     public var data: Data {
         var value = self
@@ -87,7 +88,7 @@ extension Int {
 }
 
 extension Int8 {
-    public static var zero: Int8 { Int8(0) }
+    public static let zero: Int8 = 0
     public var string: String { "\(self)" }
     public var data: Data {
         var value = self
@@ -101,7 +102,7 @@ extension Int8 {
 }
 
 extension Int16 {
-    public static var zero: Int16 { Int16(0) }
+    public static let zero: Int16 = 0
     public var string: String { "\(self)" }
     public var data: Data {
         var value = self
@@ -115,7 +116,7 @@ extension Int16 {
 }
 
 extension Int32 {
-    public static var zero: Int32 { Int32(0) }
+    public static let zero: Int32 = 0
     public var string: String { "\(self)" }
     public var data: Data {
         var value = self
@@ -129,7 +130,7 @@ extension Int32 {
 }
 
 extension Int64 {
-    public static var zero: Int64 { Int64(0) }
+    public static let zero: Int64 = 0
     public var string: String { "\(self)" }
     public var data: Data {
         var value = self
@@ -154,7 +155,7 @@ extension NSNumber {
 }
 
 extension UInt {
-    public static var zero: UInt { UInt(0) }
+    public static let zero: UInt  = 0
     public var string: String { "\(self)" }
     public var data: Data {
         var value = self
@@ -168,7 +169,7 @@ extension UInt {
 }
 
 extension UInt8 {
-    public static var zero: UInt8 { UInt8(0) }
+    public static let zero: UInt8 = 0
     public var string: String { "\(self)" }
     public var data: Data {
         var value = self
@@ -182,7 +183,7 @@ extension UInt8 {
 }
 
 extension UInt16 {
-    public static var zero: UInt16 { UInt16(0) }
+    public static let zero: UInt16  = 0
     public var string: String { "\(self)" }
     public var data: Data {
         var value = self
@@ -195,7 +196,7 @@ extension UInt16 {
 }
 
 extension UInt32 {
-    public static var zero: UInt32 { UInt32(0) }
+    public static let zero: UInt32  = 0
     public var string: String { "\(self)" }
     public var data: Data {
         var value = self
@@ -209,7 +210,7 @@ extension UInt32 {
 }
 
 extension UInt64 {
-    public static var zero: UInt64 { UInt64(0) }
+    public static let zero: UInt64  = 0
     public var string: String { "\(self)" }
     public var data: Data {
         var value = self

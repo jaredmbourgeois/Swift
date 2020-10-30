@@ -14,22 +14,10 @@ extension Array {
         self += anotherArray
     }
     
-    func safeIndex(from value: Int) -> Int? {
-        var safeIndex: Int?
-        if count > 0 {
-            safeIndex = value > endIndex ?
-                endIndex :
-                value < 0 ?
-                    0 :
-                    value
-        }
-        return safeIndex
-    }
-    
-    func safeElement(at index: Int) -> Element? {
-        var element: Element?
-        if let safeIndex = safeIndex(from: index) {
-            element = self[safeIndex]
+    func optionalElement(at index: Int) -> Element? {
+        var element: Element? = nil
+        if index >= 0 && index < count {
+            element = self[index]
         }
         return element
     }

@@ -22,4 +22,12 @@ extension Calendar {
         let dateComponents: DateComponents = calendar.dateComponents(calendarComponents, from: date)
         return dateComponents
     }
+    
+    public func startAndEndOfDay(_ date: Date) -> Date.MaxMin {
+        let dateMin = startOfDay(for: date)
+        return Date.MaxMin(
+            max: Date(timeInterval: TimePeriod.day.rawValue - 1, since: dateMin),
+            min: dateMin
+        )
+    }
 }

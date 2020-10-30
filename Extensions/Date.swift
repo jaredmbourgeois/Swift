@@ -79,7 +79,7 @@ extension Date {
             byAdding: .day,
             value: daysInMonth(date: date, calendar: calendar) - 1,
             to: firstDate
-        )!.addingTimeInterval(TimePeriod.elevenHours59m59s)
+        )!.addingTimeInterval(TimePeriod.dayHalf.rawValue - 1)
     }
     
     public static func lastDateThisMonth(calendar: Calendar = Calendar.currentGregorian) -> Date {

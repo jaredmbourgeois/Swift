@@ -36,6 +36,22 @@ extension NSManagedObject {
         ascending: Bool = true,
         sortKeyAscendings: [(String, Bool)]? = nil
     ) -> [T] {
+        let request: NSFetchRequest<T> = self.fetchRequest(context, predicate: predicate, key: key, comparison: comparison, value: value, sortKey: sortKey, ascending: ascending, sortKeyAscendings: sortKeyAscendings)
+
+        do { return try context.fetch(request) }
+        catch { return [] }
+    }
+    
+    public static func fetchRequest<T: NSManagedObject>(
+        _ context: NSManagedObjectContext,
+        predicate: NSPredicate? = nil,
+        key: String? = nil,
+        comparison: NSPredicate.Comparison = .equal,
+        value: CVarArg? = nil,
+        sortKey: String? = nil,
+        ascending: Bool = true,
+        sortKeyAscendings: [(String, Bool)]? = nil
+    ) -> NSFetchRequest<T> {
         let request = NSFetchRequest<T>(entityName: Self.self.description())
 
         var predicates: [NSPredicate] = []
@@ -65,9 +81,7 @@ extension NSManagedObject {
             }
             request.sortDescriptors = sortDescriptors
         }
-
-        do { return try context.fetch(request) }
-        catch { return [] }
+        return request
     }
 
     public func saveSucces() -> Bool {

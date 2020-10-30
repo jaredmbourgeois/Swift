@@ -24,6 +24,8 @@ enum TimePeriod: TimeInterval {
     case month = 2592000
     case year = 31536000
     
+    static let elevenHours59m59s: TimeInterval = 43199
+    
     init(_ timeInterval: TimeInterval) {
         switch timeInterval {
         case TimePeriod.zero.rawValue: self = .zero
@@ -304,7 +306,7 @@ enum TimePeriod: TimeInterval {
     }
     
     enum Month: Equatable {
-        static func this(calendar: Calendar = Calendar.currentGregorian) -> TimePeriod.Month {
+        static func this(calendar: Calendar) -> TimePeriod.Month {
             TimePeriod.Month(containing: Date(), calendar: calendar)
         }
         
@@ -340,15 +342,19 @@ enum TimePeriod: TimeInterval {
         }
         
         static func equalDateMaxMin(_ firstMonth: Month, _ secondMonth: Month) -> Bool {
-            firstMonth.firstDate == secondMonth.firstDate && firstMonth.lastDate == secondMonth.lastDate
+            firstMonth.firstDate == secondMonth.firstDate
+                && firstMonth.lastDate == secondMonth.lastDate
         }
         
-        func equalDateMaxMin(_ otherMonth: Month) -> Bool {
-            self.firstDate == otherMonth.firstDate && self.lastDate == otherMonth.lastDate
+        func equalDateMaxMin(_ otherMonth: Month, calendar: Calendar) -> Bool {
+            firstDate == otherMonth.firstDate
+                && lastDate == otherMonth.lastDate
         }
         
-        func contains(_ date: Date) -> Bool {
-            date >= firstDate && date <= lastDate
+        func contains(_ date: Date, calendar: Calendar) -> Bool {
+            (date >= firstDate && date <= lastDate)
+                || calendar.isDate(date, inSameDayAs: firstDate)
+                || calendar.isDate(date, inSameDayAs: lastDate)
         }
         
         init(containing date: Date, calendar: Calendar) {
