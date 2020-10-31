@@ -14,7 +14,7 @@ extension Array {
         self += anotherArray
     }
     
-    func optionalElement(at index: Int) -> Element? {
+    func optional(at index: Int) -> Element? {
         var element: Element? = nil
         if index >= 0 && index < count {
             element = self[index]
