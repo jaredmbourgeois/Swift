@@ -16,6 +16,9 @@ extension String {
     public static let tab = "\t"
     public static let zero: String = "0"
     
+    var isEmpty: Bool { self == String.empty }
+    var isNotEmpty: Bool { !isEmpty }
+    
     public static func separated(_ values: [String]?, separator: String = ",") -> String {
         var separatedValues = String.empty
         if let values = values {

@@ -270,17 +270,17 @@ public enum Format {
         public let shadowOpacity: Float
 
         init(
-            on: Bool? = nil,
-            cornerRadius: CGFloat? = nil,
-            shadowColor: UIColor? = nil,
-            shadowOffset: CGSize? = nil,
-            shadowOpacity: CGFloat? = nil
+            on: Bool = true,
+            cornerRadius: CGFloat = 0,
+            shadowColor: UIColor = .black,
+            shadowOffset: CGSize = .zero,
+            shadowOpacity: CGFloat = CGFloat(0.333)
         ) {
-            self.on = on ?? true
-            self.cornerRadius = cornerRadius ?? Format.CornerRadius.medium.rawValue
-            self.shadowColor = (shadowColor ?? UIColor.black).cgColor
-            self.shadowOffset = shadowOffset ?? CGSize(width: 0.5, height: 0.5)
-            self.shadowOpacity = Float(shadowOpacity ?? 1.0/3.0)
+            self.on = on
+            self.cornerRadius = cornerRadius
+            self.shadowColor = shadowColor.cgColor
+            self.shadowOffset = shadowOffset
+            self.shadowOpacity = Float(shadowOpacity)
         }
     }
     

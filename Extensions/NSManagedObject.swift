@@ -38,7 +38,7 @@ extension NSManagedObject {
     ) -> [T] {
         let request: NSFetchRequest<T> = self.fetchRequest(context, predicate: predicate, key: key, comparison: comparison, value: value, sortKey: sortKey, ascending: ascending, sortKeyAscendings: sortKeyAscendings)
 
-        do { return try context.fetch(request) }
+        do { return try context.fetch(request) as [T] }
         catch { return [] }
     }
     
@@ -74,7 +74,7 @@ extension NSManagedObject {
         if let sortKeyAscendings: [(String, Bool)] = sortKeyAscendings {
             totalSortKeyAscendings.append(contentsOf: sortKeyAscendings)
         }
-        if totalSortKeyAscendings.count > 0 {
+        if totalSortKeyAscendings.isNotEmpty {
             var sortDescriptors: [NSSortDescriptor] = []
             for (sortKey, ascending) in totalSortKeyAscendings {
                 sortDescriptors.append(NSSortDescriptor(key: sortKey, ascending: ascending))

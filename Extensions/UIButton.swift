@@ -33,7 +33,6 @@ extension UIButton {
     }
     
     func setupTitleLabel(_ labelSetupModel: UILabelSetupModel) {
-        titleLabel?.setup(labelSetupModel)
         setTitle(labelSetupModel.text, for: .normal)
         setTitleColor(labelSetupModel.textColor, for: .normal)
         titleLabel?.adjustsFontSizeToFitWidth = labelSetupModel.numberOfLines > 0

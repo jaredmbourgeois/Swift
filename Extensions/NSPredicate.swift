@@ -21,12 +21,12 @@ extension NSPredicate {
     
     convenience init(key: String, comparison: Comparison, value: CVarArg) {
         switch comparison {
-        case .equal: self.init(format: "%s == %@", key, value)
-        case .notEqual: self.init(format: "%s != %@", key, value)
-        case .lessThan: self.init(format: "%s < %@", key, value)
-        case .lessThanEqualTo: self.init(format: "%s <= %@", key, value)
-        case .greaterThan: self.init(format: "%s > %@", key, value)
-        case .greaterThanEqualTo: self.init(format: "%s >= %@", key, value)
+        case .equal: self.init(format: "\(key) == %@", value)
+        case .notEqual: self.init(format: "\(key) != %@", value)
+        case .lessThan: self.init(format: "\(key) < %@", value)
+        case .lessThanEqualTo: self.init(format: "\(key) <= %@", value)
+        case .greaterThan: self.init(format: "\(key) > %@", value)
+        case .greaterThanEqualTo: self.init(format: "\(key) >= %@", value)
         }
     }
     

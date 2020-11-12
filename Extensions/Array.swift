@@ -10,10 +10,31 @@
 import Foundation
 
 extension Array {
+    var isNotEmpty: Bool { self.count > 0 }
+    
     mutating func append(_ anotherArray: [Element]) {
         self += anotherArray
     }
     
+    func forEachIndex(_ iteration: (Int,Element) -> Void) {
+        for index in 0 ..< count {
+            iteration(index,self[index])
+        }
+    }
+    
+    func mapIndex<T>(_ iteration: (Int,Element) -> T) -> [T] {
+        if isNotEmpty {
+            var index = Int.zero
+            return map { element in
+                let result = iteration(index, element)
+                index += 1
+                return result
+            }
+        } else {
+            return []
+        }
+    }
+
     func optional(at index: Int) -> Element? {
         var element: Element? = nil
         if index >= 0 && index < count {
