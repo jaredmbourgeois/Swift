@@ -14,14 +14,22 @@ extension NSManagedObjectContext {
         if save && !self.saveSuccess(printError: printError) { fatalError() }
     }
     
+    @discardableResult
     public func saveSuccess(printError: String? = nil) -> Bool {
         do {
             try save()
             return true
         } catch let error {
-            if let printError = printError { print(printError + "ERROR=" + error.localizedDescription) }
-            print("NSManagedObjectContext.saveSuccess() ERROR=" + error.localizedDescription)
+            if let printError = printError { print(printError + "ERROR:" + error.localizedDescription) }
+            print("NSManagedObjectContext.saveSuccess() ERROR:" + error.localizedDescription)
             return false
         }
+    }
+    
+    public func batchDelete(_ objectIDs: [NSManagedObjectID]) {
+        NSManagedObjectContext.mergeChanges(
+            fromRemoteContextSave: [ NSDeletedObjectsKey : objectIDs ],
+            into: [ self ]
+        )
     }
 }

@@ -12,6 +12,36 @@ import Foundation
 extension Array {
     var isNotEmpty: Bool { self.count > 0 }
     
+    func max<T: Comparable>(iteration: (Element) -> T) -> T? {
+        var max: T? = nil
+        forEach { element in
+            if let currentMax = max {
+                let thisElement = iteration(element)
+                if thisElement > currentMax {
+                    max = thisElement
+                }
+            } else {
+                max = iteration(element)
+            }
+        }
+        return max
+    }
+    
+    func min<T: Comparable>(iteration: (Element) -> T) -> T? {
+        var min: T? = nil
+        forEach { element in
+            if let currentMin = min {
+                let thisElement = iteration(element)
+                if thisElement < currentMin {
+                    min = thisElement
+                }
+            } else {
+                min = iteration(element)
+            }
+        }
+        return min
+    }
+    
     mutating func append(_ anotherArray: [Element]) {
         self += anotherArray
     }
@@ -45,6 +75,7 @@ extension Array {
 }
 
 extension Array where Element: Equatable {
+    
     mutating func removeAll(_ elements: [Element]) {
         for element in elements { removeAll(element) }
     }
@@ -89,12 +120,19 @@ extension Array where Element: Equatable {
         let startIndex = fromEnd ? count - 1 : 0
         let endIndex = fromEnd ? 0 : count - 1
         var comparisonResult: Bool
-        for index in startIndex ... endIndex {
-            comparisonResult = compareByReference ?
-                self[index] as AnyObject === element as AnyObject :
-                self[index] == element
-            if comparisonResult {
-                return index
+        if compareByReference {
+            for index in startIndex ... endIndex {
+                comparisonResult = self[index] as AnyObject === element as AnyObject
+                if comparisonResult {
+                    return index
+                }
+            }
+        } else {
+            for index in startIndex ... endIndex {
+                comparisonResult = self[index] == element
+                if comparisonResult {
+                    return index
+                }
             }
         }
         return nil
