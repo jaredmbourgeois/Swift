@@ -12,6 +12,10 @@ import Foundation
 extension Array {
     var isNotEmpty: Bool { self.count > 0 }
     
+    func isValidIndex(_ index: Int) -> Bool {
+        index > -1 && index < count
+    }
+    
     func max<T: Comparable>(iteration: (Element) -> T) -> T? {
         var max: T? = nil
         forEach { element in

@@ -52,33 +52,56 @@ extension UIColor {
         public static var orange: UIColor { UIColor(red: 0.95, green: 0.52, blue: 0.19, alpha: 1) }
     }
     
-    public func componentsHSBA() -> Components.HSBA { UIColor.componentsHSBA(color: self) }
-    public static func componentsHSBA(color: UIColor) -> Components.HSBA {
+    public func componentsHSBA() -> Components.HSBA {
         var hue: CGFloat = 0
         var saturation: CGFloat = 0
         var brightness: CGFloat = 0
         var alpha: CGFloat = 0
-        let _: Bool = color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+        let _: Bool = getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
         return Components.HSBA(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
     }
+//    public static func componentsHSBA(color: UIColor) -> Components.HSBA {
+//        var hue: CGFloat = 0
+//        var saturation: CGFloat = 0
+//        var brightness: CGFloat = 0
+//        var alpha: CGFloat = 0
+//        let _: Bool = color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+//        return Components.HSBA(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
+//    }
     
-    public func contrasting(degree: Format.Degree) -> UIColor { UIColor.contrasting(color: self, degree: degree) }
-    public static func contrasting(color: UIColor? = nil, componentsHSBA: UIColor.Components.HSBA? = nil, degree: Format.Degree) -> UIColor {
-        var hue: CGFloat = componentsHSBA?.hue ?? 0
-        var saturation: CGFloat = componentsHSBA?.saturation ?? 0
-        var brightness: CGFloat = componentsHSBA?.brightness ?? 0
-        var alpha: CGFloat = componentsHSBA?.alpha ?? 0
-        let success: Bool = color?.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha) ?? true
-        if (success == true) {
-            let fraction: CGFloat = degree.rawValue
-            if (brightness >= 0.5) {
-                brightness -= 0.5 * fraction * brightness
-            }
-            else if (brightness < 0.5){
-                brightness += 0.5 * fraction * brightness
-            }
+//    public func contrasting(degree: Format.Degree) -> UIColor { UIColor.contrasting(color: self, degree: degree) }
+//    public static func contrasting(color: UIColor? = nil, componentsHSBA: UIColor.Components.HSBA? = nil, degree: Format.Degree) -> UIColor {
+//        var hue: CGFloat = componentsHSBA?.hue ?? 0
+//        var saturation: CGFloat = componentsHSBA?.saturation ?? 0
+//        var brightness: CGFloat = componentsHSBA?.brightness ?? 0
+//        var alpha: CGFloat = componentsHSBA?.alpha ?? 0
+//        let success: Bool = color?.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha) ?? true
+//        if (success == true) {
+//            let fraction: CGFloat = degree.rawValue
+//            if (brightness >= 0.5) {
+//                brightness -= 0.5 * fraction * brightness
+//            }
+//            else if (brightness < 0.5){
+//                brightness += 0.5 * fraction * brightness
+//            }
+//        }
+//        return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
+//    }
+    
+    public func contrastingComponents(degree: Format.Degree) -> UIColor.Components.HSBA {
+        let components = componentsHSBA()
+        let contrastHue: CGFloat = components.hue
+        let contrastSaturation: CGFloat = components.saturation
+        var contrastBrightness: CGFloat = components.brightness
+        
+        let fraction: CGFloat = degree.rawValue
+        if (components.brightness >= 0.5) {
+            contrastBrightness -= 0.5 * fraction * components.brightness
         }
-        return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
+        else if (components.brightness < 0.5){
+            contrastBrightness += 0.5 * fraction * components.brightness
+        }
+        return UIColor.Components.HSBA(hue: contrastHue, saturation: contrastSaturation, brightness: contrastBrightness, alpha: components.alpha)
     }
     
     public func desaturated(degree: Format.Degree) -> UIColor { UIColor.desaturated(color: self, degree: degree) }
