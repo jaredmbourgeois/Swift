@@ -10,10 +10,74 @@
 import UIKit
 
 extension CGPath {
+    
+    public enum Corner {
+        case topLeft
+        case topRight
+        case bottomLeft
+        case bottomRight
+    }
+    
     public static func rounded(
         rect: CGRect,
-        cornerRadius: CGFloat = Format.CornerRadius.medium.rawValue,
-        lineWidth: CGFloat = CGFloat.zero,
+        cornerRadius: CGFloat,
+        lineWidth: CGFloat,
+        corner: CGPath.Corner
+    ) -> CGPath {
+        let mutablePath: CGMutablePath = CGMutablePath()
+        let margin: CGFloat = 0.5*lineWidth
+        let topLeft: CGPoint = CGPoint(x: rect.minX + margin, y: rect.minY + margin)
+        let topRight: CGPoint = CGPoint(x: rect.maxX - margin, y: rect.minY + margin)
+        let bottomLeft: CGPoint = CGPoint(x: rect.minX + margin, y: rect.maxY - margin)
+        let bottomRight: CGPoint = CGPoint(x: rect.maxX - margin, y: rect.maxY - margin)
+        let radius: CGFloat
+        
+        switch corner {
+        case .topLeft:
+            radius = cornerRadius
+            mutablePath.move(to: bottomLeft)
+            mutablePath.addLine(to: CGPoint(x: topLeft.x, y: topLeft.y + radius))
+            mutablePath.addRelativeArc(center: CGPoint(x: topLeft.x + radius, y: topLeft.y + radius), radius: radius, startAngle: .pi, delta: (1.0/2.0) * .pi)
+            mutablePath.addLine(to: topRight)
+            mutablePath.addLine(to: bottomRight)
+            mutablePath.addLine(to: bottomLeft)
+            break
+            
+        case .topRight:
+            radius = cornerRadius
+            mutablePath.move(to: bottomLeft)
+            mutablePath.addLine(to: CGPoint(x: topLeft.x, y: topLeft.y + radius))
+            mutablePath.addLine(to: topLeft)
+            mutablePath.addRelativeArc(center: CGPoint(x: topRight.x - radius, y: topRight.y + radius), radius: radius, startAngle: (3.0/2.0) * .pi, delta: (1.0/2.0) * .pi)
+            mutablePath.addLine(to: bottomRight)
+            mutablePath.addLine(to: bottomLeft)
+            break
+            
+        case .bottomLeft:
+            radius = cornerRadius
+            mutablePath.move(to: topLeft)
+            mutablePath.addLine(to: topRight)
+            mutablePath.addLine(to: bottomRight)
+            mutablePath.addRelativeArc(center: CGPoint(x: bottomLeft.x + radius, y: bottomLeft.y - radius), radius: radius, startAngle: (1.0/2.0) * .pi, delta: (1.0/2.0) * .pi)
+            mutablePath.addLine(to: topLeft)
+            break
+            
+        case .bottomRight:
+            radius = cornerRadius
+            mutablePath.move(to: topLeft)
+            mutablePath.addLine(to: topRight)
+            mutablePath.addRelativeArc(center: CGPoint(x: bottomRight.x - radius, y: bottomRight.y - radius), radius: radius, startAngle: 0, delta: (1.0/2.0) * .pi)
+            mutablePath.addLine(to: bottomLeft)
+            mutablePath.addLine(to: topLeft)
+            break
+        }
+        return mutablePath.copy()!
+    }
+    
+    public static func rounded(
+        rect: CGRect,
+        cornerRadius: CGFloat,
+        lineWidth: CGFloat,
         position: Format.Position = .isolated
     ) -> CGPath {
         let mutablePath: CGMutablePath = CGMutablePath()
