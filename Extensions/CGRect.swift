@@ -20,4 +20,21 @@ extension CGRect {
     public var max: CGPoint { CGPoint(x: maxX, y: maxY) }
     public var maxXOriginY: CGPoint { CGPoint(x: maxX, y: origin.y) }
     public var maxYOriginX: CGPoint { CGPoint(x: origin.x, y: maxY) }
+    
+    public func intersects(_ rects: [CGRect]) -> Bool {
+        var intersects = false
+        rects.forEach { rect in
+            if self.intersects(rect) {
+                intersects = true
+            }
+        }
+        return intersects
+    }
+    
+    public func intersectsVerticalLine(at x: CGFloat) -> Bool {
+        origin.x ... (origin.x + size.width) ~= x
+    }
+    public func intersectsHorizontalLine(at y: CGFloat) -> Bool {
+        origin.y ... (origin.y + size.height) ~= y
+    }
 }

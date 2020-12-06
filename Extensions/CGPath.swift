@@ -25,7 +25,7 @@ extension CGPath {
         corner: CGPath.Corner
     ) -> CGPath {
         let mutablePath: CGMutablePath = CGMutablePath()
-        let margin: CGFloat = 0.5*lineWidth
+        let margin: CGFloat = 0.5 * lineWidth
         let topLeft: CGPoint = CGPoint(x: rect.minX + margin, y: rect.minY + margin)
         let topRight: CGPoint = CGPoint(x: rect.maxX - margin, y: rect.minY + margin)
         let bottomLeft: CGPoint = CGPoint(x: rect.minX + margin, y: rect.maxY - margin)
@@ -81,7 +81,7 @@ extension CGPath {
         position: Format.Position = .isolated
     ) -> CGPath {
         let mutablePath: CGMutablePath = CGMutablePath()
-        let margin: CGFloat = 0.5*lineWidth
+        let margin: CGFloat = 0.5 * lineWidth
         let topLeft: CGPoint = CGPoint(x: rect.minX + margin, y: rect.minY + margin)
         let topRight: CGPoint = CGPoint(x: rect.maxX - margin, y: rect.minY + margin)
         let bottomLeft: CGPoint = CGPoint(x: rect.minX + margin, y: rect.maxY - margin)
