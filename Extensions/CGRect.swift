@@ -32,9 +32,17 @@ extension CGRect {
     }
     
     public func intersectsVerticalLine(at x: CGFloat) -> Bool {
-        origin.x ... (origin.x + size.width) ~= x
+        var intersects = false
+        if !x.isNaN && !origin.x.isNaN && !size.width.isNaN {
+            intersects = origin.x ... (origin.x + size.width) ~= x
+        }
+        return intersects
     }
     public func intersectsHorizontalLine(at y: CGFloat) -> Bool {
-        origin.y ... (origin.y + size.height) ~= y
+        var intersects = false
+        if !y.isNaN && !origin.y.isNaN && !size.height.isNaN {
+            intersects = origin.y ... (origin.y + size.height) ~= y
+        }
+        return intersects
     }
 }

@@ -12,6 +12,16 @@ import Foundation
 extension Array {
     var isNotEmpty: Bool { self.count > 0 }
     
+    func any(iteration: (Element) -> Bool) -> Bool {
+        var anyTrue = false
+        forEach { element in
+            if iteration(element) {
+                anyTrue = true
+            }
+        }
+        return anyTrue
+    }
+    
     func isValidIndex(_ index: Int) -> Bool {
         index > -1 && index < count
     }
