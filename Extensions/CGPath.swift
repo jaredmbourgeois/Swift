@@ -7,7 +7,7 @@
 //  Apache License 2.0, https://www.apache.org/licenses/LICENSE-2.0
 //
 
-import UIKit
+import CoreGraphics
 
 extension CGPath {
     
@@ -71,7 +71,7 @@ extension CGPath {
             mutablePath.addLine(to: topLeft)
             break
         }
-        return mutablePath.copy()!
+        return mutablePath as CGPath
     }
     
     public static func rounded(
@@ -144,7 +144,7 @@ extension CGPath {
             mutablePath.addLine(to: CGPoint(x: topLeft.x, y: topLeft.y + radius))
             break
         }
-        return mutablePath.copy()!
+        return mutablePath as CGPath
     }
     
     public static func check(rect: CGRect) -> CGPath {
@@ -155,6 +155,90 @@ extension CGPath {
         mutablePath.move(to: CGPoint(x: rect.origin.x + x.left * rect.size.width, y: rect.origin.y + y.middle * rect.size.height))
         mutablePath.addLine(to: CGPoint(x: rect.origin.x + x.middle * rect.size.width, y: rect.origin.y + y.bottom * rect.size.height))
         mutablePath.addLine(to: CGPoint(x: rect.origin.x + x.right * rect.size.width, y: rect.origin.y + y.top * rect.size.height))
-        return mutablePath.copy()!
-    }    
+        return mutablePath as CGPath
+    }
+    
+    public static func gear(rect: CGRect, lineWidth: CGFloat, inset: CGFloat) -> CGPath {
+        let toothSize = CGFloat(StreakCalculator.phi) * lineWidth
+        let toothCircleDiameter = rect.size.min - 2 * (inset + toothSize)
+        let toothCircleRadius = 0.5 * toothCircleDiameter
+        
+        let outerCircleDiameter = toothCircleDiameter - 2 * toothSize
+        
+        let innerCircleDiameter = outerCircleDiameter - 2 * lineWidth
+        let innerCircleRadius = 0.5 * innerCircleDiameter
+        let innerCircleRect = CGRect(
+            x: 0.5 * (rect.size.width - innerCircleDiameter),
+            y: 0.5 * (rect.size.height - innerCircleDiameter),
+            width: innerCircleDiameter,
+            height: innerCircleDiameter
+        )
+        let toothCircleRect = CGRect(
+            x: 0.5 * (rect.size.width - toothCircleDiameter),
+            y: 0.5 * (rect.size.height - toothCircleDiameter),
+            width: toothCircleDiameter,
+            height: toothCircleDiameter
+        )
+                
+        let toothCircleRectCenter = toothCircleRect.center
+
+        let sqrtTwoOverTwo = CGFloat(1.0/CGFloat(sqrt(2.0)))
+        
+        let path = CGMutablePath()
+        // vertical
+        path.move(to: CGPoint(x: toothCircleRectCenter.x, y: toothCircleRect.origin.y))
+        path.addLine(to: CGPoint(x: toothCircleRectCenter.x, y: toothCircleRect.centerY - innerCircleRadius))
+        path.move(to: CGPoint(x: toothCircleRectCenter.x, y: toothCircleRect.maxY))
+        path.addLine(to: CGPoint(x: toothCircleRectCenter.x, y: toothCircleRect.centerY + innerCircleRadius))
+
+        // horizontal
+        path.move(to: CGPoint(x: toothCircleRect.origin.x, y: toothCircleRectCenter.y))
+        path.addLine(to: CGPoint(x: toothCircleRect.centerX - innerCircleRadius, y: toothCircleRectCenter.y))
+        path.move(to: CGPoint(x: toothCircleRect.maxX, y: toothCircleRectCenter.y))
+        path.addLine(to: CGPoint(x: toothCircleRect.centerX + innerCircleRadius, y: toothCircleRectCenter.y))
+
+        // quadrant I > III
+        path.move(to: CGPoint(
+            x: toothCircleRectCenter.x + sqrtTwoOverTwo * toothCircleRadius,
+            y: toothCircleRectCenter.y + sqrtTwoOverTwo * toothCircleRadius
+        ))
+        path.addLine(to: CGPoint(
+            x: toothCircleRectCenter.x + sqrtTwoOverTwo * innerCircleRadius,
+            y: toothCircleRectCenter.y + sqrtTwoOverTwo * innerCircleRadius
+        ))
+        path.move(to: CGPoint(
+            x: toothCircleRectCenter.x - sqrtTwoOverTwo * toothCircleRadius,
+            y: toothCircleRectCenter.y - sqrtTwoOverTwo * toothCircleRadius
+        ))
+        path.addLine(to: CGPoint(
+            x: toothCircleRectCenter.x - sqrtTwoOverTwo * innerCircleRadius,
+            y: toothCircleRectCenter.y - sqrtTwoOverTwo * innerCircleRadius
+        ))
+        // quadrant II > IV
+        path.move(to: CGPoint(
+            x: toothCircleRectCenter.x - sqrtTwoOverTwo * toothCircleRadius,
+            y: toothCircleRectCenter.y + sqrtTwoOverTwo * toothCircleRadius
+        ))
+        path.addLine(to: CGPoint(
+            x: toothCircleRectCenter.x - sqrtTwoOverTwo * innerCircleRadius,
+            y: toothCircleRectCenter.y + sqrtTwoOverTwo * innerCircleRadius
+        ))
+        path.move(to: CGPoint(
+            x: toothCircleRectCenter.x + sqrtTwoOverTwo * toothCircleRadius,
+            y: toothCircleRectCenter.y - sqrtTwoOverTwo * toothCircleRadius
+        ))
+        path.addLine(to: CGPoint(
+            x: toothCircleRectCenter.x + sqrtTwoOverTwo * innerCircleRadius,
+            y: toothCircleRectCenter.y - sqrtTwoOverTwo * innerCircleRadius
+        ))
+        
+        path.addEllipse(in: CGRect(
+            x: innerCircleRect.origin.x - 0.5 * lineWidth,
+            y: innerCircleRect.origin.y - 0.5 * lineWidth,
+            width: innerCircleRect.size.width + lineWidth,
+            height: innerCircleRect.size.height + lineWidth
+        ))
+        
+        return path as CGPath
+    }
 }

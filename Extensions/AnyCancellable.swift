@@ -12,3 +12,9 @@ import Combine
 extension AnyCancellable {
     static let empty = AnyCancellable({})
 }
+
+extension Array where Element: AnyCancellable {
+    func cancel() -> Void {
+        forEach { $0.cancel() }
+    }
+}
