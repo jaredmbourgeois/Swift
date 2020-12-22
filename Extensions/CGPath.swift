@@ -77,7 +77,7 @@ extension CGPath {
     public static func rounded(
         rect: CGRect,
         cornerRadius: CGFloat,
-        lineWidth: CGFloat,
+        lineWidth: CGFloat = .zero,
         position: Format.Position = .isolated
     ) -> CGPath {
         let mutablePath: CGMutablePath = CGMutablePath()

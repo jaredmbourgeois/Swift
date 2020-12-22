@@ -75,6 +75,7 @@ extension UITextField {
         
         init(
             setupModel: UITextField.UITextFieldSetupModel,
+            delegate: UITextFieldDelegate,
             placeholder: String = String.empty,
             placeholderColor: UIColor? = nil,
             textColor: UIColor? = nil,
@@ -82,7 +83,7 @@ extension UITextField {
         ) {
             self.backgroundColor = setupModel.backgroundColor
             self.cornerRadius = setupModel.cornerRadius
-            self.delegate = setupModel.delegate
+            self.delegate = delegate
             self.font = setupModel.font
             self.frame = setupModel.frame
             self.height = setupModel.height

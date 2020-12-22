@@ -9,7 +9,7 @@
 
 import Foundation
 
-enum TimePeriod: TimeInterval {
+public enum TimePeriod: TimeInterval {
     case zero = 0
     case nanosecond = 0.000000001
     case microsecond = 0.000001
