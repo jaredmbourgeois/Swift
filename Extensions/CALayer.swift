@@ -11,21 +11,22 @@ import UIKit
 
 extension CALayer {
     public func shadow(_ description: Format.ShadowDescription) -> Void {
-        CALayer.shadow(self, cornerRadius: description.cornerRadius, color: description.shadowColor, offset: description.shadowOffset, opacity: description.shadowOpacity)
+        shadow(
+            self,
+            cornerRadius: description.cornerRadius,
+            color: description.shadowColor,
+            offset: description.shadowOffset,
+            opacity: description.shadowOpacity
+        )
     }
-    public static func shadow(_ layer: CALayer, description: Format.ShadowDescription) -> Void {
-        CALayer.shadow(layer, cornerRadius: description.cornerRadius, color: description.shadowColor, offset: description.shadowOffset, opacity: description.shadowOpacity)
-    }
-    public func shadow() -> Void {
-        CALayer.shadow(self, cornerRadius: nil, color: nil, offset: nil, opacity: nil)
-    }
-    public func shadow(cornerRadius: CGFloat?, color: CGColor?, offset: CGSize?, opacity: Float?) -> Void {
-        CALayer.shadow(self, cornerRadius: cornerRadius, color: color, offset: offset, opacity: opacity)
-    }
-    public static func shadow(_ layer: CALayer) -> Void {
-        CALayer.shadow(layer, cornerRadius: nil, color: nil, offset: nil, opacity: nil)
-    }
-    public static func shadow(_ layer: CALayer, cornerRadius: CGFloat?, color: CGColor?, offset: CGSize?, opacity: Float?) -> Void {
+
+    private func shadow(
+        _ layer: CALayer,
+        cornerRadius: CGFloat?,
+        color: CGColor?,
+        offset: CGSize?,
+        opacity: Float?
+    ) -> Void {
         layer.masksToBounds = false
         layer.cornerRadius = cornerRadius ?? 6
         layer.shadowColor = color ?? UIColor.StackOverflow.black.cgColor
