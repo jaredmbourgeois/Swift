@@ -12,26 +12,44 @@ import UIKit
 extension CALayer {
     public func shadow(_ description: Format.ShadowDescription) -> Void {
         shadow(
-            self,
+            on: description.on,
             cornerRadius: description.cornerRadius,
             color: description.shadowColor,
             offset: description.shadowOffset,
-            opacity: description.shadowOpacity
+            opacity: description.shadowOpacity,
+            path: description.shadowPath,
+            radius: description.shadowRadius
         )
     }
 
-    private func shadow(
-        _ layer: CALayer,
+    public func shadow(
+        on: Bool,
         cornerRadius: CGFloat?,
-        color: CGColor?,
-        offset: CGSize?,
-        opacity: Float?
+        color: CGColor,
+        offset: CGSize,
+        opacity: Float,
+        path: CGPath?,
+        radius: CGFloat
     ) -> Void {
-        layer.masksToBounds = false
-        layer.cornerRadius = cornerRadius ?? 6
-        layer.shadowColor = color ?? UIColor.StackOverflow.black.cgColor
-        layer.shadowOffset = offset ?? CGSize(width: 0.5, height: 0.5)
-        layer.shadowOpacity = opacity ?? Float(1.0/3.0)
+        if on {
+            masksToBounds = false
+            self.cornerRadius = cornerRadius ?? self.cornerRadius
+            shadowColor = color
+            shadowOffset = offset
+            shadowOpacity = opacity
+            shadowPath = path
+            shadowRadius = radius
+        } else {
+            shadowOff()
+        }
+    }
+    
+    public func shadowOff() {
+        shadowColor = .clear
+        shadowOffset = .zero
+        shadowOpacity = .zero
+        shadowPath = nil
+        shadowRadius = .zero
     }
     
 //    public func rotate(

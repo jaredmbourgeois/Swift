@@ -19,7 +19,7 @@ extension NSPredicate {
         case greaterThanEqualTo
     }
     
-    convenience init(key: String, comparison: Comparison, value: CVarArg) {
+    public convenience init(key: String, comparison: Comparison, value: CVarArg) {
         switch comparison {
         case .equal: self.init(format: "\(key) == %@", value)
         case .notEqual: self.init(format: "\(key) != %@", value)

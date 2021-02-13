@@ -33,6 +33,7 @@ public enum Format {
     public enum Degree: CGFloat {
         /** 0 */
         case none = 0.0
+        case extraExtraLight = 0.0625
         /** 0.125 */
         case extraLight = 0.125
         /** 0. 250 */
@@ -115,10 +116,10 @@ public enum Format {
         case mediumLarge = 10
         /** 12  */
         case large = 12
-        /** 14  */
-        case extraLarge = 14
         /** 16  */
-        case title = 16
+        case extraLarge = 16
+        /** 20  */
+        case title = 20
         
         public var size: Format.Size {
             switch self {
@@ -264,23 +265,29 @@ public enum Format {
     
     public struct ShadowDescription {
         public let on: Bool
-        public let cornerRadius: CGFloat
+        public let cornerRadius: CGFloat?
         public let shadowColor: CGColor
         public let shadowOffset: CGSize
         public let shadowOpacity: Float
+        public let shadowPath: CGPath?
+        public let shadowRadius: CGFloat
 
         init(
             on: Bool = true,
             cornerRadius: CGFloat = 0,
             shadowColor: UIColor = .black,
             shadowOffset: CGSize = .zero,
-            shadowOpacity: CGFloat = CGFloat(0.333)
+            shadowOpacity: CGFloat = CGFloat(0.5),
+            shadowPath: CGPath? = nil,
+            shadowRadius: CGFloat = 4
         ) {
             self.on = on
             self.cornerRadius = cornerRadius
             self.shadowColor = shadowColor.cgColor
             self.shadowOffset = shadowOffset
             self.shadowOpacity = Float(shadowOpacity)
+            self.shadowPath = shadowPath
+            self.shadowRadius = shadowRadius
         }
     }
     

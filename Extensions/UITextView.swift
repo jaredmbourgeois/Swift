@@ -9,7 +9,7 @@
 import UIKit
 
 extension UITextView {
-    convenience init(_ setupModel: UITextViewSetupModel) {
+    public convenience init(_ setupModel: UITextViewSetupModel) {
         self.init(frame: setupModel.frame)
         self.translatesAutoresizingMaskIntoConstraints = setupModel.frame != CGRect.zero
         self.backgroundColor = setupModel.backgroundColor

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension UICollectionViewFlowLayout {
-    convenience init(
+    public convenience init(
         scrollDirection: UICollectionView.ScrollDirection = .horizontal,
         minimumInteritemSpacing: CGFloat = 0,
         minimumLineSpacing: CGFloat = 0

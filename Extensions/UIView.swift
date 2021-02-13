@@ -11,8 +11,8 @@ import UIKit
 
 extension UIView {
     
-    func animateConstraintRequest(
-        _ view: UIView?,
+    public func animateSubviewsConstraintRequest(
+        _ subviews: [UIView],
         animationTime: TimeInterval,
         constraintRequest: NSLayoutConstraint.ActivationRequest?,
         concurrentAnimations: (() -> Void)? = nil,
@@ -28,8 +28,10 @@ extension UIView {
                 
                 concurrentAnimations?()
                 
-                view?.layoutIfNeeded()
-                view?.setNeedsDisplay()
+                subviews.forEach {
+                    $0.layoutIfNeeded()
+                    $0.setNeedsDisplay()
+                }
 
                 self?.layoutIfNeeded()
                 self?.setNeedsDisplay()
@@ -40,6 +42,20 @@ extension UIView {
                 }
             }
         )
+    }
+    
+    public func animateConstraintRequest(
+        _ view: UIView?,
+        animationTime: TimeInterval,
+        constraintRequest: NSLayoutConstraint.ActivationRequest?,
+        concurrentAnimations: (() -> Void)? = nil,
+        completionHandler: (() -> Void)? = nil
+    ) {
+        let views: [UIView] = {
+            guard let view = view else { return [] }
+            return [ view ]
+        }()
+        self.animateSubviewsConstraintRequest(views, animationTime: animationTime, constraintRequest: constraintRequest, concurrentAnimations: concurrentAnimations, completionHandler: completionHandler)
     }
     
     func constraintsForSuperView(insetX: CGFloat = 0, insetY: CGFloat = 0) -> [NSLayoutConstraint] {
@@ -68,12 +84,16 @@ extension UIView {
     }
     
     func isActive() -> Bool {
-        !isHidden || alpha > 0 || isUserInteractionEnabled
+        !isHidden && alpha > 0 && isUserInteractionEnabled
     }
     
-    func setActive(inactive: Bool = false) {
-        alpha = inactive ? 0 : 1
-        isUserInteractionEnabled = !inactive
+    func setActive(
+        _ active: Bool = true,
+        alphaActive: CGFloat = 1,
+        alphaInactive: CGFloat = 0
+    ) {
+        alpha = active ? alphaActive : alphaInactive
+        isUserInteractionEnabled = active
     }
     
     func removeSubviews() -> Void {

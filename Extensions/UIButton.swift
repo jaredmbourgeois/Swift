@@ -11,7 +11,7 @@ import UIKit
 
 extension UIButton {
     
-    convenience init(_ setupModel: UIButtonSetupModel) {
+    public convenience init(_ setupModel: UIButtonSetupModel) {
         self.init(frame: setupModel.frame)
         isUserInteractionEnabled = true
         contentMode = .scaleToFill

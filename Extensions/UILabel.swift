@@ -11,7 +11,7 @@ import UIKit
 
 extension UILabel {
     
-    convenience init(_ setupModel: UILabelSetupModel) {
+    public convenience init(_ setupModel: UILabelSetupModel) {
         self.init(frame: setupModel.frame)
         self.isUserInteractionEnabled = false
         self.setup(setupModel)

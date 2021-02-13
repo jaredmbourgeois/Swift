@@ -19,7 +19,7 @@ extension Date {
         let min: Date
     }
     
-    init(_ date: NSDate) {
+    public init(_ date: NSDate) {
         self = Date(timeIntervalSince1970: date.timeIntervalSince1970)
     }
     
@@ -73,6 +73,10 @@ extension Date {
         )!
     }
     
+    public static func fraction(_ date: Date, range: ClosedRange<Date>) -> Double {
+        (date.timeIntervalSince1970 - range.lowerBound.timeIntervalSince1970) / (range.upperBound.timeIntervalSince1970 - range.lowerBound.timeIntervalSince1970)
+    }
+    
     public static func lastDateInMonth(containing date: Date, calendar: Calendar = Calendar.currentGregorian) -> Date {
         let firstDate = firstDateInMonth(containing: date, calendar: calendar)
         return calendar.date(
@@ -118,8 +122,8 @@ extension Date {
         return dateFormatter.string(from: date)
     }
     
-    public static func milliseconds(date: Date? = nil) -> Int64 {
-        Int64((((date ?? Date()).timeIntervalSince1970 * 1000).rounded()))
+    public static func milliseconds(date: Date? = nil) -> TimeInterval {
+        (date ?? Date()).timeIntervalSince1970 * 1000
     }
     
     public func midnight(calendar: Calendar = Calendar.currentGregorian) -> Date {

@@ -242,16 +242,16 @@ extension Font {
     public enum Size: CGFloat, Sizable {
         /** 0 */
         case zero = 0
+        /** 8 */
+        case extraSmall = 8
+        /** 10 */
+        case small = 10
         /** 12 */
-        case extraSmall = 12
+        case mediumSmall = 12
         /** 16 */
-        case small = 16
-        /** 20 */
-        case mediumSmall = 20
+        case medium = 16
         /** 24 */
-        case medium = 24
-        /** 28 */
-        case mediumLarge = 28
+        case mediumLarge = 24
         /** 32 */
         case large = 32
         /** 40 */

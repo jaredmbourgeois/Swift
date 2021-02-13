@@ -9,21 +9,20 @@
 import Foundation
 import UIKit
 
-struct UIButtonSetupModel {
+public struct UIButtonSetupModel {
+    public let backgroundColor: UIColor
+    public let cornerRadius: CGFloat
+    public let frame: CGRect
+    public let height: CGFloat
+    public let showsTouchWhenHighlighted: Bool
+    public let labelSetupModel: UILabelSetupModel
+    public let target: Any?
+    public let selector: Selector?
+    public let controlEvent: UIControl.Event
     
-    let backgroundColor: UIColor
-    let cornerRadius: CGFloat
-    let frame: CGRect
-    let height: CGFloat
-    let showsTouchWhenHighlighted: Bool
-    let labelSetupModel: UILabelSetupModel
-    let target: Any?
-    let selector: Selector?
-    let controlEvent: UIControl.Event
+    public static let empty = UIButtonSetupModel()
     
-    static let empty = UIButtonSetupModel()
-    
-    init(
+    public init(
         backgroundColor: UIColor = .clear,
         cornerRadius: CGFloat = .zero,
         frame: CGRect = .zero,
@@ -45,7 +44,7 @@ struct UIButtonSetupModel {
         self.controlEvent = controlEvent
     }
     
-    init(
+    public init(
         setupModel: UIButtonSetupModel? = nil,
         backgroundColor: UIColor? = nil,
         cornerRadius: CGFloat? = nil,
@@ -70,21 +69,20 @@ struct UIButtonSetupModel {
     }
 }
 
-struct UILabelSetupModel {
+public struct UILabelSetupModel {
+    public let backgroundColor: UIColor
+    public let cornerRadius: CGFloat
+    public let font: UIFont
+    public let frame: CGRect
+    public let height: CGFloat
+    public let numberOfLines: Int
+    public let textAlignment: NSTextAlignment
+    public let textColor: UIColor
+    public let text: String
     
-    let backgroundColor: UIColor
-    let cornerRadius: CGFloat
-    let font: UIFont
-    let frame: CGRect
-    let height: CGFloat
-    let numberOfLines: Int
-    let textAlignment: NSTextAlignment
-    let textColor: UIColor
-    let text: String
+    public static let empty = UILabelSetupModel()
     
-    static let empty = UILabelSetupModel()
-    
-    init(
+    public init(
         backgroundColor: UIColor = .clear,
         cornerRadius: CGFloat = .zero,
         font: UIFont = .system,
@@ -106,7 +104,7 @@ struct UILabelSetupModel {
         self.text = text
     }
     
-    init(
+    public init(
         setupModel: UILabelSetupModel? = nil,
         backgroundColor: UIColor? = nil,
         cornerRadius: CGFloat? = nil,
@@ -131,20 +129,19 @@ struct UILabelSetupModel {
     }
 }
 
-struct UIScrollViewSetupModel {
+public struct UIScrollViewSetupModel {
+    public let delegate: UIScrollViewDelegate?
+    public let frame: CGRect
+    public let isScrollEnabled: Bool
+    public let cornerRadius: CGFloat
+    public let backgroundColor: UIColor
+    public let showsVerticalScrollIndicator: Bool
+    public let indicatorStyleMatchColor: UIColor
+    public let indicatorStyleMatchesColor: Bool
     
-    let delegate: UIScrollViewDelegate?
-    let frame: CGRect
-    let isScrollEnabled: Bool
-    let cornerRadius: CGFloat
-    let backgroundColor: UIColor
-    let showsVerticalScrollIndicator: Bool
-    let indicatorStyleMatchColor: UIColor
-    let indicatorStyleMatchesColor: Bool
+    public static let empty = UIScrollViewSetupModel()
     
-    static let empty = UIScrollViewSetupModel()
-    
-    init(
+    public init(
         delegate: UIScrollViewDelegate? = nil,
         frame: CGRect = .zero,
         isScrollEnabled: Bool = true,
@@ -164,7 +161,7 @@ struct UIScrollViewSetupModel {
         self.indicatorStyleMatchesColor = indicatorStyleMatchesColor
     }
     
-    init(
+    public init(
         setupModel: UIScrollViewSetupModel? = nil,
         delegate: UIScrollViewDelegate? = nil,
         frame: CGRect? = nil,
@@ -187,24 +184,24 @@ struct UIScrollViewSetupModel {
     }
 }
 
-struct UITextFieldSetupModel {
+public struct UITextFieldSetupModel {
+    public let backgroundColor: UIColor
+    public let cornerRadius: CGFloat
+    public let delegate: UITextFieldDelegate?
+    public let font: UIFont
+    public let frame: CGRect
+    public let height: CGFloat
+    public let isUserInteractionEnabled: Bool
+    public let keyboardType: UIKeyboardType
+    public let placeholder: String
+    public let placeholderColor: UIColor
+    public let textAlignment: NSTextAlignment
+    public let textColor: UIColor
+    public let text: String
     
-    let backgroundColor: UIColor
-    let cornerRadius: CGFloat
-    let delegate: UITextFieldDelegate?
-    let font: UIFont
-    let frame: CGRect
-    let height: CGFloat
-    let isUserInteractionEnabled: Bool
-    let placeholder: String
-    let placeholderColor: UIColor
-    let textAlignment: NSTextAlignment
-    let textColor: UIColor
-    let text: String
+    public static let empty = UITextFieldSetupModel()
     
-    static let empty = UITextFieldSetupModel()
-    
-    init(
+    public init(
         backgroundColor: UIColor = .clear,
         cornerRadius: CGFloat = .zero,
         delegate: UITextFieldDelegate? = nil,
@@ -212,6 +209,7 @@ struct UITextFieldSetupModel {
         frame: CGRect = .zero,
         height: CGFloat = .zero,
         isUserInteractionEnabled: Bool = false,
+        keyboardType: UIKeyboardType = .default,
         placeholder: String = .empty,
         placeholderColor: UIColor = .black,
         textAlignment: NSTextAlignment = .left,
@@ -225,6 +223,7 @@ struct UITextFieldSetupModel {
         self.frame = frame
         self.height = height
         self.isUserInteractionEnabled = isUserInteractionEnabled
+        self.keyboardType = keyboardType
         self.placeholder = placeholder
         self.placeholderColor = placeholderColor
         self.textAlignment = textAlignment
@@ -232,7 +231,7 @@ struct UITextFieldSetupModel {
         self.text = text
     }
 
-    init(
+    public init(
         setupModel: UITextFieldSetupModel? = nil,
         backgroundColor: UIColor? = nil,
         cornerRadius: CGFloat? = nil,
@@ -241,6 +240,7 @@ struct UITextFieldSetupModel {
         frame: CGRect? = nil,
         height: CGFloat? = nil,
         isUserInteractionEnabled: Bool? = nil,
+        keyboardType: UIKeyboardType? = nil,
         placeholder: String? = nil,
         placeholderColor: UIColor? = nil,
         textAlignment: NSTextAlignment? = nil,
@@ -255,6 +255,7 @@ struct UITextFieldSetupModel {
         self.frame = frame ?? setupModel.frame
         self.height = height ?? setupModel.height
         self.isUserInteractionEnabled = isUserInteractionEnabled ?? setupModel.isUserInteractionEnabled
+        self.keyboardType = keyboardType ?? .default
         self.placeholder = placeholder ?? setupModel.placeholder
         self.placeholderColor = placeholderColor ?? setupModel.placeholderColor
         self.textAlignment = textAlignment ?? setupModel.textAlignment
@@ -263,23 +264,22 @@ struct UITextFieldSetupModel {
     }
 }
 
-struct UITextViewSetupModel {
-    
-    let backgroundColor: UIColor
-    let cornerRadius: CGFloat
-    let font: UIFont
-    let frame: CGRect
-    let height: CGFloat
-    let isEditable: Bool
-    let isScrollEnabled: Bool
-    let isUserInteractionEnabled: Bool
-    let textAlignment: NSTextAlignment
-    let textColor: UIColor
-    let text: String
+public struct UITextViewSetupModel {
+    public let backgroundColor: UIColor
+    public let cornerRadius: CGFloat
+    public let font: UIFont
+    public let frame: CGRect
+    public let height: CGFloat
+    public let isEditable: Bool
+    public let isScrollEnabled: Bool
+    public let isUserInteractionEnabled: Bool
+    public let textAlignment: NSTextAlignment
+    public let textColor: UIColor
+    public let text: String
 
-    static let empty = UITextViewSetupModel()
+    public static let empty = UITextViewSetupModel()
     
-    init(
+    public init(
         backgroundColor: UIColor = .clear,
         cornerRadius: CGFloat = .zero,
         font: UIFont = .system,
@@ -305,7 +305,7 @@ struct UITextViewSetupModel {
         self.text = text
     }
     
-    init(
+    public init(
         setupModel: UITextViewSetupModel? = nil,
         backgroundColor: UIColor? = nil,
         cornerRadius: CGFloat? = nil,

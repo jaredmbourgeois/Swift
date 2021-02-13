@@ -12,7 +12,7 @@ import Foundation
 extension Array {
     var isNotEmpty: Bool { self.count > 0 }
     
-    func any(iteration: (Element) -> Bool) -> Bool {
+    func any(_ iteration: (Element) -> Bool) -> Bool {
         var anyTrue = false
         forEach { element in
             if iteration(element) {
@@ -22,11 +22,37 @@ extension Array {
         return anyTrue
     }
     
+    func group(_ iteration: (Element, Element) -> Bool) -> [[Element]] {
+        var indexesToGroup = [Int](indices)
+        var indexesGroupedThisElement: [Int]
+        var groups: [[Element]] = []
+        var group: [Element]
+        var thisElement: Element
+        var compareElement: Element
+        for index in 0 ..< count {
+            if indexesToGroup.contains(index) {
+                thisElement = self[index]
+                group = [ thisElement ]
+                indexesGroupedThisElement = [ index ]
+                for compareIndex in 0 ..< indexesToGroup.count {
+                    compareElement = self[indexesToGroup[compareIndex]]
+                    if iteration(thisElement, compareElement) {
+                        group.append(compareElement)
+                        indexesGroupedThisElement.append(indexesToGroup[compareIndex])
+                    }
+                }
+                groups.append(group)
+                indexesToGroup.removeAll(indexesGroupedThisElement)
+            }
+        }
+        return groups
+    }
+    
     func isValidIndex(_ index: Int) -> Bool {
         index > -1 && index < count
     }
     
-    func max<T: Comparable>(iteration: (Element) -> T) -> T? {
+    func max<T: Comparable>(_ iteration: (Element) -> T) -> T? {
         var max: T? = nil
         forEach { element in
             if let currentMax = max {
@@ -41,7 +67,7 @@ extension Array {
         return max
     }
     
-    func min<T: Comparable>(iteration: (Element) -> T) -> T? {
+    func min<T: Comparable>(_ iteration: (Element) -> T) -> T? {
         var min: T? = nil
         forEach { element in
             if let currentMin = min {

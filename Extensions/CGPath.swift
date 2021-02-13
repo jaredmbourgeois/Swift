@@ -12,10 +12,206 @@ import CoreGraphics
 extension CGPath {
     
     public enum Corner {
-        case topLeft
-        case topRight
-        case bottomLeft
-        case bottomRight
+        case topLeft, topRight, bottomLeft, bottomRight
+    }
+    
+    public enum Direction {
+        case left, up, right, down
+        public static let defaultDirection: Direction = .left
+        
+        public func opposite() -> CGPath.Direction { switch self {
+            case .left: return .right
+            case .up: return .down
+            case .right: return .left
+            case .down: return .up
+        } }
+    }
+    
+    public static func check(rect: CGRect) -> CGPath {
+        let x: (left: CGFloat, middle: CGFloat, right: CGFloat) = (left: (4.5/32.0), middle: (12.5/32.0), right: (26.0/32.0))
+        let y: (top: CGFloat, middle: CGFloat, bottom: CGFloat) = (top: (7.0/32.0), middle: (15.5/32.0), bottom: (23.0/32.0))
+
+        let mutablePath: CGMutablePath = CGMutablePath()
+        mutablePath.move(to: CGPoint(x: rect.origin.x + x.left * rect.size.width, y: rect.origin.y + y.middle * rect.size.height))
+        mutablePath.addLine(to: CGPoint(x: rect.origin.x + x.middle * rect.size.width, y: rect.origin.y + y.bottom * rect.size.height))
+        mutablePath.addLine(to: CGPoint(x: rect.origin.x + x.right * rect.size.width, y: rect.origin.y + y.top * rect.size.height))
+        return mutablePath as CGPath
+    }
+    
+    public static func chevron(rect: CGRect, direction: CGPath.Direction) -> CGPath {
+        let contentFractionLongAxis = CGFloat(0.64)
+        let contentFractionShortAxis = CGFloat(0.16)
+        
+        let arrowRect: CGRect = {
+            let longAxisLength: CGFloat
+            let shortAxisLength: CGFloat
+            switch direction {
+            case .left, .right:
+                longAxisLength = contentFractionLongAxis * rect.size.height
+                shortAxisLength = contentFractionShortAxis * rect.size.width
+                return CGRect(
+                    x: 0.5 * (rect.size.width - shortAxisLength),
+                    y: 0.5 * (rect.size.height - longAxisLength),
+                    width: shortAxisLength,
+                    height: longAxisLength
+                )
+            case .up, .down:
+                longAxisLength = contentFractionLongAxis * rect.size.width
+                shortAxisLength = contentFractionShortAxis * rect.size.height
+                return CGRect(
+                    x: 0.5 * (rect.size.width - longAxisLength),
+                    y: 0.5 * (rect.size.height - shortAxisLength),
+                    width: longAxisLength,
+                    height: shortAxisLength
+                )
+            }
+        }()
+        
+        let firstPoint: CGPoint
+        let secondPoint: CGPoint
+        let thirdPoint: CGPoint
+        switch direction {
+        case .left:
+            firstPoint = CGPoint(
+                x: arrowRect.origin.x + arrowRect.size.width,
+                y: arrowRect.origin.y
+            )
+            secondPoint = CGPoint(
+                x: arrowRect.origin.x,
+                y: arrowRect.origin.y + 0.5 * arrowRect.size.height
+            )
+            thirdPoint = CGPoint(
+                x: arrowRect.origin.x + arrowRect.size.width,
+                y: arrowRect.origin.y + arrowRect.size.height
+            )
+        case .up:
+            firstPoint = CGPoint(
+                x: arrowRect.origin.x,
+                y: arrowRect.origin.y + arrowRect.size.height
+            )
+            secondPoint = CGPoint(
+                x: arrowRect.origin.x + 0.5 * arrowRect.size.width,
+                y: arrowRect.origin.y
+            )
+            thirdPoint = CGPoint(
+                x: arrowRect.origin.x + arrowRect.size.width,
+                y: arrowRect.origin.y + arrowRect.size.height
+            )
+        case .right:
+            firstPoint = CGPoint(
+                x: arrowRect.origin.x,
+                y: arrowRect.origin.y
+            )
+            secondPoint = CGPoint(
+                x: arrowRect.origin.x + arrowRect.size.width,
+                y: arrowRect.origin.y + 0.5 * arrowRect.size.height
+            )
+            thirdPoint = CGPoint(
+                x: arrowRect.origin.x,
+                y: arrowRect.origin.y + arrowRect.size.height
+            )
+        case .down:
+            firstPoint = CGPoint(
+                x: arrowRect.origin.x,
+                y: arrowRect.origin.y
+            )
+            secondPoint = CGPoint(
+                x: arrowRect.origin.x + 0.5 * arrowRect.size.width,
+                y: arrowRect.origin.y + arrowRect.size.height
+            )
+            thirdPoint = CGPoint(
+                x: arrowRect.origin.x + arrowRect.size.width,
+                y: arrowRect.origin.y
+            )
+        }
+        
+        let path = CGMutablePath()
+        path.addLines(between: [ firstPoint, secondPoint, thirdPoint ])
+        return path.copy()!
+    }
+    
+    public static func gear(rect: CGRect, lineWidth: CGFloat, inset: CGFloat) -> CGPath {
+        let toothSize = CGFloat(StreakCalculator.phi) * lineWidth
+        let toothCircleDiameter = rect.size.min - 2 * (inset + toothSize)
+        let toothCircleRadius = 0.5 * toothCircleDiameter
+        
+        let outerCircleDiameter = toothCircleDiameter - 2 * toothSize
+        
+        let innerCircleDiameter = outerCircleDiameter - 2 * lineWidth
+        let innerCircleRadius = 0.5 * innerCircleDiameter
+        let innerCircleRect = CGRect(
+            x: 0.5 * (rect.size.width - innerCircleDiameter),
+            y: 0.5 * (rect.size.height - innerCircleDiameter),
+            width: innerCircleDiameter,
+            height: innerCircleDiameter
+        )
+        let toothCircleRect = CGRect(
+            x: 0.5 * (rect.size.width - toothCircleDiameter),
+            y: 0.5 * (rect.size.height - toothCircleDiameter),
+            width: toothCircleDiameter,
+            height: toothCircleDiameter
+        )
+                
+        let toothCircleRectCenter = toothCircleRect.center
+
+        let sqrtTwoOverTwo = CGFloat(1.0/CGFloat(sqrt(2.0)))
+        
+        let path = CGMutablePath()
+        // vertical
+        path.move(to: CGPoint(x: toothCircleRectCenter.x, y: toothCircleRect.origin.y))
+        path.addLine(to: CGPoint(x: toothCircleRectCenter.x, y: toothCircleRect.centerY - innerCircleRadius))
+        path.move(to: CGPoint(x: toothCircleRectCenter.x, y: toothCircleRect.maxY))
+        path.addLine(to: CGPoint(x: toothCircleRectCenter.x, y: toothCircleRect.centerY + innerCircleRadius))
+
+        // horizontal
+        path.move(to: CGPoint(x: toothCircleRect.origin.x, y: toothCircleRectCenter.y))
+        path.addLine(to: CGPoint(x: toothCircleRect.centerX - innerCircleRadius, y: toothCircleRectCenter.y))
+        path.move(to: CGPoint(x: toothCircleRect.maxX, y: toothCircleRectCenter.y))
+        path.addLine(to: CGPoint(x: toothCircleRect.centerX + innerCircleRadius, y: toothCircleRectCenter.y))
+
+        // quadrant I > III
+        path.move(to: CGPoint(
+            x: toothCircleRectCenter.x + sqrtTwoOverTwo * toothCircleRadius,
+            y: toothCircleRectCenter.y + sqrtTwoOverTwo * toothCircleRadius
+        ))
+        path.addLine(to: CGPoint(
+            x: toothCircleRectCenter.x + sqrtTwoOverTwo * innerCircleRadius,
+            y: toothCircleRectCenter.y + sqrtTwoOverTwo * innerCircleRadius
+        ))
+        path.move(to: CGPoint(
+            x: toothCircleRectCenter.x - sqrtTwoOverTwo * toothCircleRadius,
+            y: toothCircleRectCenter.y - sqrtTwoOverTwo * toothCircleRadius
+        ))
+        path.addLine(to: CGPoint(
+            x: toothCircleRectCenter.x - sqrtTwoOverTwo * innerCircleRadius,
+            y: toothCircleRectCenter.y - sqrtTwoOverTwo * innerCircleRadius
+        ))
+        // quadrant II > IV
+        path.move(to: CGPoint(
+            x: toothCircleRectCenter.x - sqrtTwoOverTwo * toothCircleRadius,
+            y: toothCircleRectCenter.y + sqrtTwoOverTwo * toothCircleRadius
+        ))
+        path.addLine(to: CGPoint(
+            x: toothCircleRectCenter.x - sqrtTwoOverTwo * innerCircleRadius,
+            y: toothCircleRectCenter.y + sqrtTwoOverTwo * innerCircleRadius
+        ))
+        path.move(to: CGPoint(
+            x: toothCircleRectCenter.x + sqrtTwoOverTwo * toothCircleRadius,
+            y: toothCircleRectCenter.y - sqrtTwoOverTwo * toothCircleRadius
+        ))
+        path.addLine(to: CGPoint(
+            x: toothCircleRectCenter.x + sqrtTwoOverTwo * innerCircleRadius,
+            y: toothCircleRectCenter.y - sqrtTwoOverTwo * innerCircleRadius
+        ))
+        
+        path.addEllipse(in: CGRect(
+            x: innerCircleRect.origin.x - 0.5 * lineWidth,
+            y: innerCircleRect.origin.y - 0.5 * lineWidth,
+            width: innerCircleRect.size.width + lineWidth,
+            height: innerCircleRect.size.height + lineWidth
+        ))
+        
+        return path as CGPath
     }
     
     public static func rounded(
@@ -145,100 +341,5 @@ extension CGPath {
             break
         }
         return mutablePath as CGPath
-    }
-    
-    public static func check(rect: CGRect) -> CGPath {
-        let x: (left: CGFloat, middle: CGFloat, right: CGFloat) = (left: (4.5/32.0), middle: (12.5/32.0), right: (26.0/32.0))
-        let y: (top: CGFloat, middle: CGFloat, bottom: CGFloat) = (top: (7.0/32.0), middle: (15.5/32.0), bottom: (23.0/32.0))
-
-        let mutablePath: CGMutablePath = CGMutablePath()
-        mutablePath.move(to: CGPoint(x: rect.origin.x + x.left * rect.size.width, y: rect.origin.y + y.middle * rect.size.height))
-        mutablePath.addLine(to: CGPoint(x: rect.origin.x + x.middle * rect.size.width, y: rect.origin.y + y.bottom * rect.size.height))
-        mutablePath.addLine(to: CGPoint(x: rect.origin.x + x.right * rect.size.width, y: rect.origin.y + y.top * rect.size.height))
-        return mutablePath as CGPath
-    }
-    
-    public static func gear(rect: CGRect, lineWidth: CGFloat, inset: CGFloat) -> CGPath {
-        let toothSize = CGFloat(StreakCalculator.phi) * lineWidth
-        let toothCircleDiameter = rect.size.min - 2 * (inset + toothSize)
-        let toothCircleRadius = 0.5 * toothCircleDiameter
-        
-        let outerCircleDiameter = toothCircleDiameter - 2 * toothSize
-        
-        let innerCircleDiameter = outerCircleDiameter - 2 * lineWidth
-        let innerCircleRadius = 0.5 * innerCircleDiameter
-        let innerCircleRect = CGRect(
-            x: 0.5 * (rect.size.width - innerCircleDiameter),
-            y: 0.5 * (rect.size.height - innerCircleDiameter),
-            width: innerCircleDiameter,
-            height: innerCircleDiameter
-        )
-        let toothCircleRect = CGRect(
-            x: 0.5 * (rect.size.width - toothCircleDiameter),
-            y: 0.5 * (rect.size.height - toothCircleDiameter),
-            width: toothCircleDiameter,
-            height: toothCircleDiameter
-        )
-                
-        let toothCircleRectCenter = toothCircleRect.center
-
-        let sqrtTwoOverTwo = CGFloat(1.0/CGFloat(sqrt(2.0)))
-        
-        let path = CGMutablePath()
-        // vertical
-        path.move(to: CGPoint(x: toothCircleRectCenter.x, y: toothCircleRect.origin.y))
-        path.addLine(to: CGPoint(x: toothCircleRectCenter.x, y: toothCircleRect.centerY - innerCircleRadius))
-        path.move(to: CGPoint(x: toothCircleRectCenter.x, y: toothCircleRect.maxY))
-        path.addLine(to: CGPoint(x: toothCircleRectCenter.x, y: toothCircleRect.centerY + innerCircleRadius))
-
-        // horizontal
-        path.move(to: CGPoint(x: toothCircleRect.origin.x, y: toothCircleRectCenter.y))
-        path.addLine(to: CGPoint(x: toothCircleRect.centerX - innerCircleRadius, y: toothCircleRectCenter.y))
-        path.move(to: CGPoint(x: toothCircleRect.maxX, y: toothCircleRectCenter.y))
-        path.addLine(to: CGPoint(x: toothCircleRect.centerX + innerCircleRadius, y: toothCircleRectCenter.y))
-
-        // quadrant I > III
-        path.move(to: CGPoint(
-            x: toothCircleRectCenter.x + sqrtTwoOverTwo * toothCircleRadius,
-            y: toothCircleRectCenter.y + sqrtTwoOverTwo * toothCircleRadius
-        ))
-        path.addLine(to: CGPoint(
-            x: toothCircleRectCenter.x + sqrtTwoOverTwo * innerCircleRadius,
-            y: toothCircleRectCenter.y + sqrtTwoOverTwo * innerCircleRadius
-        ))
-        path.move(to: CGPoint(
-            x: toothCircleRectCenter.x - sqrtTwoOverTwo * toothCircleRadius,
-            y: toothCircleRectCenter.y - sqrtTwoOverTwo * toothCircleRadius
-        ))
-        path.addLine(to: CGPoint(
-            x: toothCircleRectCenter.x - sqrtTwoOverTwo * innerCircleRadius,
-            y: toothCircleRectCenter.y - sqrtTwoOverTwo * innerCircleRadius
-        ))
-        // quadrant II > IV
-        path.move(to: CGPoint(
-            x: toothCircleRectCenter.x - sqrtTwoOverTwo * toothCircleRadius,
-            y: toothCircleRectCenter.y + sqrtTwoOverTwo * toothCircleRadius
-        ))
-        path.addLine(to: CGPoint(
-            x: toothCircleRectCenter.x - sqrtTwoOverTwo * innerCircleRadius,
-            y: toothCircleRectCenter.y + sqrtTwoOverTwo * innerCircleRadius
-        ))
-        path.move(to: CGPoint(
-            x: toothCircleRectCenter.x + sqrtTwoOverTwo * toothCircleRadius,
-            y: toothCircleRectCenter.y - sqrtTwoOverTwo * toothCircleRadius
-        ))
-        path.addLine(to: CGPoint(
-            x: toothCircleRectCenter.x + sqrtTwoOverTwo * innerCircleRadius,
-            y: toothCircleRectCenter.y - sqrtTwoOverTwo * innerCircleRadius
-        ))
-        
-        path.addEllipse(in: CGRect(
-            x: innerCircleRect.origin.x - 0.5 * lineWidth,
-            y: innerCircleRect.origin.y - 0.5 * lineWidth,
-            width: innerCircleRect.size.width + lineWidth,
-            height: innerCircleRect.size.height + lineWidth
-        ))
-        
-        return path as CGPath
     }
 }

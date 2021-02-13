@@ -10,12 +10,12 @@
 import CoreData
 import UIKit
 
-protocol Identifiable {
+public protocol Identifiable {
     var id: String { get }
 }
 
 extension String {
-    static func ids(from identifiables: [Identifiable]?, separator: String = ",") -> String {
+    public static func ids(from identifiables: [Identifiable]?, separator: String = ",") -> String {
         if let identifiables = identifiables {
             return separated(identifiables.map({ $0.id }), separator: separator)
         } else {
@@ -24,25 +24,25 @@ extension String {
     }
 }
 
-protocol IdentifiableProperties {
+public protocol IdentifiableProperties {
     func updateIDs(save: Bool) -> Void
 }
 
-protocol Updatable {
+public protocol Updatable {
     var updateDate: Date { get }
 }
 
-protocol Colorable {
+public protocol Colorable {
     func updateColor(_ color: UIColor?) -> Void
 }
 
-protocol Dismissable {
+public protocol Dismissable {
     var dismissesOnTouch: Bool? { get set }
     var dismissingSplitViewController: UISplitViewController? { get set }
     func dismiss() -> Void
 }
 
-protocol Sizable {
+public protocol Sizable {
     init(_ size: Format.Size)
     var size: Format.Size { get }
 }

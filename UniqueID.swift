@@ -10,10 +10,10 @@
 import Foundation
 import CryptoKit
 
-typealias UniqueID = String
+public typealias UniqueID = String
 
 extension UniqueID {
-    init() {
-        self.init(SHA256.hash(data: (Date.milliseconds() + Int64.random(in: -99 ..< 99)).data).map{ String(format: "%x", $0) }.joined())
+    public init() {
+        self.init(SHA256.hash(data: (Date.milliseconds() / TimeInterval.random(in: 1_000_000 ..< 1_000_000_000)).data).map{ String(format: "%x", $0) }.joined())
     }
 }

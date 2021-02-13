@@ -19,7 +19,7 @@ extension UIStackView {
         self.addArrangedSubview(spacer)
     }
     
-    convenience init(frame: CGRect = .zero, axis: NSLayoutConstraint.Axis, alignment: UIStackView.Alignment, distribution: UIStackView.Distribution) {
+    public convenience init(frame: CGRect = .zero, axis: NSLayoutConstraint.Axis, alignment: UIStackView.Alignment, distribution: UIStackView.Distribution) {
         self.init(frame: frame)
         self.translatesAutoresizingMaskIntoConstraints = frame != .zero
         self.axis = axis

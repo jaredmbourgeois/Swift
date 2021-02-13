@@ -31,75 +31,14 @@ extension UITextField {
         }
     }
     
-    public struct UITextFieldSetupModel {
-        let backgroundColor: UIColor
-        let cornerRadius: CGFloat
-        let delegate: UITextFieldDelegate?
-        let font: UIFont
-        let frame: CGRect
-        let height: CGFloat
-        let isUserInteractionEnabled: Bool
-        let placeholder: String
-        let placeholderColor: UIColor
-        let textAlignment: NSTextAlignment
-        let textColor: UIColor
-        let text: String
-
-        init(
-            backgroundColor: UIColor = .clear,
-            cornerRadius: CGFloat = 0,
-            delegate: UITextFieldDelegate? = nil,
-            font: UIFont,
-            frame: CGRect = .zero,
-            height: CGFloat = .zero,
-            isUserInteractionEnabled: Bool = false,
-            placeholder: String = String.empty,
-            placeholderColor: UIColor? = nil,
-            textAlignment: NSTextAlignment = .left,
-            textColor: UIColor,
-            text: String = String.empty
-        ) {
-            self.backgroundColor = backgroundColor
-            self.cornerRadius = cornerRadius
-            self.delegate = delegate
-            self.font = font
-            self.frame = frame
-            self.height = height
-            self.isUserInteractionEnabled = isUserInteractionEnabled
-            self.placeholder = placeholder
-            self.placeholderColor = placeholderColor ?? textColor
-            self.textAlignment = textAlignment
-            self.textColor = textColor
-            self.text = text
-        }
-        
-        init(
-            setupModel: UITextField.UITextFieldSetupModel,
-            delegate: UITextFieldDelegate,
-            placeholder: String = String.empty,
-            placeholderColor: UIColor? = nil,
-            textColor: UIColor? = nil,
-            text: String = String.empty
-        ) {
-            self.backgroundColor = setupModel.backgroundColor
-            self.cornerRadius = setupModel.cornerRadius
-            self.delegate = delegate
-            self.font = setupModel.font
-            self.frame = setupModel.frame
-            self.height = setupModel.height
-            self.isUserInteractionEnabled = setupModel.isUserInteractionEnabled
-            self.placeholder = placeholder
-            self.placeholderColor = placeholderColor ?? setupModel.textColor
-            self.textAlignment = setupModel.textAlignment
-            self.textColor = textColor ?? setupModel.textColor
-            self.text = text
-        }
-    }
-    
-    convenience init(_ setupModel: UITextField.UITextFieldSetupModel) {
+    public convenience init(_ setupModel: UITextFieldSetupModel) {
         self.init(frame: setupModel.frame)
         adjustsFontSizeToFitWidth = true
         translatesAutoresizingMaskIntoConstraints = setupModel.frame != CGRect.zero
+        setup(setupModel)
+    }
+    
+    public func setup(_ setupModel: UITextFieldSetupModel) {
         backgroundColor = setupModel.backgroundColor
         layer.cornerRadius = setupModel.cornerRadius
         delegate = setupModel.delegate

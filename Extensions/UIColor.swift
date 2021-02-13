@@ -11,13 +11,13 @@ import UIKit
 
 extension UIColor {
     public enum Components {
-        public struct HSBA: Hashable {
+        public struct HSBA: Hashable, Equatable {
             let hue: CGFloat
             let saturation: CGFloat
             let brightness: CGFloat
             let alpha: CGFloat
             
-            init(hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, alpha: CGFloat = 0) {
+            public init(hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, alpha: CGFloat = 0) {
                 self.hue = hue
                 self.saturation = saturation
                 self.brightness = brightness
@@ -26,7 +26,7 @@ extension UIColor {
         }
     }
     
-    convenience init(_ componentsHSBA: UIColor.Components.HSBA) {
+    public convenience init(_ componentsHSBA: UIColor.Components.HSBA) {
         self.init(hue: componentsHSBA.hue, saturation: componentsHSBA.saturation, brightness: componentsHSBA.brightness, alpha: componentsHSBA.alpha)
     }
     
@@ -55,35 +55,33 @@ extension UIColor {
         return UIColor.Components.HSBA(hue: contrastHue, saturation: contrastSaturation, brightness: contrastBrightness, alpha: components.alpha)
     }
     
-    public func desaturated(degree: Format.Degree) -> UIColor { UIColor.desaturated(color: self, degree: degree) }
-    public static func desaturated(color: UIColor, degree: Format.Degree) -> UIColor {
+    public func desaturated(degree: Format.Degree) -> UIColor {
         var hue: CGFloat = 0
         var saturation: CGFloat = 0
         var brightness: CGFloat = 0
         var alpha: CGFloat = 0
-        let success: Bool = color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+        let success: Bool = getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
         if (success == true) {
             let fraction: CGFloat = 1 - degree.rawValue
             return UIColor(hue: hue, saturation: saturation * fraction, brightness: brightness, alpha: alpha)
         }
         else {
-            return color
+            return self
         }
     }
     
-    public func transparent(degree: Format.Degree) -> UIColor { UIColor.transparent(color: self, degree: degree) }
-    public static func transparent(color: UIColor, degree: Format.Degree) -> UIColor {
+    public func transparent(degree: Format.Degree) -> UIColor {
         var hue: CGFloat = 0
         var saturation: CGFloat = 0
         var brightness: CGFloat = 0
         var alpha: CGFloat = 0
-        let success: Bool = color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+        let success: Bool = getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
         if (success == true) {
             let fraction: CGFloat = 1 - degree.rawValue
             return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: fraction)
         }
         else {
-            return color
+            return self
         }
     }
     

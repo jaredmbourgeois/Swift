@@ -10,30 +10,8 @@
 import Foundation
 import CoreGraphics
 
-extension CGFloat {
-    public static let zero: CGFloat = 0
-    public var string: String { "\(self)" }
-
-    public func interpolate(_ value: CGFloat) -> CGFloat {
-        return CGFloat.interpolate(self, value)
-    }
-    
-    public static func interpolate(_ firstValue: CGFloat, _ secondValue: CGFloat) -> CGFloat {
-        return 0.5 * (firstValue + secondValue)
-    }
-    
-    public static func stringWith(value: CGFloat, decimals: Int, formatter: NumberFormatter = NumberFormatter()) -> String {
-        Double.stringWith(value: Double(value), decimals: decimals, formatter: formatter)
-    }
-    
-    public struct MaxMin {
-        let max: CGFloat
-        let min: CGFloat
-    }
-}
-
 extension Double {
-    init(_ string: String?, defaultValue: Double = 0) {
+    public init(_ string: String?, defaultValue: Double = 0) {
         if let string = string,
            let doubleString = Double(string) {
             self = doubleString
@@ -49,19 +27,19 @@ extension Double {
         return Data(bytes: &value, count: MemoryLayout<Double>.size)
     }
     
-    func interpolate(_ value: Double) -> Double {
+    public func interpolate(_ value: Double) -> Double {
         Double.interpolate(self, value)
     }
     
-    static func interpolate(_ firstValue: Double, _ secondValue: Double) -> Double {
+    public static func interpolate(_ firstValue: Double, _ secondValue: Double) -> Double {
         0.5 * (firstValue + secondValue)
     }
 
-    func stringWith(decimals: Int, formatter: NumberFormatter = NumberFormatter()) -> String {
+    public func stringWith(decimals: Int, formatter: NumberFormatter = NumberFormatter()) -> String {
         Double.stringWith(value: self, decimals: decimals, formatter: formatter)
     }
     
-    static func stringWith(value: Double, decimals: Int, formatter: NumberFormatter = NumberFormatter()) -> String {
+    public static func stringWith(value: Double, decimals: Int, formatter: NumberFormatter = NumberFormatter()) -> String {
         formatter.minimumFractionDigits = decimals
         formatter.maximumFractionDigits = decimals
         return formatter.string(from: value as NSNumber) ?? value.description
@@ -70,6 +48,37 @@ extension Double {
     public struct MaxMin {
         let max: Double
         let min: Double
+    }
+}
+
+extension CGFloat {
+    public static let zero: CGFloat = 0
+    public var string: String { "\(self)" }
+
+    public init(_ string: String?, defaultValue: CGFloat = 0) {
+        if let string = string,
+           let doubleString = Double(string) {
+            self = CGFloat(doubleString)
+        } else {
+            self = defaultValue
+        }
+    }
+    
+    public func interpolate(_ value: CGFloat) -> CGFloat {
+        return CGFloat.interpolate(self, value)
+    }
+    
+    public static func interpolate(_ firstValue: CGFloat, _ secondValue: CGFloat) -> CGFloat {
+        return 0.5 * (firstValue + secondValue)
+    }
+    
+    public static func stringWith(value: CGFloat, decimals: Int, formatter: NumberFormatter = NumberFormatter()) -> String {
+        Double.stringWith(value: Double(value), decimals: decimals, formatter: formatter)
+    }
+    
+    public struct MaxMin {
+        let max: CGFloat
+        let min: CGFloat
     }
 }
 
@@ -144,13 +153,13 @@ extension Int64 {
 }
 
 extension NSNumber {
-    convenience init(_ cgFloat: CGFloat) { self.init(value: Double(cgFloat)) }
-    convenience init(_ int: Int) { self.init(value: int) }
-    convenience init(_ int8: Int8) { self.init(value: int8) }
-    convenience init(_ int16: Int16) { self.init(value: int16) }
-    convenience init(_ int32: Int32) { self.init(value: int32) }
-    convenience init(_ int64: Int64) { self.init(value: int64) }
-    convenience init(_ timeInterval: TimeInterval) { self.init(value: timeInterval) }
+    public convenience init(_ cgFloat: CGFloat) { self.init(value: Double(cgFloat)) }
+    public convenience init(_ int: Int) { self.init(value: int) }
+    public convenience init(_ int8: Int8) { self.init(value: int8) }
+    public convenience init(_ int16: Int16) { self.init(value: int16) }
+    public convenience init(_ int32: Int32) { self.init(value: int32) }
+    public convenience init(_ int64: Int64) { self.init(value: int64) }
+    public convenience init(_ timeInterval: TimeInterval) { self.init(value: timeInterval) }
     public var cgFloatValue: CGFloat { CGFloat(truncating: self)}
 }
 

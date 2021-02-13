@@ -17,4 +17,8 @@ extension Array where Element: AnyCancellable {
     func cancel() -> Void {
         forEach { $0.cancel() }
     }
+    mutating func reset(_ newSubscriptions: [Element]) {
+        cancel()
+        self = newSubscriptions
+    }
 }

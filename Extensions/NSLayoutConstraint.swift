@@ -11,11 +11,11 @@ import UIKit
 
 extension NSLayoutConstraint {
     
-    struct ActivationRequest {
-        let constraintsToActivate: [NSLayoutConstraint]
-        let constraintsToDeactivate: [NSLayoutConstraint]
+    public struct ActivationRequest {
+        public let constraintsToActivate: [NSLayoutConstraint]
+        public let constraintsToDeactivate: [NSLayoutConstraint]
         
-        init(
+        public init(
             activate: [NSLayoutConstraint] = [],
             deactivate: [NSLayoutConstraint] = []
         ) {
@@ -23,7 +23,7 @@ extension NSLayoutConstraint {
             self.constraintsToDeactivate = deactivate
         }
         
-        init(
+        public init(
             activate: NSLayoutConstraint,
             deactivate: [NSLayoutConstraint] = []
         ) {
@@ -31,7 +31,7 @@ extension NSLayoutConstraint {
             self.constraintsToDeactivate = deactivate
         }
         
-        init(
+        public init(
             activate: [NSLayoutConstraint] = [],
             deactivate: NSLayoutConstraint
         ) {
@@ -39,7 +39,7 @@ extension NSLayoutConstraint {
             self.constraintsToDeactivate = [ deactivate ]
         }
         
-        init(
+        public init(
             activate: NSLayoutConstraint,
             deactivate: NSLayoutConstraint
         ) {
@@ -47,7 +47,7 @@ extension NSLayoutConstraint {
             self.constraintsToDeactivate = [ deactivate ]
         }
         
-        init(
+        public init(
             activate: NSLayoutConstraint?,
             deactivate: NSLayoutConstraint?
         ) {
@@ -55,27 +55,27 @@ extension NSLayoutConstraint {
             self.constraintsToDeactivate = deactivate != nil ? [ deactivate! ] : []
         }
         
-        init(activate constraint: NSLayoutConstraint) {
+        public init(activate constraint: NSLayoutConstraint) {
             self.constraintsToActivate = [ constraint ]
             self.constraintsToDeactivate = []
         }
         
-        init(activate constraints: [NSLayoutConstraint]) {
+        public init(activate constraints: [NSLayoutConstraint]) {
             self.constraintsToActivate = constraints
             self.constraintsToDeactivate = []
         }
         
-        init(deactivate constraint: NSLayoutConstraint) {
+        public init(deactivate constraint: NSLayoutConstraint) {
             self.constraintsToActivate = [ ]
             self.constraintsToDeactivate = [ constraint ]
         }
         
-        init(deactivate constraints: [NSLayoutConstraint]) {
+        public init(deactivate constraints: [NSLayoutConstraint]) {
             self.constraintsToActivate = []
             self.constraintsToDeactivate = constraints
         }
         
-        init(_ requests: [NSLayoutConstraint.ActivationRequest]) {
+        public init(_ requests: [NSLayoutConstraint.ActivationRequest]) {
             self.constraintsToActivate = requests.reduce(into: []) { appended, request in
                 appended.append(request.constraintsToActivate)
             }
@@ -84,7 +84,7 @@ extension NSLayoutConstraint {
             }
         }
         
-        init(_ requests: [NSLayoutConstraint.ActivationRequest?]) {
+        public init(_ requests: [NSLayoutConstraint.ActivationRequest?]) {
             self.constraintsToActivate = requests.reduce(into: []) { appended, request in
                 if let request = request {
                     appended.append(request.constraintsToActivate)
@@ -97,11 +97,11 @@ extension NSLayoutConstraint {
             }
         }
         
-        func combine(_ otherRequest: NSLayoutConstraint.ActivationRequest) -> NSLayoutConstraint.ActivationRequest {
+        public func combine(_ otherRequest: NSLayoutConstraint.ActivationRequest) -> NSLayoutConstraint.ActivationRequest {
             NSLayoutConstraint.ActivationRequest.combine([self, otherRequest])
         }
         
-        static func combine(_ requests: [NSLayoutConstraint.ActivationRequest]) -> NSLayoutConstraint.ActivationRequest {
+        public static func combine(_ requests: [NSLayoutConstraint.ActivationRequest]) -> NSLayoutConstraint.ActivationRequest {
             let placeholderConstraint = NSLayoutConstraint()
             var activateCount = Int.zero
             var deactivateCount = Int.zero
@@ -129,16 +129,16 @@ extension NSLayoutConstraint {
             )
         }
         
-        static func fulfill(_ requests: [NSLayoutConstraint.ActivationRequest]) -> Void {
+        public static func fulfill(_ requests: [NSLayoutConstraint.ActivationRequest]) -> Void {
             fulfill(combine(requests))
         }
         
-        static func fulfill(_ request: NSLayoutConstraint.ActivationRequest) -> Void {
+        public static func fulfill(_ request: NSLayoutConstraint.ActivationRequest) -> Void {
             NSLayoutConstraint.deactivate(request.constraintsToDeactivate)
             NSLayoutConstraint.activate(request.constraintsToActivate)
         }
         
-        func fulfill() -> Void {
+        public func fulfill() -> Void {
             NSLayoutConstraint.deactivate(constraintsToDeactivate)
             NSLayoutConstraint.activate(constraintsToActivate)
         }

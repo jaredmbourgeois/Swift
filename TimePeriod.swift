@@ -24,9 +24,9 @@ public enum TimePeriod: TimeInterval {
     case month = 2592000
     case year = 31536000
     
-    static let elevenHours59m59s: TimeInterval = 43199
+    public static let elevenHours59m59s: TimeInterval = 43199
     
-    init(_ timeInterval: TimeInterval) {
+    public init(_ timeInterval: TimeInterval) {
         switch timeInterval {
         case TimePeriod.zero.rawValue: self = .zero
         case TimePeriod.nanosecond.rawValue: self = .nanosecond
@@ -57,7 +57,7 @@ public enum TimePeriod: TimeInterval {
         }
     }
     
-    var calendarComponent: Calendar.Component {
+    public var calendarComponent: Calendar.Component {
         switch self {
         case .zero: return .nanosecond
         case .nanosecond: return .nanosecond
@@ -78,7 +78,7 @@ public enum TimePeriod: TimeInterval {
         }
     }
     
-    func string(
+    public func string(
         abbreviated: Bool = false,
         singular: Bool = false,
         capitalized: Bool = false,
@@ -107,21 +107,21 @@ public enum TimePeriod: TimeInterval {
         return string
     }
     
-    struct Day {
+    public struct Day {
         static func today(calendar: Calendar = Calendar.currentGregorian) -> TimePeriod.Day {
             TimePeriod.Day(Date(), calendar: calendar)
         }
         
-        let date: Date
-        let second: Second
-        let minute: Minute
-        let hour: Hour
-        let dayOfMonth: DayOfMonth
-        let weekday: Weekday
-        let month: Month
-        let year: Year
+        public let date: Date
+        public let second: Second
+        public let minute: Minute
+        public let hour: Hour
+        public let dayOfMonth: DayOfMonth
+        public let weekday: Weekday
+        public let month: Month
+        public let year: Year
         
-        init(_ date: Date = Date(), calendar: Calendar = Calendar.currentGregorian) {
+        public init(_ date: Date = Date(), calendar: Calendar = Calendar.currentGregorian) {
             let dateComponents = Calendar.dateComponents(
                 calendar: calendar,
                 date: date,
@@ -138,14 +138,14 @@ public enum TimePeriod: TimeInterval {
         }
     }
     
-    struct Second {
-        let value: Int
-        let valueNanoseconds: Int
-        let deltaNanoseconds: Int
-        let deltaMicroseconds: Int
-        let deltaMilliseconds: Int
+    public struct Second {
+        public let value: Int
+        public let valueNanoseconds: Int
+        public let deltaNanoseconds: Int
+        public let deltaMicroseconds: Int
+        public let deltaMilliseconds: Int
 
-        init(_ value: Int, nanoseconds: Int) {
+        public init(_ value: Int, nanoseconds: Int) {
             self.value = value
             self.valueNanoseconds = nanoseconds
             
@@ -161,38 +161,38 @@ public enum TimePeriod: TimeInterval {
         }
     }
     
-    struct Minute {
-        let value: Int
-        init(_ value: Int) { self.value = value }
+    public struct Minute {
+        public let value: Int
+        public init(_ value: Int) { self.value = value }
     }
     
-    struct Hour {
-        let value24: Int
-        let value12: Int
-        let isAM: Bool
-        init(_ value24: Int) {
+    public struct Hour {
+        public let value24: Int
+        public let value12: Int
+        public let isAM: Bool
+        public init(_ value24: Int) {
             self.value24 = value24
             self.value12 = value24 > 12 ? value24 - 12 : value24
             self.isAM = value24 < 12
         }
-        func isAMSymbol(lowercase: Bool = false) -> String {
+        public func isAMSymbol(lowercase: Bool = false) -> String {
             lowercase ? isAM ? "am" : "pm" : isAM ? "AM" : "PM"
         }
     }
     
-    struct DayOfMonth {
-        let value: Int8
-        init(_ value: Int) { self.value = Int8(value) }
+    public struct DayOfMonth {
+        public let value: Int8
+        public init(_ value: Int) { self.value = Int8(value) }
     }
     
-    struct Week {
-        let weekOfMonth: Int
-        let weekOfYear: Int
-        let noonOfFirstDay: Date
-        let noonOfSeventhDay: Date
-        let days: [TimePeriod.Day]
+    public struct Week {
+        public let weekOfMonth: Int
+        public let weekOfYear: Int
+        public let noonOfFirstDay: Date
+        public let noonOfSeventhDay: Date
+        public let days: [TimePeriod.Day]
         
-        func weekdaySymbols(
+        public func weekdaySymbols(
             short: Bool = false,
             initial: Bool = false,
             uppercase: Bool = false,
@@ -201,7 +201,7 @@ public enum TimePeriod: TimeInterval {
             days.map { $0.weekday.string(short: short, initial: initial, uppercase: uppercase, lowercase: lowercase) }
         }
         
-        init(containing date: Date, calendar: Calendar = Calendar.currentGregorian) {
+        public init(containing date: Date, calendar: Calendar = Calendar.currentGregorian) {
             let dateComponents = Calendar.dateComponents(
                 calendar: calendar,
                 date: date,
@@ -224,7 +224,7 @@ public enum TimePeriod: TimeInterval {
         }
     }
     
-    enum Weekday {
+    public enum Weekday {
         case sunday(firstWeekday: Int8)
         case monday(firstWeekday: Int8)
         case tuesday(firstWeekday: Int8)
@@ -233,11 +233,11 @@ public enum TimePeriod: TimeInterval {
         case friday(firstWeekday: Int8)
         case saturday(firstWeekday: Int8)
         
-        static let symbols: [String] = [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ]
-        static let symbolsShort: [String] = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ]
-        static let symbolsInitial: [String] = [ "S", "M", "T", "W", "T", "F", "S" ]
+        public static let symbols: [String] = [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ]
+        public static let symbolsShort: [String] = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ]
+        public static let symbolsInitial: [String] = [ "S", "M", "T", "W", "T", "F", "S" ]
         
-        init(dayOfWeek: Int, firstWeekday: Int) {
+        public init(dayOfWeek: Int, firstWeekday: Int) {
             let value = dayOfWeek < 0 ? 0 : dayOfWeek > 7 ? 7 : dayOfWeek
             self = { switch value {
             case 1: return .sunday(firstWeekday: Int8(firstWeekday))
@@ -251,7 +251,7 @@ public enum TimePeriod: TimeInterval {
             } }()
         }
         
-        init(_ date: Date, calendar: Calendar = Calendar.currentGregorian) {
+        public init(_ date: Date, calendar: Calendar = Calendar.currentGregorian) {
             let dateComponents = Calendar.dateComponents(
                 calendar: calendar,
                 date: date,
@@ -260,7 +260,7 @@ public enum TimePeriod: TimeInterval {
             self = Weekday(dayOfWeek: dateComponents.weekday!, firstWeekday: calendar.firstWeekday)
         }
         
-        func weekdayValue() -> Int {
+        public func weekdayValue() -> Int {
             switch self {
             case .sunday(let firstWeekday): return Int(1 + (firstWeekday - 1))
             case .monday(let firstWeekday): return Int(2 + (firstWeekday - 1))
@@ -271,10 +271,10 @@ public enum TimePeriod: TimeInterval {
             case .saturday(let firstWeekday): return Int(7 + (firstWeekday - 1))
             }
         }
-        func weekdayIndex() -> Int {
+        public func weekdayIndex() -> Int {
             weekdayValue() - 1
         }
-        func weekdayIndexDefault() -> Int {
+        public func weekdayIndexDefault() -> Int {
             switch self {
             case .sunday: return 0
             case .monday: return 1
@@ -285,7 +285,7 @@ public enum TimePeriod: TimeInterval {
             case .saturday: return 6
             }
         }
-        func string(
+        public func string(
             short: Bool = false,
             initial: Bool = false,
             uppercase: Bool = false,
@@ -305,8 +305,8 @@ public enum TimePeriod: TimeInterval {
         }
     }
     
-    enum Month: Equatable {
-        static func this(calendar: Calendar) -> TimePeriod.Month {
+    public enum Month: Equatable {
+        public static func this(calendar: Calendar) -> TimePeriod.Month {
             TimePeriod.Month(containing: Date(), calendar: calendar)
         }
         
@@ -323,7 +323,7 @@ public enum TimePeriod: TimeInterval {
         case november(dateMaxMin: Date.MaxMin)
         case december(dateMaxMin: Date.MaxMin)
         
-        static func ==(lhs: Month, rhs: Month) -> Bool {
+        public static func ==(lhs: Month, rhs: Month) -> Bool {
             switch (lhs, rhs) {
             case (.january, .january): return true
             case (.february, .february): return true
@@ -341,23 +341,23 @@ public enum TimePeriod: TimeInterval {
             }
         }
         
-        static func equalDateMaxMin(_ firstMonth: Month, _ secondMonth: Month) -> Bool {
+        public static func equalDateMaxMin(_ firstMonth: Month, _ secondMonth: Month) -> Bool {
             firstMonth.firstDate == secondMonth.firstDate
                 && firstMonth.lastDate == secondMonth.lastDate
         }
         
-        func equalDateMaxMin(_ otherMonth: Month, calendar: Calendar) -> Bool {
+        public func equalDateMaxMin(_ otherMonth: Month, calendar: Calendar) -> Bool {
             firstDate == otherMonth.firstDate
                 && lastDate == otherMonth.lastDate
         }
         
-        func contains(_ date: Date, calendar: Calendar) -> Bool {
+        public func contains(_ date: Date, calendar: Calendar) -> Bool {
             (date >= firstDate && date <= lastDate)
                 || calendar.isDate(date, inSameDayAs: firstDate)
                 || calendar.isDate(date, inSameDayAs: lastDate)
         }
         
-        init(containing date: Date, calendar: Calendar) {
+        public init(containing date: Date, calendar: Calendar) {
             let dateMaxMin = Date.MaxMin(
                 max: Date.lastDateInMonth(containing: date, calendar: calendar),
                 min: Date.firstDateInMonth(containing: date, calendar: calendar)
@@ -384,7 +384,7 @@ public enum TimePeriod: TimeInterval {
             }}()
         }
         
-        var firstDate: Date {
+        public var firstDate: Date {
             switch self {
             case .january(let dateMaxMin): return dateMaxMin.min
             case .february(let dateMaxMin): return dateMaxMin.min
@@ -401,7 +401,7 @@ public enum TimePeriod: TimeInterval {
             }
         }
         
-        var lastDate: Date {
+        public var lastDate: Date {
             switch self {
             case .january(let dateMaxMin): return dateMaxMin.max
             case .february(let dateMaxMin): return dateMaxMin.max
@@ -418,8 +418,8 @@ public enum TimePeriod: TimeInterval {
             }
         }
         
-        var index: Int { int - 1 }
-        var int: Int {
+        public var index: Int { int - 1 }
+        public var int: Int {
             switch self {
             case .january: return 1
             case .february: return 2
@@ -435,11 +435,11 @@ public enum TimePeriod: TimeInterval {
             case .december: return 12
             }
         }
-        var int8: Int8 { Int8(int) }
-        var int16: Int16 { Int16(int) }
-        var int32: Int32 { Int32(int) }
-        var int64: Int64 { Int64(int) }
-        func string(
+        public var int8: Int8 { Int8(int) }
+        public var int16: Int16 { Int16(int) }
+        public var int32: Int32 { Int32(int) }
+        public var int64: Int64 { Int64(int) }
+        public func string(
             short: Bool = false,
             initial: Bool = false,
             uppercase: Bool = false,
@@ -456,18 +456,18 @@ public enum TimePeriod: TimeInterval {
             
             return string
         }
-        static let symbols: [String] = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
-        static let symbolsShort: [String] = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ]
-        static let symbolsInitial: [String] = [ "J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D" ]
+        public static let symbols: [String] = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
+        public static let symbolsShort: [String] = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ]
+        public static let symbolsInitial: [String] = [ "J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D" ]
     }
 
-    struct Year {
-        let value: Int16
+    public struct Year {
+        public let value: Int16
         
-        var int: Int { Int(value) }
-        var int32: Int32 { Int32(int) }
-        var int64: Int64 { Int64(int) }
+        public var int: Int { Int(value) }
+        public var int32: Int32 { Int32(int) }
+        public var int64: Int64 { Int64(int) }
 
-        init(_ value: Int) { self.value = Int16(value) }
+        public init(_ value: Int) { self.value = Int16(value) }
     }
 }
