@@ -272,6 +272,15 @@ public enum Format {
         public let shadowPath: CGPath?
         public let shadowRadius: CGFloat
 
+        public static let off = Format.ShadowDescription(
+            on: false,
+            cornerRadius: .zero,
+            shadowColor: .clear,
+            shadowOffset: .zero,
+            shadowOpacity: .zero,
+            shadowPath: nil,
+            shadowRadius: .zero)
+        
         init(
             on: Bool = true,
             cornerRadius: CGFloat = 0,

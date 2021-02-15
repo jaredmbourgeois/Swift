@@ -251,13 +251,13 @@ extension Font {
         /** 16 */
         case medium = 16
         /** 24 */
-        case mediumLarge = 24
+        case mediumLarge = 20
+        /** 24 */
+        case large = 24
         /** 32 */
-        case large = 32
+        case extraLarge = 32
         /** 40 */
-        case extraLarge = 40
-        /** 48 */
-        case title = 48
+        case title = 40
         
         public init(_ size: Format.Size) {
             switch size {

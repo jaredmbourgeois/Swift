@@ -37,6 +37,7 @@ extension CGContext {
         setStrokeColor(colorCheck)
         setLineCap(.round)
         setLineJoin(.round)
+        setLineWidth(lineWidthCheck)
         addPath(CGPath.check(rect: CGRect(
             x: rect.origin.x + insetCheck,
             y: rect.origin.y + insetCheck,
