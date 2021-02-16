@@ -10,6 +10,14 @@
 import UIKit
 
 extension CALayer {
+    public func scaleToScreen(shouldRasterize: Bool = true) {
+        contentsScale = UIScreen.main.scale
+        rasterizationScale = UIScreen.main.scale
+        self.shouldRasterize = shouldRasterize
+        setNeedsDisplay()
+        sublayers?.forEach { $0.scaleToScreen(shouldRasterize: shouldRasterize) }
+    }
+    
     public func shadow(_ description: Format.ShadowDescription) -> Void {
         shadow(
             on: description.on,
