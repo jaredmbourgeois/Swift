@@ -14,12 +14,13 @@ extension UIScrollView {
     public convenience init(_ setupModel: UIScrollViewSetupModel) {
         self.init(frame: setupModel.frame)
         if let delegate = setupModel.delegate { self.delegate = delegate }
-        self.translatesAutoresizingMaskIntoConstraints = setupModel.frame != .zero
-        self.isScrollEnabled = setupModel.isScrollEnabled
-        self.layer.cornerRadius = setupModel.cornerRadius
-        self.backgroundColor = setupModel.backgroundColor
-        self.showsVerticalScrollIndicator = setupModel.showsVerticalScrollIndicator
-        self.indicatorStyle = UIScrollView.indicatorStyle(matching: setupModel.indicatorStyleMatchesColor, color: setupModel.indicatorStyleMatchColor)
+        translatesAutoresizingMaskIntoConstraints = setupModel.frame != .zero
+        isScrollEnabled = setupModel.isScrollEnabled
+        layer.cornerRadius = setupModel.cornerRadius
+        clipsToBounds = setupModel.cornerRadius > 0
+        backgroundColor = setupModel.backgroundColor
+        showsVerticalScrollIndicator = setupModel.showsVerticalScrollIndicator
+        indicatorStyle = UIScrollView.indicatorStyle(matching: setupModel.indicatorStyleMatchesColor, color: setupModel.indicatorStyleMatchColor)
     }
     
     public static func indicatorStyle(matching: Bool, color: UIColor) -> UIScrollView.IndicatorStyle {
