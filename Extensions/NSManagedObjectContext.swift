@@ -11,7 +11,7 @@ import CoreData
 
 extension NSManagedObjectContext {
     public func saveFatalError(_ save: Bool, printError: String? = nil) {
-        if save && !self.saveSuccess(printError: printError) { fatalError() }
+        if save && !saveSuccess(printError: printError) { fatalError() }
     }
     
     @discardableResult
@@ -20,8 +20,8 @@ extension NSManagedObjectContext {
             try save()
             return true
         } catch let error {
-            if let printError = printError { print(printError + "ERROR:" + error.localizedDescription) }
-            print("NSManagedObjectContext.saveSuccess() ERROR:" + error.localizedDescription)
+            if let printError = printError { print(printError + "ERROR: " + error.localizedDescription) }
+            print("NSManagedObjectContext.saveSuccess() ERROR: " + error.localizedDescription)
             return false
         }
     }
