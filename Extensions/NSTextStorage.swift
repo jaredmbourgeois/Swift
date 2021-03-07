@@ -10,5 +10,7 @@ import Foundation
 import UIKit
 
 extension NSTextStorage {
-    public static let empty = NSTextStorage()
+    public static var empty: NSTextStorage {
+        NSTextStorage()
+    }
 }

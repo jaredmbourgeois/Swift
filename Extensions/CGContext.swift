@@ -15,10 +15,12 @@ extension CGContext {
         colorCheck: CGColor,
         colorCircle: CGColor,
         colorOutline: CGColor? = nil,
+        lineWidthWeight: CGFloat = CGFloat(1.0/16.0),
         isChecked: Bool = true
     ) {
-        let lineWidthOutline = (1.0/16.0) * rect.size.min
-        let lineWidthCheck = (1.0/16.0) * rect.size.min
+        let dimension = rect.size.min
+        let lineWidthOutline = lineWidthWeight * dimension
+        let lineWidthCheck = lineWidthWeight * dimension
         let insetCheck = 2 * lineWidthOutline + 0.5 * lineWidthCheck
         
         let outlineRect = CGRect(

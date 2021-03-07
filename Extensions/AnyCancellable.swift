@@ -10,7 +10,9 @@ import Foundation
 import Combine
 
 extension AnyCancellable {
-    static let empty = AnyCancellable({})
+    static var empty: AnyCancellable {
+        AnyCancellable({})
+    }
 }
 
 extension Array where Element: AnyCancellable {
