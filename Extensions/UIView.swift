@@ -36,12 +36,9 @@ extension UIView {
                 self?.layoutIfNeeded()
                 self?.setNeedsDisplay()
             },
-            completion: { completed in
-                if completed {
-                    completionHandler?()
-                }
-            }
+            completion: nil
         )
+        DispatchQueue.main.asyncAfter(deadline: .now() + animationTime + 0.001, execute: { completionHandler?() })
     }
     
     public func animateConstraintRequest(
